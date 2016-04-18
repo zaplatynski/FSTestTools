@@ -72,6 +72,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
     private static final String SYS_PROP_HOST = "host";
     public static final String SYS_PROP_LOGIN = "login";
     public static final String SYS_PROP_PASSWORD = "password"; //NOSONAR
+    public static final String NOT_CONNECTED_TO_FS = "not connected to FirstSpirit server";
 
     private Connection connection;
     private final String host;
@@ -222,7 +223,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
      */
     public Connection getConnection() {
         if (connection == null) {
-            throw new IllegalStateException("not connected to FirstSpirit server");
+            throw new IllegalStateException(NOT_CONNECTED_TO_FS);
         }
         return connection;
     }
@@ -246,7 +247,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
      */
     public SpecialistsBroker getBroker() {
         if (connection == null) {
-            throw new IllegalStateException("not connected to FirstSpirit server");
+            throw new IllegalStateException(NOT_CONNECTED_TO_FS);
         }
         return connection.getBroker();
     }
@@ -282,7 +283,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
      */
     public RunState executeScheduleEntryAndAwaitTermination(final String projectName, final String entryName) {
         if (connection == null) {
-            throw new IllegalStateException("not connected to FirstSpirit server");
+            throw new IllegalStateException(NOT_CONNECTED_TO_FS);
         }
         final Project project = connection.getProjectByName(projectName);
         final UserService userService = project.getUserService();

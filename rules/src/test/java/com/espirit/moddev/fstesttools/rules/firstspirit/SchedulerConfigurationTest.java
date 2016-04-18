@@ -1,6 +1,4 @@
-package test.com.espirit.moddev.fstesttools.rules.firstspirit;
-
-import com.espirit.moddev.fstesttools.rules.firstspirit.SchedulerConfiguration;
+package com.espirit.moddev.fstesttools.rules.firstspirit;
 
 import de.espirit.firstspirit.access.schedule.DeployTask;
 
