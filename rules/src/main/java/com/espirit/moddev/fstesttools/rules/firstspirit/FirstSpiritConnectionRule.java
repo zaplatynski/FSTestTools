@@ -480,23 +480,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
             try {
                 importFromZipIntoTargetStore(zip, templateStore.getFormatTemplates());
-            } catch (final LockException e) {
-                final String message = "Failed to import zip into format template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final IOException e) {
-                final String message = "Failed to import zip into format template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to import zip into format template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final URISyntaxException e) {
-                final String message = "Failed to import zip into format template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
                 final String message = "Failed to import zip into format template store: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -518,23 +502,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
             try {
                 importFromZipIntoTargetStore(zip, templateStore.getPageTemplates());
-            } catch (final LockException e) {
-                final String message = "Failed to import zip into page template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final IOException e) {
-                final String message = "Failed to import zip into page template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to import zip into page template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final URISyntaxException e) {
-                final String message = "Failed to import zip into page template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
                 final String message = "Failed to import zip into page template store: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -555,23 +523,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
             try {
                 importFromZipIntoTargetStore(zip, templateStore.getLinkTemplates());
-            } catch (final LockException e) {
-                final String message = "Failed to import zip into link template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final IOException e) {
-                final String message = "Failed to import zip into link template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to import zip into link template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final URISyntaxException e) {
-                final String message = "Failed to import zip into link template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
                 final String message = "Failed to import zip into link template store: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -592,23 +544,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             final MediaStoreRoot mediaStore = (MediaStoreRoot) userService.getStore(Store.Type.MEDIASTORE, false);
             try {
                 importFromZipIntoTargetStore(zip, mediaStore.getStore());
-            } catch (final LockException e) {
-                final String message = "Failed to import zip into media store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final IOException e) {
-                final String message = "Failed to import zip into media store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to import zip into media store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final URISyntaxException e) {
-                final String message = "Failed to import zip into media store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
                 final String message = "Failed to import zip into media store: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -629,23 +565,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
             try {
                 importFromZipIntoTargetStore(zip, templateStore.getScripts());
-            } catch (final LockException e) {
-                final String message = "Failed to import zip into script store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final IOException e) {
-                final String message = "Failed to import zip into script store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to import zip into script store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final URISyntaxException e) {
-                final String message = "Failed to import zip into script store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
                 final String message = "Failed to import zip into script store: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -666,23 +586,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
             try {
                 importFromZipIntoTargetStore(zip, templateStore.getWorkflows());
-            } catch (final LockException e) {
-                final String message = "Failed to import zip into workflow store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final IOException e) {
-                final String message = "Failed to import zip into workflow store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to import zip into workflow store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final URISyntaxException e) {
-                final String message = "Failed to import zip into workflow store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
                 final String message = "Failed to import zip into workflow store: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -728,30 +632,14 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                 pageStoreRoot.setLock(true, false);
                 pageFolder = pageStoreRoot.createPageFolder(name);
                 pageStoreRoot.save();
-            } catch (final LockException e) {
-                final String message = "Failed to create PageStoreFolder: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to create PageStoreFolder: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | ElementDeletedException | RuntimeException e) {
                 final String message = "Failed to create PageStoreFolder: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
             } finally {
                 try {
                     pageStoreRoot.setLock(false, true);
-                } catch (final LockException e) {
-                    final String message = "Failed to create PageStoreFolder: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final ElementDeletedException e) {
-                    final String message = "Failed to create PageStoreFolder: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final RuntimeException e) {
+                } catch (final LockException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to create PageStoreFolder: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -779,30 +667,14 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                 siteStoreRoot.setLock(true, false);
                 pageRefFolder = siteStoreRoot.createPageRefFolder(name);
                 siteStoreRoot.save();
-            } catch (final LockException e) {
-                final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | ElementDeletedException | RuntimeException e) {
                 final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
             } finally {
                 try {
                     siteStoreRoot.setLock(false, true);
-                } catch (final LockException e) {
-                    final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final ElementDeletedException e) {
-                    final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final RuntimeException e) {
+                } catch (final LockException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -834,15 +706,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             formatTemplate.setChannelSource(getTemplateSet(project, channel), content);
             formatTemplate.save();
             formatTemplate.setLock(false, false);
-        } catch (final LockException e) {
-            final String message = "Failed to create FormatTemplate: " + e.getMessage();
-            LOGGER.error(message, e);
-            fail(message);
-        } catch (final ElementDeletedException e) {
-            final String message = "Failed to create FormatTemplate: " + e.getMessage();
-            LOGGER.error(message, e);
-            fail(message);
-        } catch (final RuntimeException e) {
+        } catch (final LockException | ElementDeletedException | RuntimeException e) {
             final String message = "Failed to create FormatTemplate: " + e.getMessage();
             LOGGER.error(message, e);
             fail(message);
@@ -851,15 +715,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                 if (formatTemplate != null) {
                     formatTemplate.setLock(false, false);
                 }
-            } catch (final LockException e) {
-                final String message = "Failed to create FormatTemplate: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to create FormatTemplate: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | ElementDeletedException | RuntimeException e) {
                 final String message = "Failed to create FormatTemplate: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -889,15 +745,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             script.setChannelSource(getTemplateSet(project, channel), content);
             script.save();
             script.setLock(false, false);
-        } catch (final LockException e) {
-            final String message = "Failed to create ScriptTemplate: " + e.getMessage();
-            LOGGER.error(message, e);
-            fail(message);
-        } catch (final ElementDeletedException e) {
-            final String message = "Failed to create ScriptTemplate: " + e.getMessage();
-            LOGGER.error(message, e);
-            fail(message);
-        } catch (final RuntimeException e) {
+        } catch (final LockException | ElementDeletedException | RuntimeException e) {
             final String message = "Failed to create ScriptTemplate: " + e.getMessage();
             LOGGER.error(message, e);
             fail(message);
@@ -906,15 +754,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                 if (script != null) {
                     script.setLock(false, false);
                 }
-            } catch (final LockException e) {
-                final String message = "Failed to create ScriptTemplate: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final ElementDeletedException e) {
-                final String message = "Failed to create ScriptTemplate: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } catch (final RuntimeException e) {
+            } catch (final LockException | ElementDeletedException | RuntimeException e) {
                 final String message = "Failed to create ScriptTemplate: " + e.getMessage();
                 LOGGER.error(message, e);
                 fail(message);
@@ -947,30 +787,14 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                         pageTemplate.setChannelSource(getTemplateSet(project, channel), content);
                     }
                     pageTemplate.save();
-                } catch (final LockException e) {
-                    final String message = "Failed to modify template: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final ElementDeletedException e) {
-                    final String message = "Failed to modify template: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final RuntimeException e) {
+                } catch (final LockException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to modify template: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
                 } finally {
                     try {
                         pageTemplate.setLock(false, false);
-                    } catch (final LockException e) {
-                        final String message = "Failed to modify template: " + e.getMessage();
-                        LOGGER.error(message, e);
-                        fail(message);
-                    } catch (final ElementDeletedException e) {
-                        final String message = "Failed to modify template: " + e.getMessage();
-                        LOGGER.error(message, e);
-                        fail(message);
-                    } catch (final RuntimeException e) {
+                    } catch (final LockException | ElementDeletedException | RuntimeException e) {
                         final String message = "Failed to modify template: " + e.getMessage();
                         LOGGER.error(message, e);
                         fail(message);
@@ -1001,30 +825,14 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                     formatTemplate.setLock(true, false);
                     formatTemplate.setChannelSource(getTemplateSet(project, channel), content);
                     formatTemplate.save();
-                } catch (final LockException e) {
-                    final String message = "Failed to modify template: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final ElementDeletedException e) {
-                    final String message = "Failed to modify template: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } catch (final RuntimeException e) {
+                } catch (final LockException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to modify template: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
                 } finally {
                     try {
                         formatTemplate.setLock(false, false);
-                    } catch (final LockException e) {
-                        final String message = "Failed to modify template: " + e.getMessage();
-                        LOGGER.error(message, e);
-                        fail(message);
-                    } catch (final ElementDeletedException e) {
-                        final String message = "Failed to modify template: " + e.getMessage();
-                        LOGGER.error(message, e);
-                        fail(message);
-                    } catch (final RuntimeException e) {
+                    } catch (final LockException | ElementDeletedException | RuntimeException e) {
                         final String message = "Failed to modify template: " + e.getMessage();
                         LOGGER.error(message, e);
                         fail(message);
