@@ -68,6 +68,10 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FirstSpiritConnectionRule.class);
     private static final String ADMIN = "Admin";
+    private static final String SYS_PROP_PORT = "port";
+    private static final String SYS_PROP_HOST = "host";
+    public static final String SYS_PROP_LOGIN = "login";
+    public static final String SYS_PROP_PASSWORD = "password"; //NOSONAR
 
     private Connection connection;
     private final String host;
@@ -80,11 +84,11 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
      * Instantiates a new First spirit connection rule by using SystemProperties and socket mode.
      */
     public FirstSpiritConnectionRule() {
-        this(System.getProperty("host", "localhost"),
-             System.getProperty("port", ConnectionMode.SOCKET.getDefaultPortAsStr()),
+        this(System.getProperty(SYS_PROP_HOST, "localhost"),
+             System.getProperty(SYS_PROP_PORT, ConnectionMode.SOCKET.getDefaultPortAsStr()),
              ConnectionMode.SOCKET,
-             System.getProperty("login", ADMIN),
-             System.getProperty("password", ADMIN)); //NOSONAR
+             System.getProperty(SYS_PROP_LOGIN, ADMIN),
+             System.getProperty(SYS_PROP_PASSWORD, ADMIN));
     }
 
     /**
@@ -93,11 +97,11 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
      * @param mode the mode
      */
     public FirstSpiritConnectionRule(final ConnectionMode mode) {
-        this(System.getProperty("host", "localhost"),
-             System.getProperty("port", mode.getDefaultPortAsStr()),
+        this(System.getProperty(SYS_PROP_HOST, "localhost"),
+             System.getProperty(SYS_PROP_PORT, mode.getDefaultPortAsStr()),
              mode,
-             System.getProperty("login", ADMIN),
-             System.getProperty("password", ADMIN)); //NOSONAR
+             System.getProperty(SYS_PROP_LOGIN, ADMIN),
+             System.getProperty(SYS_PROP_PASSWORD, ADMIN));
     }
 
     /**
