@@ -70,9 +70,9 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
     private static final String ADMIN = "Admin";
     private static final String SYS_PROP_PORT = "port";
     private static final String SYS_PROP_HOST = "host";
-    public static final String SYS_PROP_LOGIN = "login";
-    public static final String SYS_PROP_PASSWORD = "password"; //NOSONAR
-    public static final String NOT_CONNECTED_TO_FS = "not connected to FirstSpirit server";
+    private static final String SYS_PROP_LOGIN = "login";
+    private static final String SYS_PROP_PASSWORD = "password"; //NOSONAR
+    private static final String NOT_CONNECTED_TO_FS = "not connected to FirstSpirit server";
 
     private Connection connection;
     private final String host;

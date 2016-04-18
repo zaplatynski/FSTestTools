@@ -16,8 +16,8 @@ import java.util.Enumeration;
  */
 public final class InitLog4jLoggingRule extends ExternalResource {
 
-    private boolean notConfigured;
     private final static Logger LOGGER = Logger.getLogger(InitLog4jLoggingRule.class);
+    private boolean notConfigured;
 
     static {
         Logger.getRootLogger().setAdditivity(false);
