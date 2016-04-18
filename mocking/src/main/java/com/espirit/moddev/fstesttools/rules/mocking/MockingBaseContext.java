@@ -84,8 +84,8 @@ public class MockingBaseContext implements BaseContext {
     }
 
     private void setupDefaultMocks(final Locale locale, final Env[] supportedEnvironments) {
-        SetupMocksStrategy strategy = null;
-        for (Env environment : supportedEnvironments) {
+        SetupMocksStrategy strategy = new DefaultMocksStrategy(this, locale);
+        for (final Env environment : supportedEnvironments) {
             switch (environment) {
                 case WEBEDIT:
                     strategy = new WebEditMocksStrategy(this, locale);
@@ -101,39 +101,39 @@ public class MockingBaseContext implements BaseContext {
     }
 
     @Override
-    public void logDebug(String s) {
+    public void logDebug(final String s) {
         logger.debug(s);
     }
 
     @Override
-    public void logInfo(String s) {
+    public void logInfo(final String s) {
         logger.info(s);
     }
 
     @Override
-    public void logWarning(String s) {
+    public void logWarning(final String s) {
         logger.warn(s);
     }
 
     @Override
-    public void logError(String s) {
+    public void logError(final String s) {
         logger.error(s);
     }
 
     @Override
-    public void logError(String s, Throwable throwable) {
+    public void logError(final String s, final Throwable throwable) {
         logger.error(s, throwable);
     }
 
     @Override
-    public boolean is(Env env) {
+    public boolean is(final Env env) {
         return supportedEnvironments.contains(env);
     }
 
     @Override
-    public <S> S requestSpecialist(SpecialistType<S> type) {
+    public <S> S requestSpecialist(final SpecialistType<S> type) {
         final ParameterizedType genericSuperclass = (ParameterizedType) type.getClass().getGenericSuperclass();
-        Type genericType = genericSuperclass.getActualTypeArguments()[0];
+        final Type genericType = genericSuperclass.getActualTypeArguments()[0];
         final Class<S> genericClass = (Class<S>) genericType;
         if (enableServiceBrokerFake && genericClass == ServicesBroker.class) {
             return (S) serviceBroker;
@@ -147,7 +147,7 @@ public class MockingBaseContext implements BaseContext {
      * @param genericClass the generic class
      * @return the getMock
      */
-    <S> S getMock(Class<? extends S> genericClass) {
+    <S> S getMock(final Class<? extends S> genericClass) {
         final Object o = mocks.get(genericClass);
         if (o == null) {
             Logging.logInfo("Create getMock for '" + genericClass.getSimpleName() + "'...", getClass());
@@ -159,7 +159,7 @@ public class MockingBaseContext implements BaseContext {
     }
 
     @Override
-    public <S> S requireSpecialist(SpecialistType<S> type) {
+    public <S> S requireSpecialist(final SpecialistType<S> type) {
         return requestSpecialist(type);
     }
 }

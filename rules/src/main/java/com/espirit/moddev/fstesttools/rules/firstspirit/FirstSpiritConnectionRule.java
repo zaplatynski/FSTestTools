@@ -291,41 +291,51 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
             final ScheduleEntryControl control = scheduleEntry.execute();
             control.awaitTermination();
             final StringBuilder sb = new StringBuilder();
-            final List<TaskResult> taskResults = control.getState().getTaskResults();
-            for (final TaskResult result : taskResults) {
-                sb.append("\t");
-                sb.append(result.getTask().getName());
-                sb.append(":\t");
-                sb.append(result.getState());
-                sb.append("\n");
-                switch (result.getState()) {
-                    case NOT_STARTED:
-                    case ABORTED:
-                    case SUCCESS:
-                        continue;
-                    default:
-                        scheduleResult = result.getState();
-                }
-            }
-            switch (scheduleResult) {
-                case ERROR:
-                case FINISHED_WITH_ERRORS:
-                    LOGGER.error("Finished execution of schedule entry '{}' with errors:\n{}", entryName, sb.toString());
-                    break;
-                case NOT_STARTED:
-                case ABORTED:
-                case SUCCESS:
-                    LOGGER.info("Finished execution of schedule entry '{}' with success:\n{}", entryName, sb.toString());
-                    break;
-                default:
-                    LOGGER.warn("Finished execution of schedule entry '{}' with warnings:\n{}", entryName, sb.toString());
-            }
+            scheduleResult = getRunState(control, sb);
+            logResult(entryName, scheduleResult, sb);
         } catch (final ScheduleEntryRunningException e) {
             LOGGER.error(e.getMessage(), e);
             fail(e.toString());
         } catch (final NullPointerException e) {
             LOGGER.error(e.getMessage() + ", perhaps the given schedule entry does not exist: '" + entryName + "'", e);
             fail(e.toString());
+        }
+        return scheduleResult;
+    }
+
+    private static void logResult(final String entryName, final RunState scheduleResult, final StringBuilder sb) {
+        switch (scheduleResult) {
+            case ERROR:
+            case FINISHED_WITH_ERRORS:
+                LOGGER.error("Finished execution of schedule entry '{}' with errors:\n{}", entryName, sb.toString());
+                break;
+            case NOT_STARTED:
+            case ABORTED:
+            case SUCCESS:
+                LOGGER.info("Finished execution of schedule entry '{}' with success:\n{}", entryName, sb.toString());
+                break;
+            default:
+                LOGGER.warn("Finished execution of schedule entry '{}' with warnings:\n{}", entryName, sb.toString());
+        }
+    }
+
+    private static RunState getRunState(final ScheduleEntryControl control, final StringBuilder sb) {
+        RunState scheduleResult = RunState.SUCCESS;
+        final List<TaskResult> taskResults = control.getState().getTaskResults();
+        for (final TaskResult result : taskResults) {
+            sb.append("\t");
+            sb.append(result.getTask().getName());
+            sb.append(":\t");
+            sb.append(result.getState());
+            sb.append("\n");
+            switch (result.getState()) {
+                case NOT_STARTED:
+                case ABORTED:
+                case SUCCESS:
+                    break;
+                default:
+                    scheduleResult = result.getState();
+            }
         }
         return scheduleResult;
     }
