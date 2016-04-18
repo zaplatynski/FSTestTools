@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class MockingBaseContext implements BaseContext {
 
-    private final Logger LOGGER;
+    private final Logger logger; //NOSONAR
     private final Map<Class, Object> mocks;
     private final EnumSet<Env> supportedEnvironments;
     private final MockingServiceBroker serviceBroker;
@@ -65,7 +65,7 @@ public class MockingBaseContext implements BaseContext {
         if (supportedEnvironments == null || supportedEnvironments.length == 0) {
             throw new IllegalArgumentException("Please provide at least one environment!");
         }
-        this.LOGGER = LoggerFactory.getLogger(getClass());
+        this.logger = LoggerFactory.getLogger(getClass());
         this.supportedEnvironments = EnumSet.copyOf(Arrays.asList(supportedEnvironments));
         this.enableServiceBrokerFake = enableServiceBrokerFake;
         mocks = new HashMap<Class, Object>();
@@ -102,27 +102,27 @@ public class MockingBaseContext implements BaseContext {
 
     @Override
     public void logDebug(final String s) {
-        LOGGER.debug(s);
+        logger.debug(s);
     }
 
     @Override
     public void logInfo(final String s) {
-        LOGGER.info(s);
+        logger.info(s);
     }
 
     @Override
     public void logWarning(final String s) {
-        LOGGER.warn(s);
+        logger.warn(s);
     }
 
     @Override
     public void logError(final String s) {
-        LOGGER.error(s);
+        logger.error(s);
     }
 
     @Override
     public void logError(final String s, final Throwable throwable) {
-        LOGGER.error(s, throwable);
+        logger.error(s, throwable);
     }
 
     @Override

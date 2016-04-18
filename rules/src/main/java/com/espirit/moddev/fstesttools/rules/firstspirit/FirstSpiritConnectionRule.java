@@ -73,6 +73,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
     private static final String SYS_PROP_LOGIN = "login";
     private static final String SYS_PROP_PASSWORD = "password"; //NOSONAR
     private static final String NOT_CONNECTED_TO_FS = "not connected to FirstSpirit server";
+    public static final String FAILED_TO_MODIFY_TEMPLATE = "Failed to modify template: ";
 
     private Connection connection;
     private final String host;
@@ -241,7 +242,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
     }
 
     /**
-     * Get a SpecialistBroker that is not bound to a project from the current FirstSpirit connection
+     * Get a SpecialistBroker that is not bound to a project from the current FirstSpirit connection.
      *
      * @return the SpecialistBroker
      */
@@ -789,14 +790,14 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                     }
                     pageTemplate.save();
                 } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                    final String message = "Failed to modify template: " + e.getMessage();
+                    final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
                 } finally {
                     try {
                         pageTemplate.setLock(false, false);
                     } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                        final String message = "Failed to modify template: " + e.getMessage();
+                        final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
                         LOGGER.error(message, e);
                         fail(message);
                     }
@@ -827,14 +828,14 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                     formatTemplate.setChannelSource(getTemplateSet(project, channel), content);
                     formatTemplate.save();
                 } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                    final String message = "Failed to modify template: " + e.getMessage();
+                    final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
                 } finally {
                     try {
                         formatTemplate.setLock(false, false);
                     } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                        final String message = "Failed to modify template: " + e.getMessage();
+                        final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
                         LOGGER.error(message, e);
                         fail(message);
                     }
@@ -843,7 +844,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
         }
     }
 
-    private TemplateSet getTemplateSet(final Project project, final String name) {
+    private static TemplateSet getTemplateSet(final Project project, final String name) {
         for (final TemplateSet templateSet : project.getTemplateSets()) {
             if (templateSet.getUid().equals(name)) {
                 return templateSet;
