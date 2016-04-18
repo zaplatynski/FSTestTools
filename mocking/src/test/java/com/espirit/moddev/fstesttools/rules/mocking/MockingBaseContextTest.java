@@ -1,5 +1,6 @@
 package com.espirit.moddev.fstesttools.rules.mocking;
 
+
 import com.espirit.moddev.fstesttools.rules.logging.InitLog4jLoggingRule;
 import com.espirit.moddev.fstesttools.rules.logging.LogTestMethodNameRule;
 

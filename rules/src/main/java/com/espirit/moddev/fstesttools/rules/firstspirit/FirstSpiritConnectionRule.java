@@ -256,7 +256,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param <S>  the type parameter for the specialist.
      * @param type the type of the specialist.
-     * @return the specialist
+     * @return the specialist or null if not available
      */
     public <S> S requestSpecialist(final SpecialistType<S> type) {
         return getBroker().requestSpecialist(type);
@@ -267,10 +267,9 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param <S>  the type parameter for the specialist.
      * @param type the type of the specialist.
-     * @return the specialist
-     * @throws IllegalStateException if the current context does not support the specialist.
+     * @return the non null specialist or throws a runtime exception
      */
-    public <S> S requireSpecialist(final SpecialistType<S> type) throws IllegalStateException {
+    public <S> S requireSpecialist(final SpecialistType<S> type) {
         return getBroker().requireSpecialist(type);
     }
 
@@ -409,7 +408,6 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
                 scheduleEntry.setProject(project);
 
                 // add tasks
-                // TODO hier
                 scheduleEntry.getTasks().add(createGenerateTask(scheduleEntry, project, configuration));
                 scheduleEntry.getTasks().add(createDeployTask(scheduleEntry, configuration));
 
@@ -426,7 +424,7 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
         GenerateTask generateTask = null;
         try {
             generateTask = scheduleEntry.createTask(GenerateTask.class);
-            generateTask.setDeleteDirectory(configuration.generateDeleteDirectory);
+            generateTask.setDeleteDirectory(configuration.isGenerateDeleteDirectory());
             generateTask.setGenerateFlag(project.getMasterLanguage(), getTemplateSet(project, "html"), true);
             generateTask.setUrlPrefix(configuration.getGenerateUrlPrefix());
         } catch (final RuntimeException e) {
@@ -1046,37 +1044,4 @@ public final class FirstSpiritConnectionRule extends ExternalResource {
     }
 
 
-    public static class SchedulerConfiguration {
-
-        private boolean generateDeleteDirectory = true;
-        private DeployTask.Type deployTaskType = DeployTask.Type.Full;
-        private String generateUrlPrefix = "http://$address$";
-
-        public SchedulerConfiguration() {
-        }
-
-        public boolean isGenerateDeleteDirectory() {
-            return generateDeleteDirectory;
-        }
-
-        public void setGenerateDeleteDirectory(final boolean generateDeleteDirectory) {
-            this.generateDeleteDirectory = generateDeleteDirectory;
-        }
-
-        public DeployTask.Type getDeployTaskType() {
-            return deployTaskType;
-        }
-
-        public void setDeployTaskType(final DeployTask.Type deployTaskType) {
-            this.deployTaskType = deployTaskType;
-        }
-
-        public String getGenerateUrlPrefix() {
-            return generateUrlPrefix;
-        }
-
-        public void setGenerateUrlPrefix(final String generateUrlPrefix) {
-            this.generateUrlPrefix = generateUrlPrefix;
-        }
-    }
 }
