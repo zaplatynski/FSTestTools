@@ -8,14 +8,17 @@ import de.espirit.firstspirit.access.schedule.DeployTask;
  */
 public class SchedulerConfiguration {
 
-    private boolean generateDeleteDirectory = true;
-    private DeployTask.Type deployTaskType = DeployTask.Type.Full;
-    private String generateUrlPrefix = "http://$address$";
+    private boolean generateDeleteDirectory;
+    private DeployTask.Type deployTaskType;
+    private String generateUrlPrefix;
 
     /**
      * Instantiates a new Scheduler configuration.
      */
     public SchedulerConfiguration() {
+        generateDeleteDirectory = true;
+        deployTaskType = DeployTask.Type.Full;
+        generateUrlPrefix = "http://$address$";
     }
 
     /**
