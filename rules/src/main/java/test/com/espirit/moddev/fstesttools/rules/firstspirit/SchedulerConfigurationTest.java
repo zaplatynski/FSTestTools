@@ -25,7 +25,7 @@ public class SchedulerConfigurationTest {
     }
 
     /**
-     * Method: isGenerateDeleteDirectory()
+     * Method: isGenerateDeleteDirectory().
      */
     @Test
     public void testIsGenerateDeleteDirectory() throws Exception {
@@ -33,7 +33,7 @@ public class SchedulerConfigurationTest {
     }
 
     /**
-     * Method: setGenerateDeleteDirectory(final boolean generateDeleteDirectory)
+     * Method: setGenerateDeleteDirectory(final boolean generateDeleteDirectory).
      */
     @Test
     public void testSetGenerateDeleteDirectory() throws Exception {
@@ -43,7 +43,7 @@ public class SchedulerConfigurationTest {
     }
 
     /**
-     * Method: getDeployTaskType()
+     * Method: getDeployTaskType().
      */
     @Test
     public void testGetDeployTaskType() throws Exception {
@@ -51,7 +51,7 @@ public class SchedulerConfigurationTest {
     }
 
     /**
-     * Method: setDeployTaskType(final DeployTask.Type deployTaskType)
+     * Method: setDeployTaskType(final DeployTask.Type deployTaskType).
      */
     @Test
     public void testSetDeployTaskType() throws Exception {
@@ -61,7 +61,7 @@ public class SchedulerConfigurationTest {
     }
 
     /**
-     * Method: getGenerateUrlPrefix()
+     * Method: getGenerateUrlPrefix().
      */
     @Test
     public void testGetGenerateUrlPrefix() throws Exception {
@@ -69,7 +69,7 @@ public class SchedulerConfigurationTest {
     }
 
     /**
-     * Method: setGenerateUrlPrefix(final String generateUrlPrefix)
+     * Method: setGenerateUrlPrefix(final String generateUrlPrefix).
      */
     @Test
     public void testSetGenerateUrlPrefix() throws Exception {
