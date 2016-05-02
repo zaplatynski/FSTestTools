@@ -45,7 +45,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <artifactoryUrl>http://artifactory.e-spirit.de/artifactory/modules-release-local</artifactoryUrl>
+        <artifactoryUrl>http://artifactory.e-spirit.de/artifactory/lib-release-local</artifactoryUrl>
         <sonar.projectName>${project.name}</sonar.projectName>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -184,9 +184,9 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
+                <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.0.2</version>
             </plugin>
 
             <!-- unit test coverage -->
