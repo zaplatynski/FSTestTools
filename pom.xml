@@ -28,7 +28,7 @@
     <artifactId>fstesttools-parent</artifactId>
     <groupId>com.espirit.moddev.fstesttools</groupId>
     <version>${ci.version}</version>
-    <name>FirstSpirit Test Tools</name>
+    <name>${project.display.name} parent</name>
     <packaging>pom</packaging>
 
     <modules>
@@ -43,6 +43,7 @@
     </organization>
 
     <properties>
+        <project.display.name>FirstSpirit Test Tools</project.display.name>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <artifactoryUrl>http://artifactory.e-spirit.de/artifactory/lib-release-local</artifactoryUrl>
