@@ -225,7 +225,7 @@
                 <executions>
                     <execution>
                         <id>replace-pom-placeholder</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -240,10 +240,32 @@
                                 </resource>
                             </resources>
                             <outputDirectory>${project.build.directory}/pom-install-deploy-fix</outputDirectory>
+
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${project.build.directory}/pom-install-deploy-fix/pom.xml</sourceFile>
+                            <destinationFile>${project.build.directory}/pom-install-deploy-fix/${project.artifactId}-${project.version}.pom
+                            </destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.3.1</version>
