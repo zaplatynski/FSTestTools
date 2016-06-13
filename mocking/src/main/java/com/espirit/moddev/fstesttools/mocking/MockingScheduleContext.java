@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.UserService;
 import de.espirit.firstspirit.access.project.Project;
@@ -47,7 +47,7 @@ public class MockingScheduleContext extends MockingScriptContext implements Sche
     /**
      * Instantiates a new Mocking schedule context.
      *
-     * @param locale the locale
+     * @param locale                the locale
      * @param supportedEnvironments the supported environments
      */
     public MockingScheduleContext(final Locale locale, final Env... supportedEnvironments) {
@@ -57,9 +57,9 @@ public class MockingScheduleContext extends MockingScriptContext implements Sche
     /**
      * Instantiates a new Mocking schedule context.
      *
-     * @param testLocale the test locale
+     * @param testLocale              the test locale
      * @param enableServiceBrokerFake the enable service broker fake
-     * @param environment the environment
+     * @param environment             the environment
      */
     public MockingScheduleContext(final Locale testLocale, final boolean enableServiceBrokerFake, final Env environment) {
         super(testLocale, enableServiceBrokerFake, environment);

@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 
 import com.espirit.moddev.fstesttools.rules.logging.InitLog4jLoggingRule;

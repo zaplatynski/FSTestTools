@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.store.pagestore.Page;
@@ -85,7 +85,7 @@ public class MockingGenerationContextTest<C extends MockingGenerationContext> ex
     public void testGetPage() throws Exception {
         assertThat("Expect null value", getTestling().getPage(), is(nullValue()));
 
-        Page page = mock(Page.class);
+        final Page page = mock(Page.class);
         getTestling().setPage(page);
 
         assertThat("Expect non null value", getTestling().getPage(), is(page));
@@ -143,7 +143,7 @@ public class MockingGenerationContextTest<C extends MockingGenerationContext> ex
 
     @Test
     public void testPrint() throws Exception {
-        Printable printable = mock(Printable.class);
+        final Printable printable = mock(Printable.class);
 
         getTestling().print(printable);
 
@@ -234,7 +234,7 @@ public class MockingGenerationContextTest<C extends MockingGenerationContext> ex
 
     @Test
     public void testGetFileHandle() throws Exception {
-        FileHandle fileHandle = getTestling().getFileHandle("test");
+        final FileHandle fileHandle = getTestling().getFileHandle("test");
 
         assertThat("Expect non null value", fileHandle, is(notNullValue()));
 
@@ -243,7 +243,7 @@ public class MockingGenerationContextTest<C extends MockingGenerationContext> ex
 
     @Test
     public void testClose() throws Exception {
-        Closeable closeable = mock(Closeable.class);
+        final Closeable closeable = mock(Closeable.class);
 
         getTestling().addCloseable(closeable);
 

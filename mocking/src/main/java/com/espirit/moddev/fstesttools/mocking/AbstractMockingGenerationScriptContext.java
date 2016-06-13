@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.GenerationScriptContext;
 import de.espirit.firstspirit.access.Language;

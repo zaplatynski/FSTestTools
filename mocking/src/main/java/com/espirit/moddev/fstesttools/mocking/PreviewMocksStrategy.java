@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.agency.OperationAgent;
@@ -33,11 +33,11 @@ public class PreviewMocksStrategy extends AbstractSetupMocksStrategy {
 
     @Override
     public void setupMocks() {
-        UIAgent uiAgent = context.requireSpecialist(UIAgent.TYPE);
+        final UIAgent uiAgent = context.requireSpecialist(UIAgent.TYPE);
         final Language language = mockLanguage();
         when(uiAgent.getDisplayLanguage()).thenReturn(language);
 
-        OperationAgent operationAgent = context.requireSpecialist(OperationAgent.TYPE);
+        final OperationAgent operationAgent = context.requireSpecialist(OperationAgent.TYPE);
         when(operationAgent.getOperation(RequestOperation.TYPE)).thenReturn(context.getMock(RequestOperation.class));
         when(operationAgent.getOperation(ShowFormDialogOperation.TYPE)).thenReturn(context.getMock(ShowFormDialogOperation.class));
         when(operationAgent.getOperation(SelectFileOperation.TYPE)).thenReturn(context.getMock(SelectFileOperation.class));

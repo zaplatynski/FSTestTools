@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.project.Group;
@@ -80,7 +80,7 @@ public class MockingClientScriptContextTest<C extends MockingClientScriptContext
 
     @Test
     public void testGroups() throws Exception {
-        Group group = mock(Group.class);
+        final Group group = mock(Group.class);
         getTestling().addGroup(group);
 
         assertThat("Expect specific value", getTestling().getUserGroups(), arrayContaining(group));

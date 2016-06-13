@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.common.base.Logging;
 import de.espirit.firstspirit.access.ServicesBroker;
@@ -28,7 +28,7 @@ public class MockingServiceBroker implements ServicesBroker {
     public <T> T getService(final Class<T> tClass) {
         if (!mocks.containsKey(tClass)) {
             Logging.logInfo("Create getMock for '" + tClass.getSimpleName() + "'...", getClass());
-            T service = mock(tClass);
+            final T service = mock(tClass);
             mocks.put(tClass, service);
         }
         return (T) mocks.get(tClass);

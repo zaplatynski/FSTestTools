@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.BaseContext;
 
@@ -23,7 +23,7 @@ public class MockingScriptContextTest<C extends MockingScriptContext> extends Mo
      *
      * @param environment the environment
      */
-    public MockingScriptContextTest(final BaseContext.Env environment, boolean enableServiceBrokerFake) {
+    public MockingScriptContextTest(final BaseContext.Env environment, final boolean enableServiceBrokerFake) {
         super(environment, enableServiceBrokerFake);
     }
 
@@ -39,7 +39,7 @@ public class MockingScriptContextTest<C extends MockingScriptContext> extends Mo
      */
     @Test
     public void testGetConnection() throws Exception {
-        assertThat("Expect a non-null value",getTestling().getConnection(), is(notNullValue()));
+        assertThat("Expect a non-null value", getTestling().getConnection(), is(notNullValue()));
     }
 
     /**
@@ -52,7 +52,7 @@ public class MockingScriptContextTest<C extends MockingScriptContext> extends Mo
 
         getTestling().setProperty("myProperty", "myValue");
 
-        String myPropertyValue = (String) getTestling().getProperty("myProperty");
+        final String myPropertyValue = (String) getTestling().getProperty("myProperty");
 
         assertThat("Expect myValue", myPropertyValue, is("myValue"));
     }

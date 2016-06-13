@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.webedit.WebeditUiAgent;
@@ -26,8 +26,8 @@ public class WebEditMocksStrategy extends AbstractSetupMocksStrategy {
 
     @Override
     public void setupMocks() {
-        WebeditUiAgent uiAgent = context.requestSpecialist(WebeditUiAgent.TYPE);
-        Language language = mockLanguage();
+        final WebeditUiAgent uiAgent = context.requestSpecialist(WebeditUiAgent.TYPE);
+        final Language language = mockLanguage();
         when(uiAgent.getDisplayLanguage()).thenReturn(language);
         when(uiAgent.getPreviewLanguage()).thenReturn(language);
     }

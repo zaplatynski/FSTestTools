@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.schedule.ScheduleTask;
@@ -201,8 +201,8 @@ public class MockingScheduleContextTest<C extends MockingScheduleContext> extend
      */
     @Test
     public void testTasks() throws Exception {
-        ScheduleTask scheduleTask = mock(ScheduleTask.class);
-        Collection<ScheduleTask> tasks = Arrays.asList(scheduleTask);
+        final ScheduleTask scheduleTask = mock(ScheduleTask.class);
+        final Collection<ScheduleTask> tasks = Arrays.asList(scheduleTask);
 
         getTestling().addAllTasks(tasks);
         getTestling().setTaskIndex(0);

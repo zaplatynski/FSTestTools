@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.ScriptContext;
@@ -52,17 +52,17 @@ public class MockingScriptContext extends MockingBaseContext implements ScriptCo
     }
 
     @Override
-    public Object getProperty(String name) {
+    public Object getProperty(final String name) {
         return properties.get(name);
     }
 
     @Override
-    public void setProperty(String name, Object value) {
+    public void setProperty(final String name, final Object value) {
         properties.put(name, value);
     }
 
     @Override
-    public void removeProperty(String name) {
+    public void removeProperty(final String name) {
         properties.remove(name);
     }
 

@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.agency.LanguageAgent;
@@ -31,7 +31,7 @@ public abstract class AbstractSetupMocksStrategy implements SetupMocksStrategy {
      * @param context the context
      * @param locale  the locale
      */
-    public AbstractSetupMocksStrategy(MockingBaseContext context, Locale locale) {
+    public AbstractSetupMocksStrategy(final MockingBaseContext context, final Locale locale) {
         if (context == null) {
             throw new IllegalArgumentException("context is null");
         }
@@ -44,7 +44,7 @@ public abstract class AbstractSetupMocksStrategy implements SetupMocksStrategy {
     }
 
     private void mocksLanguageAgent() {
-        LanguageAgent agent = context.requestSpecialist(LanguageAgent.TYPE);
+        final LanguageAgent agent = context.requestSpecialist(LanguageAgent.TYPE);
         final Language localLanguage = mockLanguage();
         when(agent.getMasterLanguage()).thenReturn(localLanguage);
         when(agent.getMetaLanguage()).thenReturn(localLanguage);
@@ -67,7 +67,7 @@ public abstract class AbstractSetupMocksStrategy implements SetupMocksStrategy {
             when(language.getDisplayName((Language) any())).then(new Answer<String>() {
                 @Override
                 public String answer(final InvocationOnMock invocation) throws Throwable {
-                    Language mylanguage = (Language) invocation.getArguments()[0];
+                    final Language mylanguage = (Language) invocation.getArguments()[0];
                     return locale.getDisplayLanguage(mylanguage.getLocale());
                 }
             });

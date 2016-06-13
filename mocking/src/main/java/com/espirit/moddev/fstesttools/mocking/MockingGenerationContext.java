@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.mocking;
+package com.espirit.moddev.fstesttools.mocking;
 
 import de.espirit.common.function.UnaryProcedure;
 import de.espirit.firstspirit.access.GenerationContext;
