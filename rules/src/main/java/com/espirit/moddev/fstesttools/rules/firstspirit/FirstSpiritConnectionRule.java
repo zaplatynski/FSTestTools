@@ -5,6 +5,7 @@ import de.espirit.firstspirit.access.AdminService;
 import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.ConnectionManager;
+import de.espirit.firstspirit.access.GenerationContext;
 import de.espirit.firstspirit.access.UserService;
 import de.espirit.firstspirit.access.project.Project;
 import de.espirit.firstspirit.access.project.TemplateSet;
@@ -242,6 +243,18 @@ public class FirstSpiritConnectionRule extends ExternalResource {
     }
 
     /**
+     * Gets generation context for current project.
+     *
+     * @param projectName the project name
+     * @return the generation context for current project
+     */
+    public GenerationContext getGenerationContextForCurrentProject(final String projectName) {
+        final BrokerAgent brokerAgent = getBroker().requestSpecialist(BrokerAgent.TYPE);
+        final SpecialistsBroker specialistsBrokerByProject = brokerAgent.getBrokerByProjectName(projectName);
+        return new TestGenerationContext(specialistsBrokerByProject);
+    }
+
+    /**
      * Get a SpecialistBroker that is not bound to a project from the current FirstSpirit connection.
      *
      * @return the SpecialistBroker
@@ -357,7 +370,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         boolean found = false;
         if (project != null) {
             final UserService userService = project.getUserService();
-            final AdminService ad = (AdminService) userService.getConnection().getService(AdminService.class);
+            final AdminService ad = userService.getConnection().getService(AdminService.class);
             final ScheduleEntry scheduleEntry = ad.getScheduleStorage().getScheduleEntry(project, entryName);
             if (scheduleEntry != null) {
                 final List<ScheduleTask> tasks = scheduleEntry.getTasks();
@@ -852,6 +865,5 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         }
         return null;
     }
-
 
 }
