@@ -64,7 +64,7 @@ import static org.junit.Assert.fail;
 /**
  * The type First spirit connection rule.
  */
-public final class FirstSpiritConnectionRule extends ExternalResource {
+public class FirstSpiritConnectionRule extends ExternalResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FirstSpiritConnectionRule.class);
     private static final String ADMIN = "Admin";
