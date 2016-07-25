@@ -14,7 +14,7 @@ import java.util.Enumeration;
 /**
  * The type Init log 4 j logging rule. <p>This rule sets up Log4J logging with a basic configuration so there will be output during tests.</p>
  */
-public final class InitLog4jLoggingRule extends ExternalResource {
+public class InitLog4jLoggingRule extends ExternalResource {
 
     private final static Logger LOGGER = Logger.getLogger(InitLog4jLoggingRule.class);
     private boolean notConfigured;
