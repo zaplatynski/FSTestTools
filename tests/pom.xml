@@ -12,6 +12,7 @@
     <version>${parent.version}</version>
     <name>${project.display.name} tests</name>
     <artifactId>tests</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>

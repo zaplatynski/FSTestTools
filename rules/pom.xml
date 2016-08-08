@@ -12,6 +12,7 @@
     <artifactId>rules</artifactId>
     <version>${parent.version}</version>
     <name>${project.display.name} rules</name>
+    <packaging>jar</packaging>
 
     <properties>
         <version.slf4j>1.7.12</version.slf4j>

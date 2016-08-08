@@ -12,6 +12,7 @@
     <artifactId>mocking</artifactId>
     <version>${parent.version}</version>
     <name>${project.display.name} mocking</name>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
