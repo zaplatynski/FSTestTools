@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <name>${project.artifactId}</name>
+    <displayname>${project.name}</displayname>
+    <version>${project.version}</version>
+    <description>${project.name} (${project.artifactId})</description>
+    <vendor>${organization.name}</vendor>
+    <components>
+
+
+        <public>
+            <name>MyExecutable</name>
+            <class>com.espirit.moddev.fstesttools.tests.MyExecutable</class>
+        </public>
+
+    </components>
+
+</module>
