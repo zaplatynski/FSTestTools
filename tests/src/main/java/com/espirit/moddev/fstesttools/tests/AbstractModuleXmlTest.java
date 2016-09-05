@@ -66,7 +66,7 @@ public abstract class AbstractModuleXmlTest {
     }
 
     public Properties getPomProperties() {
-        return pomProperties;
+        return new Properties(pomProperties);
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class AbstractModuleXmlTest {
             try (InputStream inputStreamFallback = getTestClassLoader().getResourceAsStream("moduleXmlTest.properties")) {
                 pomProperties.load(inputStreamFallback);
             } catch (final Exception fatalError) {
-                logger.error("Fatal error loading properties file '{}': {}", "moduleXmlTest.properties", e);
+                logger.error("Fatal error loading properties file '{}': {}", "moduleXmlTest.properties", fatalError);
                 fail(fatalError.toString());
             }
         }
