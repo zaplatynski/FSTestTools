@@ -4,6 +4,7 @@ import de.espirit.common.base.Logging;
 import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.ServicesBroker;
 import de.espirit.firstspirit.agency.SpecialistType;
+import de.espirit.firstspirit.agency.UIAgent;
 
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -68,7 +69,7 @@ public class MockingBaseContext implements BaseContext {
         this.logger = LoggerFactory.getLogger(getClass());
         this.supportedEnvironments = EnumSet.copyOf(Arrays.asList(supportedEnvironments));
         this.enableServiceBrokerFake = enableServiceBrokerFake;
-        mocks = new HashMap<Class, Object>();
+        mocks = new HashMap<>();
         serviceBroker = new MockingServiceBroker();
 
         setupDefaultMocks(locale, supportedEnvironments);
@@ -137,6 +138,10 @@ public class MockingBaseContext implements BaseContext {
         final Class<S> genericClass = (Class<S>) genericType;
         if (enableServiceBrokerFake && genericClass == ServicesBroker.class) {
             return (S) serviceBroker;
+        }
+        if(supportedEnvironments.contains(Env.WEBEDIT) && UIAgent.TYPE == type){
+            //simulate that JavaClient does not support WebEdit aka ContentCreator Agents
+            return null;
         }
         return getMock(genericClass);
     }

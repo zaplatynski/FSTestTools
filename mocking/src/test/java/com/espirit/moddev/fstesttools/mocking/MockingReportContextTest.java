@@ -44,7 +44,7 @@ public class MockingReportContextTest<C extends MockingReportContext> extends Mo
 
         getTestling().setObject("test");
 
-        assertThat("Expect specific value", getTestling().getObject(), is("test"));
+        assertThat("Expect specific value", getTestling().getObject().toString(), is("test"));
     }
 
     /**

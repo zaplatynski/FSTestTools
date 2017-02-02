@@ -30,5 +30,6 @@ public class WebEditMocksStrategy extends AbstractSetupMocksStrategy {
         final Language language = mockLanguage();
         when(uiAgent.getDisplayLanguage()).thenReturn(language);
         when(uiAgent.getPreviewLanguage()).thenReturn(language);
+        when(uiAgent.getLocale()).thenReturn(getLocale());
     }
 }

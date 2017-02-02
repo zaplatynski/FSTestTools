@@ -75,4 +75,12 @@ public abstract class AbstractSetupMocksStrategy implements SetupMocksStrategy {
         return language;
     }
 
+    /**
+     * Gets locale.
+     *
+     * @return the locale
+     */
+    public Locale getLocale() {
+        return locale;
+    }
 }
