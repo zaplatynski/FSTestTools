@@ -281,7 +281,7 @@ public class MockingBaseContextTest<C extends MockingBaseContext> {
 
     @Test
     public void testMultipleEnvironments() {
-        final MockingBaseContext mockingBaseContext = new MockingBaseContext(Locale.ENGLISH, BaseContext.Env.PREVIEW, BaseContext.Env.WEBEDIT);
+        final MockingBaseContext mockingBaseContext = new MockingBaseContext(Locale.ENGLISH, BaseContext.Env.PREVIEW, BaseContext.Env.FS_BUTTON);
         assertThat("Expect a non-null value", mockingBaseContext, notNullValue());
     }
 }

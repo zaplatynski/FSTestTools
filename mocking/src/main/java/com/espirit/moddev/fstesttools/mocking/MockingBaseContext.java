@@ -5,6 +5,7 @@ import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.ServicesBroker;
 import de.espirit.firstspirit.agency.SpecialistType;
 import de.espirit.firstspirit.agency.UIAgent;
+import de.espirit.firstspirit.webedit.WebeditUiAgent;
 
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -141,6 +142,10 @@ public class MockingBaseContext implements BaseContext {
         }
         if(supportedEnvironments.contains(Env.WEBEDIT) && UIAgent.TYPE == type){
             //simulate that JavaClient does not support WebEdit aka ContentCreator Agents
+            return null;
+        }
+        if(supportedEnvironments.contains(Env.PREVIEW) && WebeditUiAgent.TYPE == type){
+            //simulate that ContentCreator does not support JavaClients aka SiteArchitect Agents
             return null;
         }
         return getMock(genericClass);

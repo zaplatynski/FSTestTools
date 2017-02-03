@@ -30,6 +30,10 @@ public class WebEditMocksStrategy extends AbstractSetupMocksStrategy {
         final Language language = mockLanguage();
         when(uiAgent.getDisplayLanguage()).thenReturn(language);
         when(uiAgent.getPreviewLanguage()).thenReturn(language);
-        when(uiAgent.getLocale()).thenReturn(getLocale());
+        try {
+            when(uiAgent.getLocale()).thenReturn(getLocale());
+        } catch (NoSuchMethodError e) {
+            // FS version smaller 5.2.609
+        }
     }
 }
