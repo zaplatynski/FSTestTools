@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.firstspirit;
+package com.espirit.moddev.fstesttools.rules.firstspirit.utils.context;
 
 import de.espirit.common.function.UnaryProcedure;
 import de.espirit.firstspirit.access.Connection;
@@ -43,7 +43,7 @@ import java.util.Map;
  *
  * @author Zaplatynski
  */
-class TestGenerationContext extends TestContext implements GenerationContext, Evaluator {
+public class TestGenerationContext extends TestContext implements GenerationContext, Evaluator {
     
     private Locale locale = Locale.getDefault();
 
@@ -52,7 +52,7 @@ class TestGenerationContext extends TestContext implements GenerationContext, Ev
      *
      * @param broker the broker
      */
-    TestGenerationContext(final SpecialistsBroker broker) {
+    public TestGenerationContext(final SpecialistsBroker broker) {
         super(broker);
     }
 

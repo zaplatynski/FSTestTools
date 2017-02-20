@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.firstspirit;
+package com.espirit.moddev.fstesttools.rules.firstspirit.utils.context;
 
 import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.agency.SpecialistType;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Zaplatynski
  */
-class TestContext implements BaseContext {
+public class TestContext implements BaseContext {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestContext.class);
     private final SpecialistsBroker broker;
@@ -23,7 +23,7 @@ class TestContext implements BaseContext {
      *
      * @param broker the broker
      */
-    TestContext(SpecialistsBroker broker) {
+    public TestContext(SpecialistsBroker broker) {
         if (broker == null) {
             throw new IllegalArgumentException("broker can not be null!");
         }

@@ -1,4 +1,4 @@
-package com.espirit.moddev.fstesttools.rules.firstspirit;
+package com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing;
 
 import de.espirit.firstspirit.access.store.ImportHandler;
 import de.espirit.firstspirit.access.store.StoreElement;

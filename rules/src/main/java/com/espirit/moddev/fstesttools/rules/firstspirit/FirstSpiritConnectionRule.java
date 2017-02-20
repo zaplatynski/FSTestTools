@@ -1,60 +1,48 @@
 package com.espirit.moddev.fstesttools.rules.firstspirit;
 
-import de.espirit.common.util.Listable;
-import de.espirit.firstspirit.access.AdminService;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing.ZipImportCommands;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing.ZipImportParameters;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreCommand;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreParameters;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreResult;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleCommands;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleParameters;
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleResult;
+import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdParamBean;
+import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdResultBean;
+import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCommand;
+import com.espirit.moddev.fstesttools.rules.firstspirit.utils.context.TestContext;
+import com.espirit.moddev.fstesttools.rules.firstspirit.utils.context.TestGenerationContext;
+
 import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.ConnectionManager;
 import de.espirit.firstspirit.access.GenerationContext;
-import de.espirit.firstspirit.access.UserService;
 import de.espirit.firstspirit.access.project.Project;
-import de.espirit.firstspirit.access.project.TemplateSet;
-import de.espirit.firstspirit.access.schedule.DeployTask;
-import de.espirit.firstspirit.access.schedule.FileTarget;
-import de.espirit.firstspirit.access.schedule.GenerateTask;
 import de.espirit.firstspirit.access.schedule.RunState;
-import de.espirit.firstspirit.access.schedule.ScheduleEntry;
-import de.espirit.firstspirit.access.schedule.ScheduleEntryControl;
-import de.espirit.firstspirit.access.schedule.ScheduleEntryRunningException;
-import de.espirit.firstspirit.access.schedule.ScheduleStorage;
-import de.espirit.firstspirit.access.schedule.ScheduleTask;
-import de.espirit.firstspirit.access.schedule.TaskResult;
-import de.espirit.firstspirit.access.store.ElementDeletedException;
 import de.espirit.firstspirit.access.store.IDProvider;
-import de.espirit.firstspirit.access.store.LockException;
-import de.espirit.firstspirit.access.store.Store;
-import de.espirit.firstspirit.access.store.StoreElement;
-import de.espirit.firstspirit.access.store.mediastore.MediaStoreRoot;
 import de.espirit.firstspirit.access.store.pagestore.PageFolder;
-import de.espirit.firstspirit.access.store.pagestore.PageStoreRoot;
 import de.espirit.firstspirit.access.store.sitestore.PageRefFolder;
-import de.espirit.firstspirit.access.store.sitestore.SiteStoreRoot;
-import de.espirit.firstspirit.access.store.templatestore.FormatTemplate;
-import de.espirit.firstspirit.access.store.templatestore.FormatTemplates;
-import de.espirit.firstspirit.access.store.templatestore.PageTemplate;
-import de.espirit.firstspirit.access.store.templatestore.Script;
-import de.espirit.firstspirit.access.store.templatestore.Scripts;
-import de.espirit.firstspirit.access.store.templatestore.Template;
-import de.espirit.firstspirit.access.store.templatestore.TemplateStoreRoot;
-import de.espirit.firstspirit.admin.FileTargetImpl;
 import de.espirit.firstspirit.agency.BrokerAgent;
 import de.espirit.firstspirit.agency.SpecialistType;
 import de.espirit.firstspirit.agency.SpecialistsBroker;
 import de.espirit.firstspirit.common.MaximumNumberOfSessionsExceededException;
 import de.espirit.firstspirit.server.authentication.AuthenticationException;
-import de.espirit.firstspirit.server.scheduler.FileTargetDTO;
-import de.espirit.firstspirit.server.scheduler.deploy.FileDeployTargetFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.rules.ExternalResource;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.zip.ZipFile;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.inject.Inject;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -82,6 +70,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
     private final String login;
     private final String password;
     private final ConnectionMode mode;
+    private Map<String, FsConnRuleCommand<FsConnRuleCmdParamBean, FsConnRuleCmdResultBean>> commands;
 
     /**
      * Instantiates a new First spirit connection rule by using SystemProperties and socket mode.
@@ -140,6 +129,43 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         this.mode = mode;
         this.login = login;
         this.password = password;
+        commands = new ConcurrentHashMap<>();
+        populateMap(commands);
+    }
+
+    private static void populateMap(final Map<String, FsConnRuleCommand<FsConnRuleCmdParamBean, FsConnRuleCmdResultBean>> commands) {
+        final String commandPackage = "com.espirit.moddev.fstesttools.rules.firstspirit.commands";
+        LOGGER.info("Scanning class path in '{}' for command classes...", commandPackage);
+        Reflections reflections = new Reflections(commandPackage);
+        Set<Class<? extends FsConnRuleCommand>> commandsFromPackage = reflections.getSubTypesOf(FsConnRuleCommand.class);
+
+        int counter = 0;
+        for (Class<? extends FsConnRuleCommand> commandClass : commandsFromPackage) {
+            if(commandClass.isAnonymousClass()){
+                continue;
+            }
+            LOGGER.debug("Processing '{}'...",commandClass.getSimpleName());
+            if(commandClass.isEnum()){
+                final FsConnRuleCommand[] enumCommands = commandClass.getEnumConstants();
+                for (FsConnRuleCommand enumCommand : enumCommands) {
+                    LOGGER.debug("Add enum command: " + enumCommand.name());
+                    counter++;
+                    commands.put(enumCommand.name(),enumCommand);
+                }
+            }
+            if(!commandClass.isEnum()){
+                final FsConnRuleCommand command;
+                try {
+                    command = commandClass.newInstance();
+                    LOGGER.debug("Add class command: " + command.name());
+                    counter++;
+                    commands.put(command.name(), command);
+                } catch (InstantiationException|IllegalAccessException e) {
+                    LOGGER.error(e.getMessage(),e);
+                }
+            }
+        }
+        LOGGER.info("Loaded {} commands!",counter);
     }
 
     /**
@@ -288,74 +314,65 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         return getBroker().requireSpecialist(type);
     }
 
+
+    public <P extends FsConnRuleCmdParamBean, R extends FsConnRuleCmdResultBean> R invokeCommand(final String name, P parameters) {
+        final FsConnRuleCommand<FsConnRuleCmdParamBean, FsConnRuleCmdResultBean> command = commands.get(name);
+        P injectedParameters = injectFsObjects(parameters);
+        return (R) command.execute(injectedParameters);
+    }
+
+    private <P extends FsConnRuleCmdParamBean> P injectFsObjects(final P parameters) {
+        final Field[] declaredFields = parameters.getClass().getDeclaredFields();
+        for (Field declaredField : declaredFields) {
+            if (declaredField.isAnnotationPresent(Inject.class)) {
+                final Class<?> type = declaredField.getType();
+                final boolean accessible = declaredField.isAccessible();
+                injectIntoFields(parameters, declaredField, type, accessible);
+            }
+        }
+        return parameters;
+    }
+
+    private <P extends FsConnRuleCmdParamBean> void injectIntoFields(final P parameters, final Field declaredField, final Class<?> type,
+                                                                     final boolean accessible) {
+        if (!accessible) {
+            declaredField.setAccessible(true);
+        }
+        try {
+            if (type == Connection.class) {
+                declaredField.set(parameters, getConnection());
+            }
+            if (type == SpecialistsBroker.class) {
+                declaredField.set(parameters, getBroker());
+            }
+            if (type == BaseContext.class) {
+                declaredField.set(parameters, getBaseContextForCurrentProject(parameters.getProjectName()));
+            }
+            if (type == GenerationContext.class) {
+                declaredField.set(parameters, getGenerationContextForCurrentProject(parameters.getProjectName()));
+            }
+        } catch (IllegalAccessException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        declaredField.setAccessible(accessible);
+    }
+
     /**
      * Execute schedule entry and await termination.
      *
      * @param projectName the project entryName
      * @param entryName   the entryName
      * @return the run state.
+     * @deprecated
      */
+    @Deprecated
     public RunState executeScheduleEntryAndAwaitTermination(final String projectName, final String entryName) {
         if (connection == null) {
             throw new IllegalStateException(NOT_CONNECTED_TO_FS);
         }
-        final Project project = connection.getProjectByName(projectName);
-        final UserService userService = project.getUserService();
-        final AdminService ad = userService.getConnection().getService(AdminService.class);
-        RunState scheduleResult = RunState.SUCCESS;
-        try {
-            final ScheduleEntry scheduleEntry = ad.getScheduleStorage().getScheduleEntry(project, entryName);
-            LOGGER.info("Start execution of schedule entry '{}'...", entryName);
-            final ScheduleEntryControl control = scheduleEntry.execute();
-            control.awaitTermination();
-            final StringBuilder sb = new StringBuilder();
-            scheduleResult = getRunState(control, sb);
-            logResult(entryName, scheduleResult, sb);
-        } catch (final ScheduleEntryRunningException e) {
-            LOGGER.error(e.getMessage(), e);
-            fail(e.toString());
-        } catch (final NullPointerException e) {
-            LOGGER.error(e.getMessage() + ", perhaps the given schedule entry does not exist: '" + entryName + "'", e);
-            fail(e.toString());
-        }
-        return scheduleResult;
-    }
-
-    private static void logResult(final String entryName, final RunState scheduleResult, final StringBuilder sb) {
-        switch (scheduleResult) {
-            case ERROR:
-            case FINISHED_WITH_ERRORS:
-                LOGGER.error("Finished execution of schedule entry '{}' with errors:\n{}", entryName, sb.toString());
-                break;
-            case NOT_STARTED:
-            case ABORTED:
-            case SUCCESS:
-                LOGGER.info("Finished execution of schedule entry '{}' with success:\n{}", entryName, sb.toString());
-                break;
-            default:
-                LOGGER.warn("Finished execution of schedule entry '{}' with warnings:\n{}", entryName, sb.toString());
-        }
-    }
-
-    private static RunState getRunState(final ScheduleEntryControl control, final StringBuilder sb) {
-        RunState scheduleResult = RunState.SUCCESS;
-        final List<TaskResult> taskResults = control.getState().getTaskResults();
-        for (final TaskResult result : taskResults) {
-            sb.append("\t");
-            sb.append(result.getTask().getName());
-            sb.append(":\t");
-            sb.append(result.getState());
-            sb.append("\n");
-            switch (result.getState()) {
-                case NOT_STARTED:
-                case ABORTED:
-                case SUCCESS:
-                    break;
-                default:
-                    scheduleResult = result.getState();
-            }
-        }
-        return scheduleResult;
+        final ScheduleResult result =
+            (ScheduleResult) invokeCommand(ScheduleCommands.RUN_SCHEDULE.name(), new ScheduleParameters(projectName, entryName));
+        return result.getScheduleRunState();
     }
 
     /**
@@ -364,33 +381,13 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param projectName the project name
      * @param entryName   the entry name
      * @param deployDir   the deployment directory
+     * @deprecated
      */
+    @Deprecated
     public void changeDeployPathOfScheduleEntry(final String projectName, final String entryName, final File deployDir) {
-        final Project project = connection.getProjectByName(projectName);
-        boolean found = false;
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final AdminService ad = userService.getConnection().getService(AdminService.class);
-            final ScheduleEntry scheduleEntry = ad.getScheduleStorage().getScheduleEntry(project, entryName);
-            if (scheduleEntry != null) {
-                final List<ScheduleTask> tasks = scheduleEntry.getTasks();
-                for (final ScheduleTask task : tasks) {
-                    if (task instanceof DeployTask) {
-                        final DeployTask deployTask = (DeployTask) task;
-                        final FileDeployTargetFactory factory = new FileDeployTargetFactory();
-                        final FileTargetDTO dto = new FileTargetDTO();
-                        dto.setTargetDirectory(deployDir.getAbsolutePath());
-                        dto.setAppendDateToDirectoryName(false);
-                        deployTask.setTarget(factory.create(deployTask, dto));
-                        found = true;
-                        LOGGER.info("Changed deploy path to '{}'", deployDir.getAbsolutePath());
-                    }
-                }
-            }
-        }
-        if (!found) {
-            LOGGER.warn("Did not change deploy path to '{}'!", deployDir.getAbsolutePath());
-        }
+        final ScheduleParameters parameters = new ScheduleParameters(projectName, entryName);
+        parameters.setDeployDir(deployDir);
+        invokeCommand(ScheduleCommands.CHG_DEPLOY_DIR.name(), parameters);
     }
 
     /**
@@ -398,9 +395,23 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param projectName the name of the fs project.
      * @param entryName   the name of the new scheduler.
+     * @deprecated
      */
+    @Deprecated
     public void createDefaultScheduler(final String projectName, final String entryName) {
-        createDefaultScheduler(projectName, entryName, new SchedulerConfiguration());
+        final ScheduleParameters parameters = new ScheduleParameters(projectName, entryName);
+        createDefaultScheduler(parameters);
+    }
+
+    /**
+     * Create default scheduler.
+     *
+     * @param parameters the parameters
+     * @deprecated
+     */
+    @Deprecated
+    public void createDefaultScheduler(final ScheduleParameters parameters) {
+        invokeCommand(ScheduleCommands.GENERATE_SCHEDULE.name(), parameters);
     }
 
     /**
@@ -409,59 +420,15 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param projectName   the name of the fs project.
      * @param entryName     the name of the new scheduler.
      * @param configuration hte scheduler configuration
+     * @deprecated
      */
+    @Deprecated
     public void createDefaultScheduler(final String projectName, final String entryName, final SchedulerConfiguration configuration) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final AdminService ad = userService.getConnection().getService(AdminService.class);
-
-            try {
-                // create scheduler
-                final ScheduleStorage scheduleStorage = ad.getScheduleStorage();
-                final ScheduleEntry scheduleEntry = scheduleStorage.createScheduleEntry(entryName);
-                scheduleEntry.setProject(project);
-
-                // add tasks
-                scheduleEntry.getTasks().add(createGenerateTask(scheduleEntry, project, configuration));
-                scheduleEntry.getTasks().add(createDeployTask(scheduleEntry, configuration));
-
-                // save scheduler
-                scheduleEntry.save();
-                scheduleEntry.unlock();
-            } catch (final RuntimeException e) {
-                LOGGER.error("Failed to create default scheduler!", e);
-            }
-        }
-    }
-
-    private GenerateTask createGenerateTask(final ScheduleEntry scheduleEntry, final Project project, final SchedulerConfiguration configuration) {
-        GenerateTask generateTask = null;
-        try {
-            generateTask = scheduleEntry.createTask(GenerateTask.class);
-            generateTask.setDeleteDirectory(configuration.isGenerateDeleteDirectory());
-            generateTask.setGenerateFlag(project.getMasterLanguage(), getTemplateSet(project, "html"), true);
-            generateTask.setUrlPrefix(configuration.getGenerateUrlPrefix());
-        } catch (final RuntimeException e) {
-            LOGGER.error("Failed to create generate task!", e);
-        }
-        return generateTask;
-    }
-
-    private DeployTask createDeployTask(final ScheduleEntry scheduleEntry, final SchedulerConfiguration configuration) {
-        DeployTask deployTask = null;
-        try {
-            deployTask = scheduleEntry.createTask(DeployTask.class);
-            deployTask.setType(configuration.getDeployTaskType());
-
-            final FileTarget target = deployTask.createTarget(FileTargetImpl.class);
-            target.setPath("/tmp");
-            target.setAppendDateToDirectoryName(false);
-            deployTask.setTarget(target);
-        } catch (final RuntimeException e) {
-            LOGGER.error("Failed to create deploy task!", e);
-        }
-        return deployTask;
+        final ScheduleParameters parameters = new ScheduleParameters(projectName, entryName);
+        parameters.setDeployTaskType(configuration.getDeployTaskType());
+        parameters.setGenerateDeleteDirectory(configuration.isGenerateDeleteDirectory());
+        parameters.setGenerateUrlPrefix(configuration.getGenerateUrlPrefix());
+        createDefaultScheduler(parameters);
     }
 
     /**
@@ -481,27 +448,17 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         }
     }
 
-
     /**
      * Import format templates from zip.
      *
      * @param projectName the project name
      * @param zip         the zip
+     * @deprecated
      */
+    @Deprecated
     public void importFormatTemplatesFromZip(final String projectName, final File zip) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-            try {
-                importFromZipIntoTargetStore(zip, templateStore.getFormatTemplates());
-            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
-                final String message = "Failed to import zip into format template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-
-        }
+        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
+        invokeCommand(ZipImportCommands.IMPORT_FORMAT_TEMPLATES.name(), parameters);
     }
 
     /**
@@ -509,20 +466,12 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param projectName the project name
      * @param zip         the zip
+     * @deprecated
      */
+    @Deprecated
     public void importPageTemplatesFromZip(final String projectName, final File zip) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-            try {
-                importFromZipIntoTargetStore(zip, templateStore.getPageTemplates());
-            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
-                final String message = "Failed to import zip into page template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-        }
+        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
+        invokeCommand(ZipImportCommands.IMPORT_PAGE_TEMPLATES.name(), parameters);
     }
 
     /**
@@ -530,20 +479,12 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param projectName the project name
      * @param zip         the zip
+     * @deprecated
      */
+    @Deprecated
     public void importLinkTemplatesFromZip(final String projectName, final File zip) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-            try {
-                importFromZipIntoTargetStore(zip, templateStore.getLinkTemplates());
-            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
-                final String message = "Failed to import zip into link template store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-        }
+        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
+        invokeCommand(ZipImportCommands.IMPORT_LINK_TEMPLATES.name(), parameters);
     }
 
     /**
@@ -551,20 +492,12 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param projectName the project name
      * @param zip         the zip
+     * @deprecated
      */
+    @Deprecated
     public void importMediaFromZip(final String projectName, final File zip) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final MediaStoreRoot mediaStore = (MediaStoreRoot) userService.getStore(Store.Type.MEDIASTORE, false);
-            try {
-                importFromZipIntoTargetStore(zip, mediaStore.getStore());
-            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
-                final String message = "Failed to import zip into media store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-        }
+        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
+        invokeCommand(ZipImportCommands.IMPORT_MEDIA.name(), parameters);
     }
 
     /**
@@ -572,20 +505,12 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param projectName the project name
      * @param zip         the zip
+     * @deprecated
      */
+    @Deprecated
     public void importScriptsFromZip(final String projectName, final File zip) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-            try {
-                importFromZipIntoTargetStore(zip, templateStore.getScripts());
-            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
-                final String message = "Failed to import zip into script store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-        }
+        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
+        invokeCommand(ZipImportCommands.IMPORT_SCRIPTS.name(), parameters);
     }
 
     /**
@@ -593,40 +518,12 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      *
      * @param projectName the project name
      * @param zip         the zip
+     * @deprecated
      */
+    @Deprecated
     public void importWorkflowsFromZip(final String projectName, final File zip) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-            try {
-                importFromZipIntoTargetStore(zip, templateStore.getWorkflows());
-            } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
-                final String message = "Failed to import zip into workflow store: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-        }
-    }
-
-
-    private static void importFromZipIntoTargetStore(final File zipFile, final StoreElement targetStore)
-        throws URISyntaxException, IOException, LockException, ElementDeletedException {
-        if (zipFile != null && zipFile.exists() && zipFile.isFile()) {
-            LOGGER.info("Importing elements from '{}' into '{}'", zipFile.getAbsolutePath(), targetStore.getName());
-
-            final ZipFile exportZip = new ZipFile(zipFile, ZipFile.OPEN_READ);
-            final Listable<StoreElement> imports = targetStore.importStoreElements(exportZip, new ModuleImportHandler());
-            for (final StoreElement imported : imports) {
-                LOGGER.debug("Importing '{}' ...", imported.getName());
-                imported.setLock(true);
-                try {
-                    imported.save("Importet from " + zipFile.getName());
-                } finally {
-                    imported.setLock(false);
-                }
-            }
-        }
+        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
+        invokeCommand(ZipImportCommands.IMPORT_WORKFLOWS.name(), parameters);
     }
 
 
@@ -636,34 +533,14 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param projectName the project name.
      * @param name        the folder name.
      * @return the created folder.
+     * @deprecated
      */
+    @Deprecated
     public PageFolder createPageStoreFolder(final String projectName, final String name) {
-        final Project project = connection.getProjectByName(projectName);
-        PageFolder pageFolder = null;
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final PageStoreRoot pageStoreRoot = (PageStoreRoot) userService.getStore(Store.Type.PAGESTORE, false);
-            try {
-                pageStoreRoot.setLock(true, false);
-                pageFolder = pageStoreRoot.createPageFolder(name);
-                pageStoreRoot.save();
-            } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                final String message = "Failed to create PageStoreFolder: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } finally {
-                try {
-                    pageStoreRoot.setLock(false, true);
-                } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                    final String message = "Failed to create PageStoreFolder: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                }
-            }
-        }
-        return pageFolder;
+        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, name);
+        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_PAGESTORE_FOLDER.name(), parameters);
+        return result.getPageFolder();
     }
-
 
     /**
      * Creates a new siteStoreFolder.
@@ -671,32 +548,13 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param projectName the fs project name.
      * @param name        the folder name.
      * @return the created folder.
+     * @deprecated
      */
+    @Deprecated
     public PageRefFolder createSiteStoreFolder(final String projectName, final String name) {
-        final Project project = connection.getProjectByName(projectName);
-        PageRefFolder pageRefFolder = null;
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final SiteStoreRoot siteStoreRoot = (SiteStoreRoot) userService.getStore(Store.Type.SITESTORE, false);
-            try {
-                siteStoreRoot.setLock(true, false);
-                pageRefFolder = siteStoreRoot.createPageRefFolder(name);
-                siteStoreRoot.save();
-            } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            } finally {
-                try {
-                    siteStoreRoot.setLock(false, true);
-                } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                    final String message = "Failed to create SiteStoreFolder: " + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                }
-            }
-        }
-        return pageRefFolder;
+        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, name);
+        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_SITESTORE_FOLDER.name(), parameters);
+        return result.getPageRefFolder();
     }
 
 
@@ -708,35 +566,13 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param channel     the channel to write the content to.
      * @param content     the sourcecode of the template.
      * @return the new template.
+     * @deprecated
      */
+    @Deprecated
     public IDProvider createFormatTemplate(final String projectName, final String uid, final String channel, final String content) {
-        final Project project = connection.getProjectByName(projectName);
-        final UserService userService = project.getUserService();
-        final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-        final FormatTemplates formatTemplates = templateStore.getFormatTemplates();
-        FormatTemplate formatTemplate = null;
-        try {
-            formatTemplate = formatTemplates.createFormatTemplate(uid);
-            formatTemplate.setLock(true);
-            formatTemplate.setChannelSource(getTemplateSet(project, channel), content);
-            formatTemplate.save();
-            formatTemplate.setLock(false, false);
-        } catch (final LockException | ElementDeletedException | RuntimeException e) {
-            final String message = "Failed to create FormatTemplate: " + e.getMessage();
-            LOGGER.error(message, e);
-            fail(message);
-        } finally {
-            try {
-                if (formatTemplate != null) {
-                    formatTemplate.setLock(false, false);
-                }
-            } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                final String message = "Failed to create FormatTemplate: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-        }
-        return formatTemplate;
+        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
+        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_FORMAT_TEMPLATE.name(), parameters);
+        return result.getFormatTemplate();
     }
 
     /**
@@ -747,35 +583,13 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param channel     the channel to write the content to.
      * @param content     the sourcecode of the template.
      * @return the new template.
+     * @deprecated
      */
+    @Deprecated
     public IDProvider createScriptTemplate(final String projectName, final String uid, final String channel, final String content) {
-        final Project project = connection.getProjectByName(projectName);
-        final UserService userService = project.getUserService();
-        final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-        final Scripts scripts = templateStore.getScripts();
-        Script script = null;
-        try {
-            script = scripts.createScript(uid, "");
-            script.setLock(true);
-            script.setChannelSource(getTemplateSet(project, channel), content);
-            script.save();
-            script.setLock(false, false);
-        } catch (final LockException | ElementDeletedException | RuntimeException e) {
-            final String message = "Failed to create ScriptTemplate: " + e.getMessage();
-            LOGGER.error(message, e);
-            fail(message);
-        } finally {
-            try {
-                if (script != null) {
-                    script.setLock(false, false);
-                }
-            } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                final String message = "Failed to create ScriptTemplate: " + e.getMessage();
-                LOGGER.error(message, e);
-                fail(message);
-            }
-        }
-        return script;
+        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
+        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_SCRIPT_TEMPLATE.name(), parameters);
+        return result.getScript();
     }
 
     /**
@@ -785,38 +599,12 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param uid         the uid of the page template.
      * @param channel     the channel to modify.
      * @param content     the content to set.
+     * @deprecated
      */
+    @Deprecated
     public void modifyPageTemplate(final String projectName, final String uid, final String channel, final String content) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-            final Template template = (Template) templateStore.getStoreElement(uid, IDProvider.UidType.TEMPLATESTORE);
-            if (template != null && template.getType() == Template.PAGE_TEMPLATE) {
-                final PageTemplate pageTemplate = (PageTemplate) template;
-                try {
-                    pageTemplate.setLock(true, false);
-                    if ("gom".equals(channel)) {
-                        pageTemplate.setGomSource(content);
-                    } else {
-                        pageTemplate.setChannelSource(getTemplateSet(project, channel), content);
-                    }
-                    pageTemplate.save();
-                } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                    final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } finally {
-                    try {
-                        pageTemplate.setLock(false, false);
-                    } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                        final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
-                        LOGGER.error(message, e);
-                        fail(message);
-                    }
-                }
-            }
-        }
+        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
+        invokeCommand(ModifyStoreCommand.MODIFY_PAGE_TEMPLATE.name(), parameters);
     }
 
     /**
@@ -827,43 +615,10 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param channel     the channel to use.
      * @param content     the sourcecode to set.
      */
+    @Deprecated
     public void modifyFormatTemplate(final String projectName, final String uid, final String channel, final String content) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
-            final FormatTemplate
-                formatTemplate =
-                (FormatTemplate) templateStore.getStoreElement(uid, IDProvider.UidType.TEMPLATESTORE_FORMATTEMPLATE);
-            if (formatTemplate != null) {
-                try {
-                    formatTemplate.setLock(true, false);
-                    formatTemplate.setChannelSource(getTemplateSet(project, channel), content);
-                    formatTemplate.save();
-                } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                    final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
-                    LOGGER.error(message, e);
-                    fail(message);
-                } finally {
-                    try {
-                        formatTemplate.setLock(false, false);
-                    } catch (final LockException | ElementDeletedException | RuntimeException e) {
-                        final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
-                        LOGGER.error(message, e);
-                        fail(message);
-                    }
-                }
-            }
-        }
-    }
-
-    private static TemplateSet getTemplateSet(final Project project, final String name) {
-        for (final TemplateSet templateSet : project.getTemplateSets()) {
-            if (templateSet.getUid().equals(name)) {
-                return templateSet;
-            }
-        }
-        return null;
+        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
+        invokeCommand(ModifyStoreCommand.MODIFY_FORMAT_TEMPLATE.name(), parameters);
     }
 
 }

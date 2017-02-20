@@ -5,7 +5,9 @@ import de.espirit.firstspirit.access.schedule.DeployTask;
 
 /**
  * The type Scheduler configuration.
+ * @deprecated
  */
+@Deprecated
 public class SchedulerConfiguration {
 
     private boolean generateDeleteDirectory;
