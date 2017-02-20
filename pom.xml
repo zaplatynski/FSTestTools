@@ -35,7 +35,6 @@
         <module>mocking</module>
         <module>rules</module>
         <module>tests</module>
-        <module>testcategories</module>
     </modules>
 
     <inceptionYear>2016</inceptionYear>
