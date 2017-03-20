@@ -21,7 +21,7 @@ public class MockingServiceBroker implements ServicesBroker {
      * Instantiates a new Mocking service broker.
      */
     public MockingServiceBroker() {
-        mocks = new HashMap<Class, Object>();
+        mocks = new HashMap<>();
     }
 
     @Override

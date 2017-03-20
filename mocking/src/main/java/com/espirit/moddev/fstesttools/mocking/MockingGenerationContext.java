@@ -78,7 +78,6 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
     private Object defaultExpression;
     private String basePath;
     private boolean htmlMode;
-    private boolean webeditButtons;
     private boolean forceEditorIds;
 
     /**
@@ -95,14 +94,14 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
         super(locale, preview, release, enableServiceBrokerFake, supportedEnvironments);
         this.locale = locale;
         scheduleContext = new MockingScheduleContext(locale, supportedEnvironments);
-        fileHandles = new HashMap<String, FileHandle>();
+        fileHandles = new HashMap<>();
         printable = Mockito.mock(Printable.class);
-        stack = new LinkedList<String>();
-        contextStack = new LinkedList<Context>();
+        stack = new LinkedList<>();
+        contextStack = new LinkedList<>();
         pageContext = Mockito.mock(Context.class);
         dataSet = Mockito.mock(Dataset.class);
         pageParams = Mockito.mock(PageParams.class);
-        closeables = new LinkedList<Closeable>();
+        closeables = new LinkedList<>();
         context = Mockito.mock(Context.class);
         urlCreator = Mockito.mock(UrlCreator.class);
         urlCreatorProvider = Mockito.mock(UrlCreatorProvider.class);

@@ -16,7 +16,7 @@ import java.util.Enumeration;
  */
 public class InitLog4jLoggingRule extends ExternalResource {
 
-    private final static Logger LOGGER = Logger.getLogger(InitLog4jLoggingRule.class);
+    private static final Logger LOGGER = Logger.getLogger(InitLog4jLoggingRule.class);
     private boolean notConfigured;
 
     static {

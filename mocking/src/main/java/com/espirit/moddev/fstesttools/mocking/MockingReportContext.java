@@ -12,6 +12,8 @@ import java.util.Locale;
  */
 public class MockingReportContext<T> extends MockingBaseContext implements ReportContext<T> {
 
+    private T object;
+    private boolean repainted;
 
     /**
      * Instantiates a new Mocking report context.
@@ -44,8 +46,7 @@ public class MockingReportContext<T> extends MockingBaseContext implements Repor
         super(locale, enableServiceBrokerFake, supportedEnvironments);
     }
 
-    private T object;
-    private boolean repainted;
+
 
     @Override
     public T getObject() {

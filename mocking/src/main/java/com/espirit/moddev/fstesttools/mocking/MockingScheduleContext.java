@@ -22,14 +22,14 @@ import java.util.Set;
  */
 public class MockingScheduleContext extends MockingScriptContext implements ScheduleContext {
 
-    private Map<String, Serializable> variables = new HashMap<String, Serializable>();
+    private Map<String, Serializable> variables = new HashMap<>();
     private final UserService userService = getMock(UserService.class);
     private final Project project = getMock(Project.class);
     private boolean stateSuccess;
     private String comment;
     private Date startTime;
     private String path;
-    private List<ScheduleTask> tasks = new LinkedList<ScheduleTask>();
+    private List<ScheduleTask> tasks = new LinkedList<>();
     private int taskIndex;
     private int fatalErrorCount;
     private int errorCount;

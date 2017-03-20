@@ -58,8 +58,45 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
                 LOGGER.error(e.getMessage() + ", perhaps the given schedule entry does not exist: '" + parameters.getEntryName() + "'", e);
                 fail(e.toString());
             }
-            ScheduleResult result = new ScheduleResult(scheduleRunState);
-            return result;
+            return new ScheduleResult(scheduleRunState);
+        }
+
+        private RunState getRunState(final ScheduleEntryControl control, final StringBuilder sb) {
+            RunState scheduleResult = RunState.SUCCESS;
+            final List<TaskResult> taskResults = control.getState().getTaskResults();
+            for (final TaskResult result : taskResults) {
+                sb.append("\t");
+                sb.append(result.getTask().getName());
+                sb.append(":\t");
+                sb.append(result.getState());
+                sb.append("\n");
+                switch (result.getState()) {
+                    case NOT_STARTED:
+                    case ABORTED:
+                    case SUCCESS:
+                        break;
+                    default:
+                        scheduleResult = result.getState();
+                }
+            }
+            return scheduleResult;
+        }
+
+        private void logResult(final String entryName, final RunState scheduleResult, final StringBuilder sb) {
+            final String arg2 = sb.toString();
+            switch (scheduleResult) {
+                case ERROR:
+                case FINISHED_WITH_ERRORS:
+                    LOGGER.error("Finished execution of schedule entry '{}' with errors:\n{}", entryName, arg2);
+                    break;
+                case NOT_STARTED:
+                case ABORTED:
+                case SUCCESS:
+                    LOGGER.info("Finished execution of schedule entry '{}' with success:\n{}", entryName, arg2);
+                    break;
+                default:
+                    LOGGER.warn("Finished execution of schedule entry '{}' with warnings:\n{}", entryName, arg2);
+            }
         }
     },
     /**
@@ -135,6 +172,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             }
             return ScheduleResult.VOID;
         }
+        
         private GenerateTask createGenerateTask(final ScheduleEntry scheduleEntry, final Project project, final ScheduleParameters configuration) {
             GenerateTask generateTask = null;
             try {
@@ -147,6 +185,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             }
             return generateTask;
         }
+
         private DeployTask createDeployTask(final ScheduleEntry scheduleEntry, final ScheduleParameters configuration) {
             DeployTask deployTask = null;
             try {
@@ -162,57 +201,20 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             }
             return deployTask;
         }
-    };
 
-    private static Project getProject(final ScheduleParameters parameters) {
-        return parameters.getConnection().getProjectByName(parameters.getProjectName());
-    }
+        private TemplateSet getTemplateSet(final Project project, final String name) {
+            for (final TemplateSet templateSet : project.getTemplateSets()) {
+                if (templateSet.getUid().equals(name)) {
+                    return templateSet;
+                }
+            }
+            return null;
+        }
+    };
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleCommands.class);
 
-    private static RunState getRunState(final ScheduleEntryControl control, final StringBuilder sb) {
-        RunState scheduleResult = RunState.SUCCESS;
-        final List<TaskResult> taskResults = control.getState().getTaskResults();
-        for (final TaskResult result : taskResults) {
-            sb.append("\t");
-            sb.append(result.getTask().getName());
-            sb.append(":\t");
-            sb.append(result.getState());
-            sb.append("\n");
-            switch (result.getState()) {
-                case NOT_STARTED:
-                case ABORTED:
-                case SUCCESS:
-                    break;
-                default:
-                    scheduleResult = result.getState();
-            }
-        }
-        return scheduleResult;
-    }
-
-    private static void logResult(final String entryName, final RunState scheduleResult, final StringBuilder sb) {
-        switch (scheduleResult) {
-            case ERROR:
-            case FINISHED_WITH_ERRORS:
-                LOGGER.error("Finished execution of schedule entry '{}' with errors:\n{}", entryName, sb.toString());
-                break;
-            case NOT_STARTED:
-            case ABORTED:
-            case SUCCESS:
-                LOGGER.info("Finished execution of schedule entry '{}' with success:\n{}", entryName, sb.toString());
-                break;
-            default:
-                LOGGER.warn("Finished execution of schedule entry '{}' with warnings:\n{}", entryName, sb.toString());
-        }
-    }
-
-    private static TemplateSet getTemplateSet(final Project project, final String name) {
-        for (final TemplateSet templateSet : project.getTemplateSets()) {
-            if (templateSet.getUid().equals(name)) {
-                return templateSet;
-            }
-        }
-        return null;
+    private static Project getProject(final ScheduleParameters parameters) {
+        return parameters.getConnection().getProjectByName(parameters.getProjectName());
     }
 }

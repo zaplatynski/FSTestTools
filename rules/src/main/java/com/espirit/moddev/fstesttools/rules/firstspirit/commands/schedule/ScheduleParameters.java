@@ -46,7 +46,10 @@ public class ScheduleParameters implements FsConnRuleCmdParamBean {
      * @param projectName   the project name
      * @param entryName     the entry name
      * @param configuration the configuration
+     * @deprecated
      */
+    @Deprecated
+    @SuppressWarnings("squid:S1133")
     public ScheduleParameters(final String projectName, final String entryName, final SchedulerConfiguration configuration) {
         this(projectName, entryName);
         generateDeleteDirectory = configuration.isGenerateDeleteDirectory();

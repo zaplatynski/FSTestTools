@@ -53,6 +53,7 @@ import static org.junit.Assert.fail;
 /**
  * The type First spirit connection rule.
  */
+@SuppressWarnings("squid:S1133")
 public class FirstSpiritConnectionRule extends ExternalResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FirstSpiritConnectionRule.class);
@@ -148,7 +149,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
             if(commandClass.isEnum()){
                 final FsConnRuleCommand[] enumCommands = commandClass.getEnumConstants();
                 for (FsConnRuleCommand enumCommand : enumCommands) {
-                    LOGGER.debug("Add enum command: " + enumCommand.name());
+                    LOGGER.debug("Add enum command: {}", enumCommand.name());
                     counter++;
                     commands.put(enumCommand.name(),enumCommand);
                 }
@@ -157,7 +158,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
                 final FsConnRuleCommand command;
                 try {
                     command = commandClass.newInstance();
-                    LOGGER.debug("Add class command: " + command.name());
+                    LOGGER.debug("Add class command: {}", command.name());
                     counter++;
                     commands.put(command.name(), command);
                 } catch (InstantiationException|IllegalAccessException e) {
@@ -614,6 +615,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @param uid         the uid of the template to manipulate.
      * @param channel     the channel to use.
      * @param content     the sourcecode to set.
+     * @deprecated
      */
     @Deprecated
     public void modifyFormatTemplate(final String projectName, final String uid, final String channel, final String content) {

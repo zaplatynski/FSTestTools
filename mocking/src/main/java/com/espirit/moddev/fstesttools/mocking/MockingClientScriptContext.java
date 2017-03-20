@@ -19,7 +19,7 @@ public class MockingClientScriptContext extends MockingProjectScriptContext impl
     private final IDProvider element = getMock(IDProvider.class);
     private final StoreElement storeElement = getMock(StoreElement.class);
     private final User user = getMock(User.class);
-    private final List<Group> groups = new LinkedList<Group>();
+    private final List<Group> groups = new LinkedList<>();
 
     /**
      * Instantiates a new Mocking client script context.

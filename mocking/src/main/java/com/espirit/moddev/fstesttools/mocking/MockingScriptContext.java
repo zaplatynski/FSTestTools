@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class MockingScriptContext extends MockingBaseContext implements ScriptContext {
 
-    private final Map<String, Object> properties = new HashMap<String, Object>();
+    private final Map<String, Object> properties = new HashMap<>();
     private final Connection connection = getMock(Connection.class);
 
     /**

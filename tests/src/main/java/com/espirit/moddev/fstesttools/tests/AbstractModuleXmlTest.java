@@ -43,13 +43,18 @@ import static org.junit.Assert.fail;
  * &lt;filtering&gt;false&lt;/filtering&gt;<br> &lt;excludes&gt;<br> &lt;exclude&gt;*.properties&lt;/exclude&gt;<br> &lt;/excludes&gt;<br>
  * &lt;/testResource&gt;<br> &lt;/testResources&gt;<br> </code> </li> </ol> </div>
  */
+@SuppressWarnings("squid:S00112")
 public abstract class AbstractModuleXmlTest {
 
     /**
-     * The constant log4jLoggingRule.
+     * The constant LOGGING_RULE.
      */
     @ClassRule
-    public static InitLog4jLoggingRule log4jLoggingRule = new InitLog4jLoggingRule(Level.DEBUG);
+    public static final InitLog4jLoggingRule LOGGING_RULE = new InitLog4jLoggingRule(Level.DEBUG);
+
+    public static final String TEST_PROPERTIES = "moduleXmlTest.properties";
+    public static final String EXPECTED_MSG = "Expected specific value";
+    public static final String EXPECTED_XPATH = "Expected XPath";
 
     /**
      * The Error Collector.
@@ -78,7 +83,7 @@ public abstract class AbstractModuleXmlTest {
 
     @NotNull
     protected String getRelativeTestPropertiesPath() {
-        return "moduleXmlTest.properties";
+        return TEST_PROPERTIES;
     }
 
     /**
@@ -104,11 +109,11 @@ public abstract class AbstractModuleXmlTest {
             pomProperties.load(inputStream);
         } catch (final Exception e) {
             logger
-                .warn("Loading of '" + getRelativeTestPropertiesPath() + "' failed. Try to load fallback '{}': {}", "moduleXmlTest.properties", e);
-            try (InputStream inputStreamFallback = getTestClassLoader().getResourceAsStream("moduleXmlTest.properties")) {
+                .warn("Loading of '" + getRelativeTestPropertiesPath() + "' failed. Try to load fallback '{}': {}", TEST_PROPERTIES, e);
+            try (InputStream inputStreamFallback = getTestClassLoader().getResourceAsStream(TEST_PROPERTIES)) {
                 pomProperties.load(inputStreamFallback);
             } catch (final Exception fatalError) {
-                logger.error("Fatal error loading properties file '{}': {}", "moduleXmlTest.properties", fatalError);
+                logger.error("Fatal error loading properties file '{}': {}", TEST_PROPERTIES, fatalError);
                 fail(fatalError.toString());
             }
         }
@@ -129,7 +134,7 @@ public abstract class AbstractModuleXmlTest {
      */
     @Test
     public void testIfThereIsAVersion() throws Exception {
-        assertThat("Expected XPath", moduleXML, hasXPath("/module/version"));
+        assertThat(EXPECTED_XPATH, moduleXML, hasXPath("/module/version"));
     }
 
     /**
@@ -140,7 +145,7 @@ public abstract class AbstractModuleXmlTest {
     @Test
     public void testIfVersionIsEqualToPomVersion() throws Exception {
         final String expectedVersion = pomProperties.getProperty("version");
-        assertThat("Expected specific value", moduleXML, hasXPath("/module/version", equalTo(expectedVersion)));
+        assertThat(EXPECTED_MSG, moduleXML, hasXPath("/module/version", equalTo(expectedVersion)));
     }
 
     /**
@@ -150,7 +155,7 @@ public abstract class AbstractModuleXmlTest {
      */
     @Test
     public void testIfThereIsADisplayName() throws Exception {
-        assertThat("Expected XPath", moduleXML, hasXPath("/module/displayname"));
+        assertThat(EXPECTED_XPATH, moduleXML, hasXPath("/module/displayname"));
     }
 
     /**
@@ -171,7 +176,7 @@ public abstract class AbstractModuleXmlTest {
      */
     @Test
     public void testIfThereIsAName() throws Exception {
-        assertThat("Expected XPath", moduleXML, hasXPath("/module/name"));
+        assertThat(EXPECTED_XPATH, moduleXML, hasXPath("/module/name"));
     }
 
     /**
@@ -182,7 +187,7 @@ public abstract class AbstractModuleXmlTest {
     @Test
     public void testIfNameIsEqualToPOMname() throws Exception {
         final String expectedName = pomProperties.getProperty("name");
-        assertThat("Expected specific value", moduleXML, hasXPath("/module/name", equalTo(expectedName)));
+        assertThat(EXPECTED_MSG, moduleXML, hasXPath("/module/name", equalTo(expectedName)));
     }
 
     /**
@@ -192,7 +197,7 @@ public abstract class AbstractModuleXmlTest {
      */
     @Test
     public void testIfThereIsADescription() throws Exception {
-        assertThat("Expected XPath", moduleXML, hasXPath("/module/description"));
+        assertThat(EXPECTED_XPATH, moduleXML, hasXPath("/module/description"));
     }
 
     /**
@@ -203,7 +208,7 @@ public abstract class AbstractModuleXmlTest {
     @Test
     public void testIfDescriptionIsEqualToPomValue() throws Exception {
         final String expectedDescription = getPomProperties().getProperty("description");
-        assertThat("Expected specific value", getModuleXML(), hasXPath("/module/description", equalTo(expectedDescription)));
+        assertThat(EXPECTED_MSG, getModuleXML(), hasXPath("/module/description", equalTo(expectedDescription)));
     }
 
     /**
@@ -213,7 +218,7 @@ public abstract class AbstractModuleXmlTest {
      */
     @Test
     public void testIfThereIsAVendor() throws Exception {
-        assertThat("Expected XPath", moduleXML, hasXPath("/module/vendor"));
+        assertThat(EXPECTED_XPATH, moduleXML, hasXPath("/module/vendor"));
     }
 
     /**
@@ -224,7 +229,7 @@ public abstract class AbstractModuleXmlTest {
     @Test
     public void testIfVendorIsEqualToPomValue() throws Exception {
         final String expectedDescription = getPomProperties().getProperty("vendor");
-        assertThat("Expected specific value", getModuleXML(), hasXPath("/module/vendor", equalTo(expectedDescription)));
+        assertThat(EXPECTED_MSG, getModuleXML(), hasXPath("/module/vendor", equalTo(expectedDescription)));
     }
 
     /**

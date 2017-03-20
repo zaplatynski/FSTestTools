@@ -25,6 +25,7 @@ public class WebEditMocksStrategy extends AbstractSetupMocksStrategy {
     }
 
     @Override
+    @SuppressWarnings("squid:S1166")
     public void setupMocks() {
         final WebeditUiAgent uiAgent = context.requestSpecialist(WebeditUiAgent.TYPE);
         final Language language = mockLanguage();
