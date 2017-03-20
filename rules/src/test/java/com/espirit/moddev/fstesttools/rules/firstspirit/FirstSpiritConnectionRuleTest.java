@@ -2,7 +2,6 @@ package com.espirit.moddev.fstesttools.rules.firstspirit;
 
 import com.espirit.moddev.fstesttools.rules.firstspirit.commands.TestCmdParameters;
 import com.espirit.moddev.fstesttools.rules.firstspirit.commands.TestCmdResult;
-import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdResultBean;
 import com.espirit.moddev.fstesttools.rules.logging.InitLog4jLoggingRule;
 
 import org.junit.Before;
@@ -12,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by e-Spirit AG.

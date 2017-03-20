@@ -1,8 +1,5 @@
 package com.espirit.moddev.fstesttools.mocking.util;
 
-import com.espirit.moddev.fstesttools.mocking.MockingBaseContext;
-import com.espirit.moddev.fstesttools.mocking.util.SetupMocksStrategy;
-
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.agency.LanguageAgent;
 

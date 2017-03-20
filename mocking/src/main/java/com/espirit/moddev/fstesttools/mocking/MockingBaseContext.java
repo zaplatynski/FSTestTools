@@ -1,10 +1,6 @@
 package com.espirit.moddev.fstesttools.mocking;
 
 import com.espirit.moddev.fstesttools.mocking.util.AbstractMockManager;
-import com.espirit.moddev.fstesttools.mocking.util.DefaultMocksStrategy;
-import com.espirit.moddev.fstesttools.mocking.util.PreviewMocksStrategy;
-import com.espirit.moddev.fstesttools.mocking.util.SetupMocksStrategy;
-import com.espirit.moddev.fstesttools.mocking.util.WebEditMocksStrategy;
 
 import de.espirit.firstspirit.access.ServicesBroker;
 import de.espirit.firstspirit.agency.SpecialistType;

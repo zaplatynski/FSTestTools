@@ -1,7 +1,5 @@
 package com.espirit.moddev.fstesttools.rules.firstspirit;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.ConnectionMode;
-
 import de.espirit.firstspirit.access.ConnectionManager;
 
 import org.junit.Test;

@@ -1,7 +1,5 @@
 package com.espirit.moddev.fstesttools.mocking.util;
 
-import com.espirit.moddev.fstesttools.mocking.MockingBaseContext;
-
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.webedit.WebeditUiAgent;
 
