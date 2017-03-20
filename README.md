@@ -1,6 +1,6 @@
 # FS Test Tools
 
-Project to support FirstSpirit module developers with writing unit test ([JUnit](http://junit.org/) w/ [Mockito](http://site.mockito.org/)) for FirstSpirit components such as executables.
+This is a project to support FirstSpirit module developers with writing unit test ([JUnit](http://junit.org/) w/ [Mockito](http://site.mockito.org/)) for FirstSpirit components such as executables, services or the module.xml deployment descriptor.
 
 ## How to use
 
@@ -87,14 +87,145 @@ public class MyTest {
 }
 ```
 
-### More Information
+#### Use The Rules
+
+*Logging rules*
+
+If the both logging rules are used, then the logging system is initialized (`InitLog4jLoggingRule`) and in the log there a message at the beginning and the end of each test (`LogTestMethodNameRule`).
+This is usefull if there are many log lines and it is needed to know where a tests starts and stops. 
+
+```java
+public class MyTest {
+    
+    @ClassRule
+    public static InitLog4jLoggingRule loggingRule = new InitLog4jLoggingRule();
+    
+    @Rule
+    public LogTestMethodNameRule rule = new LogTestMethodNameRule();
+    
+    @Test
+    public void testSomeThing() throws Execption {
+        
+        ...
+    }
+    ...
+}
+```
+
+Example log output:
+```
+1 [main] INFO MyTest  - Start of 'testSomeThing'...
+...
+5 [main] INFO MyTest  - Successful termination of 'testSomeThing'!
+```
+
+*FirstSpirit Connection Rule*
+
+The FirstSpirit Connection is a client for integration tests.
+The prerequisite is a running FirstSpirit server.
+Then the rule can be used to execute a schedule, import zips (e.g. exported templates) or modify the content of (page) templates.
+The feature set of the rule is not final or complete.
+If you like to have some new funktionality you are wellcome to provide it by adding a so-called command.
+
+```java
+public class MyTest {
+    
+    @Rule
+    public FirstSpiritConnectionRule rule = new FirstSpiritConnectionRule();
+    
+    @Test
+    public void testSomeThing() throws Execption {
+        MyParameters parameters = new MyParameters(...);
+        MyResult result = rule.invokeCommand("nameOfCommand", parameters);
+        ...
+    }
+    ...
+}
+```
+
+All available commands can be found in the package [com.espirit.moddev.fstesttools.rules.firstspirit.commands](rules/src/main/java/com/espirit/moddev/fstesttools/rules/firstspirit/commands).
+
+*TODO:* Explain how to add new commands.
+
+#### Use The Module-Xml-Test
+
+The parent class `AbstractModuleXmlTest` expects a `module.xml` in the root of the class path.
+Futhermore there must be a file called `moduleXmlTest.properties` in the test resource which must be filtered too (for instance):
+```ini
+name=${project.groupId}.${project.artifactId}
+displayName=${project.name}
+description=${project.name} (${project.artifactId})
+version=${project.version}
+vendor=${organization.name}
+```
+
+If the pom's variables or properties do not apply at your project because you use static strings then use static values inside the `moduleXmlTest.properties`.
+The basic idea behind the pom's variables is to have one place to maintain a module's name, display name etc.
+To enable filtering just add this to your `pom.xml`:
+
+```xml
+<project>
+    ...
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>*.properties</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
+        ...
+    </build>
+    ...
+</project>
+```
+
+After this you need to subclass the `AbstractModuleXmlTest` with a `ModuleXmlTest` and implement the class loader method:
+
+```java
+public class ModuleXmlTest extends AbstractModuleXmlTest {
+
+    @Override
+    protected ClassLoader getTestClassLoader() {
+        return getClass().getClassLoader();
+    }
+
+    // Additional Tests are possible, for instance
+    @Test
+    public void testThatConstanceValuesEqualsNamesInModuleXml() throws Exception {
+        assertThat("Expected specific value", getModuleXML(),
+                   hasXPath("/module/components/project-app/name", equalTo("MyTechnicalProjectAppName")));
+
+    }
+}
+```
+This done you get some basic tests for free:
+* Name
+* Display name
+* Version
+* Vendor
+* Existance of full qualified class names of class and configurable XML tags
+
+Of cause you can add some own test as you like by using the Hamcrest XPath Matchers (see above).
+
+## More Information
 
 Regarding unit test philosophy the `BaseMockingContext` is a [fake](https://www.martinfowler.com/articles/mocksArentStubs.html) which produces [mocks](https://www.martinfowler.com/articles/mocksArentStubs.html) (of agent or service implementations) with the help of the [Mockito](http://site.mockito.org/) library.
 So it acts as a test drop-in replacement for the real FirstSpirit `BaseContext`.
 But it is not only a simple mock factory because it returns always the same mock object instance.
 So the mocks are always [singletons](https://en.wikipedia.org/wiki/Singleton_pattern).
 
-## More help needed?
+### More help needed?
+
 If there are any further questions regarding the *FS Test Tools* please go to the [FirstSpirit Community Developers Aera](https://community.e-spirit.com/community/developer) and post them there.
 
 ## Disclaimer
