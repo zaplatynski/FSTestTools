@@ -15,11 +15,19 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type AbstractMockManager hides utility code.
+ */
 public abstract class AbstractMockManager implements BaseContext {
 
     private final Map<Class, Object> mocks;
     protected final EnumSet<Env> supportedEnvironments;
 
+    /**
+     * Instantiates a new Abstract mock manager.
+     *
+     * @param supportedEnvironments the supported environments
+     */
     public AbstractMockManager(final Env... supportedEnvironments) {
         if (supportedEnvironments == null || supportedEnvironments.length == 0) {
             throw new IllegalArgumentException("Please provide at least one environment!");
@@ -36,7 +44,14 @@ public abstract class AbstractMockManager implements BaseContext {
         return supportedEnvironments.contains(Env.WEBEDIT);
     }
 
-    protected <S> boolean preventThatWrongUiAgentIsRetuned(SpecialistType<S> type) {
+    /**
+     * Prevent that wrong UiAgents can be obtained.
+     *
+     * @param <S>  the type parameter
+     * @param type the type
+     * @return the boolean
+     */
+    protected final <S> boolean preventThatWrongUiAgentIsRetuned(SpecialistType<S> type) {
         final boolean noUiAgentInCC = isContentCreator(supportedEnvironments) && Objects.equals(UIAgent.TYPE, type);
         final boolean noWebUiAgentInSA = isSiteArchitect() && Objects.equals(WebeditUiAgent.TYPE, type);
         return noUiAgentInCC || noWebUiAgentInSA;
@@ -47,12 +62,13 @@ public abstract class AbstractMockManager implements BaseContext {
     }
 
     /**
-     * Gets mock.
+     * Gets or creates a mock.
      *
+     * @param <S>          the type parameter
      * @param genericClass the generic class
      * @return the getMock
      */
-    protected <S> S getMock(final Class<? extends S> genericClass) {
+    protected final <S> S getMock(final Class<? extends S> genericClass) {
         final Object o = mocks.get(genericClass);
         if (o == null) {
             Logging.logInfo("Create getMock for '" + genericClass.getSimpleName() + "'...", getClass());
@@ -63,7 +79,13 @@ public abstract class AbstractMockManager implements BaseContext {
         return (S) o;
     }
 
-    protected void setupDefaultMocks(final Locale locale, final Env[] supportedEnvironments) {
+    /**
+     * Set up default mocks according to environment.
+     *
+     * @param locale                the locale
+     * @param supportedEnvironments the supported environments
+     */
+    protected final void setupDefaultMocks(final Locale locale, final Env[] supportedEnvironments) {
         SetupMocksStrategy strategy = new DefaultMocksStrategy(this, locale);
         for (final Env environment : supportedEnvironments) {
             switch (environment) {
