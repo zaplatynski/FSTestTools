@@ -17,6 +17,7 @@ public class ModifyStoreParameters implements FsConnRuleCmdParamBean{
     private String content;
 
     @Inject
+    @SuppressWarnings("squid:S3306")
     private Connection connection;
 
     /**

@@ -24,6 +24,7 @@ public class ScheduleParameters implements FsConnRuleCmdParamBean {
     private File deployDir;
 
     @Inject
+    @SuppressWarnings("squid:S3306")
     private Connection connection;
 
     /**

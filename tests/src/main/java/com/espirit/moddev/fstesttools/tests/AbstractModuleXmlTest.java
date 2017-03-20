@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -123,7 +124,7 @@ public abstract class AbstractModuleXmlTest {
         return DocumentBuilderFactory
             .newInstance()
             .newDocumentBuilder()
-            .parse(new ByteArrayInputStream(xmlString.getBytes()))
+            .parse(new ByteArrayInputStream(xmlString.getBytes(Charset.forName("UTF-8"))))
             .getDocumentElement();
     }
 

@@ -25,6 +25,7 @@ import java.util.Objects;
  */
 public class MockingBaseContext implements BaseContext {
 
+    @SuppressWarnings("squid:S1312")
     private final Logger logger;
     private final Map<Class, Object> mocks;
     private final EnumSet<Env> supportedEnvironments;

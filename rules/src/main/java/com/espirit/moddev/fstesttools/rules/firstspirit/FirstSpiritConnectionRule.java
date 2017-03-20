@@ -317,6 +317,18 @@ public class FirstSpiritConnectionRule extends ExternalResource {
     }
 
 
+    /**
+     * Invoke a command to carry out client actions with the FirstSpirit server.
+     * The parameter bean accepts @Inject annotations for FirstSpirit objects such as Connection, SepecialistBroker, BaseContext and GenerationContext.
+     *
+     * @param <P>        the type parameter for the parameter bean class
+     * @param <R>        the type parameter for the result bean class
+     * @param name       the name of the command to carry out
+     * @param parameters the parameter bean instance
+     * @return the command's result
+     * @see Connection
+     * @see BaseContext
+     */
     public <P extends FsConnRuleCmdParamBean, R extends FsConnRuleCmdResultBean> R invokeCommand(final String name, P parameters) {
         final FsConnRuleCommand<FsConnRuleCmdParamBean, FsConnRuleCmdResultBean> command = commands.get(name);
         P injectedParameters = injectFsObjects(parameters);
