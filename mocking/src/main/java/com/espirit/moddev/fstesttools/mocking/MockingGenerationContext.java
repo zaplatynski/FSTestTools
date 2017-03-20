@@ -72,7 +72,6 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
     private final Evaluator evaluator;
     private final CharacterReplacer characterReplacer;
     private Writer writer;
-    private Writer errorOut;
     private boolean debugMode;
     private boolean deleteDirectory;
     private Object defaultExpression;
@@ -161,7 +160,7 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void addDataToContext(final DataProvider dataProvider) {
-
+        throw  new UnsupportedOperationException();
     }
 
     @Override
@@ -203,7 +202,7 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void include(final String s, final Object o, final Map<String, Object> stringObjectMap) throws IOException {
-
+        throw  new UnsupportedOperationException();
     }
 
     @Override
@@ -298,12 +297,12 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void setErrorOut(final Writer writer) {
-        errorOut = writer;
+        throw  new UnsupportedOperationException();
     }
 
     @Override
     public void setErrorOut(final PrintWriter printWriter) {
-        errorOut = printWriter;
+        throw  new UnsupportedOperationException();
     }
 
     @Override
@@ -430,7 +429,7 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void mediaReferenced(final Media media, final Language language, final Resolution resolution) throws IOException {
-
+        throw  new UnsupportedOperationException();
     }
 
     @Override
