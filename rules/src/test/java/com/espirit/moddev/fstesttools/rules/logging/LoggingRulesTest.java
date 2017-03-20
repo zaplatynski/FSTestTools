@@ -33,20 +33,20 @@ public class LoggingRulesTest {
 
     @Test
     public void testLogging() throws Exception {
-        assertThat(appenderForTest.getMessage(), is("Start of 'testLogging'..."));
+        assertThat("Expect starting message", appenderForTest.getMessage(), is("Start of 'testLogging'..."));
         appenderForTest.setMessage("");
 
         LOGGER.info("Do some logging inside the test method...");
-        assertThat(appenderForTest.getMessage(), is("Do some logging inside the test method..."));
+        assertThat("Expect SLF4J via Log4J message", appenderForTest.getMessage(), is("Do some logging inside the test method..."));
         appenderForTest.setMessage("");
 
         Logging.logInfo("Test via FS-Logger", getClass());
-        assertThat(appenderForTest.getMessage(), is("Test via FS-Logger"));
+        assertThat("Expect FS-Logger message",appenderForTest.getMessage(), is("Test via FS-Logger"));
         appenderForTest.setMessage("");
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
-        assertThat(appenderForTest.getMessage(), is("Successful termination of 'testLogging'!"));
+        assertThat("Expect ending message", appenderForTest.getMessage(), is("Successful termination of 'testLogging'!"));
     }
 }
