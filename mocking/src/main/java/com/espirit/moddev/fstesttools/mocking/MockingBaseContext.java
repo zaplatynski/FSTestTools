@@ -142,15 +142,28 @@ public class MockingBaseContext implements BaseContext {
         if (enableServiceBrokerFake && Objects.equals(genericClass, ServicesBroker.class)) {
             return (S) serviceBroker;
         }
-        if(supportedEnvironments.contains(Env.WEBEDIT) && Objects.equals(UIAgent.TYPE, type)){
-            //simulate that JavaClient does not support WebEdit aka ContentCreator Agents
-            return null;
-        }
-        if(supportedEnvironments.contains(Env.PREVIEW) && !supportedEnvironments.contains(Env.WEBEDIT) && Objects.equals(WebeditUiAgent.TYPE, type)){
-            //simulate that ContentCreator does not support JavaClients aka SiteArchitect Agents
+        if(preventThatWrongUiAgentIsRetuned(type)){
             return null;
         }
         return getMock(genericClass);
+    }
+
+    private <S> boolean preventThatWrongUiAgentIsRetuned(SpecialistType<S> type) {
+        final boolean noUiAgentInCC = isContentCreator(supportedEnvironments) && Objects.equals(UIAgent.TYPE, type);
+        final boolean noWebUiAgentInSA = isSiteArchitect() && Objects.equals(WebeditUiAgent.TYPE, type);
+        return noUiAgentInCC || noWebUiAgentInSA;
+    }
+
+    private boolean isSiteArchitect() {
+        return isPreview(supportedEnvironments) && !isContentCreator(supportedEnvironments);
+    }
+
+    private static boolean isPreview(EnumSet<Env> supportedEnvironments) {
+        return supportedEnvironments.contains(Env.PREVIEW);
+    }
+
+    private static boolean isContentCreator(EnumSet<Env> supportedEnvironments) {
+        return supportedEnvironments.contains(Env.WEBEDIT);
     }
 
     /**

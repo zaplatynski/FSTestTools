@@ -31,6 +31,7 @@ import static org.junit.Assert.fail;
 /**
  * The enum Schedule commands.
  */
+@SuppressWarnings("squid:S2972")
 public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, ScheduleResult> {
 
     /**
@@ -52,10 +53,10 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
                 scheduleRunState = getRunState(control, sb);
                 logResult(parameters.getEntryName(), scheduleRunState, sb);
             } catch (final ScheduleEntryRunningException e) {
-                LOGGER.error(e.getMessage(), e);
+                LOGGER.error("Schedule '" + parameters.getEntryName() + "' caused an error: "+e.getMessage(), e);
                 fail(e.toString());
-            } catch (final NullPointerException e) {
-                LOGGER.error(e.getMessage() + ", perhaps the given schedule entry does not exist: '" + parameters.getEntryName() + "'", e);
+            } catch (final Exception e) {
+                LOGGER.error("Perhaps the given schedule entry does not exist: '" + parameters.getEntryName() + "': " + e.getMessage(), e);
                 fail(e.toString());
             }
             return new ScheduleResult(scheduleRunState);
