@@ -144,7 +144,7 @@ public class MockingBaseContext implements BaseContext {
             //simulate that JavaClient does not support WebEdit aka ContentCreator Agents
             return null;
         }
-        if(supportedEnvironments.contains(Env.PREVIEW) && WebeditUiAgent.TYPE == type){
+        if(supportedEnvironments.contains(Env.PREVIEW) && !supportedEnvironments.contains(Env.WEBEDIT)  && WebeditUiAgent.TYPE == type){
             //simulate that ContentCreator does not support JavaClients aka SiteArchitect Agents
             return null;
         }
@@ -170,6 +170,10 @@ public class MockingBaseContext implements BaseContext {
 
     @Override
     public <S> S requireSpecialist(final SpecialistType<S> type) {
-        return requestSpecialist(type);
+        final S specialist = requestSpecialist(type);
+        if(specialist == null){
+            throw new IllegalStateException("Specialist not available in environments: " + supportedEnvironments.toString());
+        }
+        return specialist;
     }
 }
