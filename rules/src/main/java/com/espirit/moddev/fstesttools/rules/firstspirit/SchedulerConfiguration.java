@@ -8,7 +8,6 @@ import de.espirit.firstspirit.access.schedule.DeployTask;
  * @deprecated
  */
 @Deprecated
-@SuppressWarnings("squid:S1133")
 public class SchedulerConfiguration {
 
     private boolean generateDeleteDirectory;

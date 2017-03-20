@@ -17,7 +17,6 @@ public class ZipImportParameters implements FsConnRuleCmdParamBean {
     private final File zip;
 
     @Inject
-    @SuppressWarnings("squid:S3306")
     private Connection connection;
 
     /**

@@ -24,7 +24,6 @@ public class ScheduleParameters implements FsConnRuleCmdParamBean {
     private File deployDir;
 
     @Inject
-    @SuppressWarnings("squid:S3306")
     private Connection connection;
 
     /**
@@ -50,7 +49,6 @@ public class ScheduleParameters implements FsConnRuleCmdParamBean {
      * @deprecated
      */
     @Deprecated
-    @SuppressWarnings("squid:S1133")
     public ScheduleParameters(final String projectName, final String entryName, final SchedulerConfiguration configuration) {
         this(projectName, entryName);
         generateDeleteDirectory = configuration.isGenerateDeleteDirectory();

@@ -54,7 +54,6 @@ import static org.junit.Assert.fail;
 /**
  * The type First spirit connection rule.
  */
-@SuppressWarnings("squid:S1133")
 public class FirstSpiritConnectionRule extends ExternalResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FirstSpiritConnectionRule.class);

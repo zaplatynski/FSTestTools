@@ -1,10 +1,30 @@
-# FSTestTools
+# FS Test Tools
 
 Project to support FirstSpirit module developers with writing unit test ([JUnit](http://junit.org/) w/ [Mockito](http://site.mockito.org/)) for FirstSpirit components such as executables.
 
 ## How to use
 
 ### Step 1
+
+There are two possibilities to get the FS Test Tools installed:
+- *Use Binary Release* or
+- *Build Release yourself*
+
+You can skip *Use Binary Release* if you have access to e-Spirit's artifactory.
+
+#### Use Binary Release
+
+Use the GitHub release here to install them:
+```
+mvn install:install-file -Dfile=<path-to-file> -DpomFile=<path-to-pomfile-of-file>
+```
+For instance (if the version is 1.2.3):
+```
+mvn install:install-file -Dfile=mocking-1.2.3.jar -DpomFile=mocking-1.2.3.pom
+```
+See [official Maven mini guide](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) for more information
+
+#### Build Release yourself
 
 First you need to install the Maven artifacts locally in your Maven repository:
 
@@ -17,8 +37,6 @@ The build will create following artifacts:
 * mocking-_Your-Version_.jar,
 * rules-_Your-Version_.jar and
 * tests-_Your-Version_.jar
-
-You can obmitt *Step 1* if you have access to e-Spirit's artifactory.
 
 ### Step 2
 
@@ -41,6 +59,8 @@ Then you can add them inside your own project's pom.xml dependency section (e.g.
 You can replace _Your-Version_ with _LATEST_ if you have access to e-Spirit's artifactory.
 
 ### Step 3
+
+#### Use Mocking Contexts
 
 Now you can use the e.g. the `MockingBaseContext` inside your unit tests:
 
@@ -75,7 +95,7 @@ But it is not only a simple mock factory because it returns always the same mock
 So the mocks are always [singletons](https://en.wikipedia.org/wiki/Singleton_pattern).
 
 ## More help needed?
-If there are any further questions regarding the *FSTestTools* please go to the [FirstSpirit Community](https://community.e-spirit.com/) and post them there.
+If there are any further questions regarding the *FS Test Tools* please go to the [FirstSpirit Community Developers Aera](https://community.e-spirit.com/community/developer) and post them there.
 
 ## Disclaimer
 
