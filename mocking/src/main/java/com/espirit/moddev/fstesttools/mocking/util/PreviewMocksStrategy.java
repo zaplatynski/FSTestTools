@@ -1,4 +1,6 @@
-package com.espirit.moddev.fstesttools.mocking;
+package com.espirit.moddev.fstesttools.mocking.util;
+
+import com.espirit.moddev.fstesttools.mocking.MockingBaseContext;
 
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.agency.OperationAgent;
@@ -27,7 +29,7 @@ public class PreviewMocksStrategy extends AbstractSetupMocksStrategy {
      * @param context the context
      * @param locale  the locale
      */
-    public PreviewMocksStrategy(final MockingBaseContext context, final Locale locale) {
+    public PreviewMocksStrategy(final AbstractMockManager context, final Locale locale) {
         super(context, locale);
     }
 

@@ -1,33 +1,28 @@
 package com.espirit.moddev.fstesttools.mocking;
 
-import de.espirit.common.base.Logging;
-import de.espirit.firstspirit.access.BaseContext;
+import com.espirit.moddev.fstesttools.mocking.util.AbstractMockManager;
+import com.espirit.moddev.fstesttools.mocking.util.DefaultMocksStrategy;
+import com.espirit.moddev.fstesttools.mocking.util.PreviewMocksStrategy;
+import com.espirit.moddev.fstesttools.mocking.util.SetupMocksStrategy;
+import com.espirit.moddev.fstesttools.mocking.util.WebEditMocksStrategy;
+
 import de.espirit.firstspirit.access.ServicesBroker;
 import de.espirit.firstspirit.agency.SpecialistType;
-import de.espirit.firstspirit.agency.UIAgent;
-import de.espirit.firstspirit.webedit.WebeditUiAgent;
 
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 
 /**
  * The type Mocking context.
  */
-public class MockingBaseContext implements BaseContext {
+public class MockingBaseContext extends AbstractMockManager {
 
     private final Logger logger;
-    private final Map<Class, Object> mocks;
-    private final EnumSet<Env> supportedEnvironments;
     private final MockingServiceBroker serviceBroker;
     private final boolean enableServiceBrokerFake;
 
@@ -62,16 +57,12 @@ public class MockingBaseContext implements BaseContext {
      * @param supportedEnvironments   the supported environments
      */
     public MockingBaseContext(final Locale locale, final boolean enableServiceBrokerFake, final Env... supportedEnvironments) {
+        super(supportedEnvironments);
         if (locale == null) {
             throw new IllegalArgumentException("Locale is null!");
         }
-        if (supportedEnvironments == null || supportedEnvironments.length == 0) {
-            throw new IllegalArgumentException("Please provide at least one environment!");
-        }
         this.logger = LoggerFactory.getLogger(getClass());
-        this.supportedEnvironments = EnumSet.copyOf(Arrays.asList(supportedEnvironments));
         this.enableServiceBrokerFake = enableServiceBrokerFake;
-        mocks = new HashMap<>();
         serviceBroker = new MockingServiceBroker();
 
         setupDefaultMocks(locale, supportedEnvironments);
@@ -84,23 +75,6 @@ public class MockingBaseContext implements BaseContext {
      */
     public boolean isEnableServiceBrokerFake() {
         return enableServiceBrokerFake;
-    }
-
-    private void setupDefaultMocks(final Locale locale, final Env[] supportedEnvironments) {
-        SetupMocksStrategy strategy = new DefaultMocksStrategy(this, locale);
-        for (final Env environment : supportedEnvironments) {
-            switch (environment) {
-                case WEBEDIT:
-                    strategy = new WebEditMocksStrategy(this, locale);
-                    break;
-                case PREVIEW:
-                    strategy = new PreviewMocksStrategy(this, locale);
-                    break;
-                default:
-                    strategy = new DefaultMocksStrategy(this, locale);
-            }
-        }
-        strategy.setupMocks();
     }
 
     @Override
@@ -145,41 +119,6 @@ public class MockingBaseContext implements BaseContext {
             return null;
         }
         return getMock(genericClass);
-    }
-
-    private <S> boolean preventThatWrongUiAgentIsRetuned(SpecialistType<S> type) {
-        final boolean noUiAgentInCC = isContentCreator(supportedEnvironments) && Objects.equals(UIAgent.TYPE, type);
-        final boolean noWebUiAgentInSA = isSiteArchitect() && Objects.equals(WebeditUiAgent.TYPE, type);
-        return noUiAgentInCC || noWebUiAgentInSA;
-    }
-
-    private boolean isSiteArchitect() {
-        return isPreview(supportedEnvironments) && !isContentCreator(supportedEnvironments);
-    }
-
-    private static boolean isPreview(EnumSet<Env> supportedEnvironments) {
-        return supportedEnvironments.contains(Env.PREVIEW);
-    }
-
-    private static boolean isContentCreator(EnumSet<Env> supportedEnvironments) {
-        return supportedEnvironments.contains(Env.WEBEDIT);
-    }
-
-    /**
-     * Gets mock.
-     *
-     * @param genericClass the generic class
-     * @return the getMock
-     */
-    <S> S getMock(final Class<? extends S> genericClass) {
-        final Object o = mocks.get(genericClass);
-        if (o == null) {
-            Logging.logInfo("Create getMock for '" + genericClass.getSimpleName() + "'...", getClass());
-            final S mock = Mockito.mock(genericClass);
-            mocks.put(genericClass, mock);
-            return mock;
-        }
-        return (S) o;
     }
 
     @Override

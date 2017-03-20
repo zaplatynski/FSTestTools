@@ -1,4 +1,6 @@
-package com.espirit.moddev.fstesttools.mocking;
+package com.espirit.moddev.fstesttools.mocking.util;
+
+import com.espirit.moddev.fstesttools.mocking.MockingBaseContext;
 
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.webedit.WebeditUiAgent;
@@ -20,7 +22,7 @@ public class WebEditMocksStrategy extends AbstractSetupMocksStrategy {
      * @param context the context
      * @param locale  the locale
      */
-    public WebEditMocksStrategy(final MockingBaseContext context, final Locale locale) {
+    public WebEditMocksStrategy(final AbstractMockManager context, final Locale locale) {
         super(context, locale);
     }
 

@@ -1,4 +1,7 @@
-package com.espirit.moddev.fstesttools.mocking;
+package com.espirit.moddev.fstesttools.mocking.util;
+
+import com.espirit.moddev.fstesttools.mocking.MockingBaseContext;
+import com.espirit.moddev.fstesttools.mocking.util.SetupMocksStrategy;
 
 import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.agency.LanguageAgent;
@@ -21,7 +24,7 @@ public abstract class AbstractSetupMocksStrategy implements SetupMocksStrategy {
     /**
      * The Context.
      */
-    protected final MockingBaseContext context;
+    protected final AbstractMockManager context;
     private final Locale locale;
     private Language language;
 
@@ -31,7 +34,7 @@ public abstract class AbstractSetupMocksStrategy implements SetupMocksStrategy {
      * @param context the context
      * @param locale  the locale
      */
-    public AbstractSetupMocksStrategy(final MockingBaseContext context, final Locale locale) {
+    public AbstractSetupMocksStrategy(final AbstractMockManager context, final Locale locale) {
         if (context == null) {
             throw new IllegalArgumentException("context is null");
         }

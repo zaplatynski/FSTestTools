@@ -1,4 +1,6 @@
-package com.espirit.moddev.fstesttools.mocking;
+package com.espirit.moddev.fstesttools.mocking.util;
+
+import com.espirit.moddev.fstesttools.mocking.MockingBaseContext;
 
 import java.util.Locale;
 
@@ -14,7 +16,7 @@ public class DefaultMocksStrategy extends AbstractSetupMocksStrategy {
      * @param context the context
      * @param locale  the locale
      */
-    public DefaultMocksStrategy(final MockingBaseContext context, final Locale locale) {
+    public DefaultMocksStrategy(final AbstractMockManager context, final Locale locale) {
         super(context, locale);
     }
 
