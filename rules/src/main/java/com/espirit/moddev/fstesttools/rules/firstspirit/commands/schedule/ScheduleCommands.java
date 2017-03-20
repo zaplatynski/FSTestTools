@@ -33,7 +33,6 @@ import static org.junit.Assert.fail;
  */
 public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, ScheduleResult> {
 
-    @SuppressWarnings("squid:S2972")
     RUN_SCHEDULE{
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
@@ -97,7 +96,6 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             }
         }
     },
-    @SuppressWarnings("squid:S2972")
     CHG_DEPLOY_DIR {
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
@@ -138,7 +136,6 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             return found;
         }
     },
-    @SuppressWarnings("squid:S2972")
     GENERATE_SCHEDULE{
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {

@@ -108,12 +108,12 @@ public abstract class AbstractModuleXmlTest {
     protected void populateProperties() {
         try (InputStream inputStream = getTestClassLoader().getResourceAsStream(getRelativeTestPropertiesPath())) {
             pomProperties.load(inputStream);
-        } catch (final Exception e) {
+        } catch (@SuppressWarnings("squid:S2221") final Exception e) {
             logger
                 .warn("Loading of '" + getRelativeTestPropertiesPath() + "' failed. Try to load fallback '{}': {}", TEST_PROPERTIES, e);
             try (InputStream inputStreamFallback = getTestClassLoader().getResourceAsStream(TEST_PROPERTIES)) {
                 pomProperties.load(inputStreamFallback);
-            } catch (final Exception fatalError) {
+            } catch (@SuppressWarnings("squid:S2221") final Exception fatalError) {
                 logger.error("Fatal error loading properties file '{}': {}", TEST_PROPERTIES, fatalError);
                 fail(fatalError.toString());
             }
@@ -270,7 +270,7 @@ public abstract class AbstractModuleXmlTest {
             logger.info("Check if '{}' is existent ...", clazz.getTextContent());
             try {
                 Class.forName(clazz.getTextContent());
-            } catch (final Exception e) {
+            } catch (@SuppressWarnings("squid:S2221") final Exception e) {
                 errors.addError(e);
             }
         }
