@@ -58,10 +58,11 @@ public class MockingContextMenuContext extends MockingBaseContext implements Con
 
             @Override
             public IDProvider getFirst() {
-                if (elements.isEmpty())
+                if (elements.isEmpty()) {
                     return null;
-                else
+                } else {
                     return elements.get(0);
+                }
             }
         };
     }

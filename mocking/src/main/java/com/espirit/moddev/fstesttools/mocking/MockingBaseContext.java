@@ -18,13 +18,14 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The type Mocking context.
  */
 public class MockingBaseContext implements BaseContext {
 
-    private final Logger logger; //NOSONAR
+    private final Logger logger;
     private final Map<Class, Object> mocks;
     private final EnumSet<Env> supportedEnvironments;
     private final MockingServiceBroker serviceBroker;
@@ -137,14 +138,14 @@ public class MockingBaseContext implements BaseContext {
         final ParameterizedType genericSuperclass = (ParameterizedType) type.getClass().getGenericSuperclass();
         final Type genericType = genericSuperclass.getActualTypeArguments()[0];
         final Class<S> genericClass = (Class<S>) genericType;
-        if (enableServiceBrokerFake && genericClass == ServicesBroker.class) {
+        if (enableServiceBrokerFake && Objects.equals(genericClass, ServicesBroker.class)) {
             return (S) serviceBroker;
         }
-        if(supportedEnvironments.contains(Env.WEBEDIT) && UIAgent.TYPE == type){
+        if(supportedEnvironments.contains(Env.WEBEDIT) && Objects.equals(UIAgent.TYPE, type)){
             //simulate that JavaClient does not support WebEdit aka ContentCreator Agents
             return null;
         }
-        if(supportedEnvironments.contains(Env.PREVIEW) && !supportedEnvironments.contains(Env.WEBEDIT)  && WebeditUiAgent.TYPE == type){
+        if(supportedEnvironments.contains(Env.PREVIEW) && !supportedEnvironments.contains(Env.WEBEDIT) && Objects.equals(WebeditUiAgent.TYPE, type)){
             //simulate that ContentCreator does not support JavaClients aka SiteArchitect Agents
             return null;
         }

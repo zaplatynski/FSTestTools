@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -340,16 +341,16 @@ public class FirstSpiritConnectionRule extends ExternalResource {
             declaredField.setAccessible(true);
         }
         try {
-            if (type == Connection.class) {
+            if (Objects.equals(type, Connection.class)) {
                 declaredField.set(parameters, getConnection());
             }
-            if (type == SpecialistsBroker.class) {
+            if (Objects.equals(type, SpecialistsBroker.class)) {
                 declaredField.set(parameters, getBroker());
             }
-            if (type == BaseContext.class) {
+            if (Objects.equals(type, BaseContext.class)) {
                 declaredField.set(parameters, getBaseContextForCurrentProject(parameters.getProjectName()));
             }
-            if (type == GenerationContext.class) {
+            if (Objects.equals(type, GenerationContext.class)) {
                 declaredField.set(parameters, getGenerationContextForCurrentProject(parameters.getProjectName()));
             }
         } catch (IllegalAccessException e) {
