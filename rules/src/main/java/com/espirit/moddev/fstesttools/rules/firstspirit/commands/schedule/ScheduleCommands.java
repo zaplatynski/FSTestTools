@@ -31,12 +31,9 @@ import static org.junit.Assert.fail;
 /**
  * The enum Schedule commands.
  */
-@SuppressWarnings("squid:S2972")
 public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, ScheduleResult> {
 
-    /**
-     * The Run schedule.
-     */
+    @SuppressWarnings("squid:S2972")
     RUN_SCHEDULE{
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
@@ -55,7 +52,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             } catch (final ScheduleEntryRunningException e) {
                 LOGGER.error("Schedule '" + parameters.getEntryName() + "' caused an error: "+e.getMessage(), e);
                 fail(e.toString());
-            } catch (final Exception e) {
+            } catch (@SuppressWarnings("squid:S2221") final Exception e) {
                 LOGGER.error("Perhaps the given schedule entry does not exist: '" + parameters.getEntryName() + "': " + e.getMessage(), e);
                 fail(e.toString());
             }
@@ -100,9 +97,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             }
         }
     },
-    /**
-     * The Chg deploy dir.
-     */
+    @SuppressWarnings("squid:S2972")
     CHG_DEPLOY_DIR {
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
@@ -143,9 +138,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             return found;
         }
     },
-    /**
-     * The Generate schedule.
-     */
+    @SuppressWarnings("squid:S2972")
     GENERATE_SCHEDULE{
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
