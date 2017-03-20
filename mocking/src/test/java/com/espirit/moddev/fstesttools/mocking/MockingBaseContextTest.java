@@ -1,6 +1,7 @@
 package com.espirit.moddev.fstesttools.mocking;
 
 
+import com.espirit.moddev.fstesttools.mocking.util.AbstractMockManager;
 import com.espirit.moddev.fstesttools.rules.logging.InitLog4jLoggingRule;
 import com.espirit.moddev.fstesttools.rules.logging.LogTestMethodNameRule;
 
@@ -281,7 +282,7 @@ public class MockingBaseContextTest<C extends MockingBaseContext> {
 
     @Test
     public void testMultipleEnvironments() {
-        final MockingBaseContext mockingBaseContext = new MockingBaseContext(Locale.ENGLISH, BaseContext.Env.PREVIEW, BaseContext.Env.FS_BUTTON);
+        final AbstractMockManager mockingBaseContext = new MockingBaseContext(Locale.ENGLISH, BaseContext.Env.PREVIEW, BaseContext.Env.FS_BUTTON);
         assertThat("Expect a non-null value", mockingBaseContext, notNullValue());
     }
 }
