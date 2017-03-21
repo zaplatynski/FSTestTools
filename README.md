@@ -89,9 +89,13 @@ public class MyTest {
 
 #### Using The JUnit Rules
 
-*Logging rules*
+At the moment there are only two types of Junit Rules available:
+* Two rules to support you with logging
+* One rule to support you with FirstSpirit client actions
 
-If the both logging rules are used, then the logging system is initialized (`InitLog4jLoggingRule`) and in the log there a message at the beginning and the end of each test (`LogTestMethodNameRule`).
+**Logging rules**
+
+If both logging rules are used, then the logging system is initialized (`InitLog4jLoggingRule`) and in the log there a message at the beginning and the end of each test (`LogTestMethodNameRule`).
 This is usefull if there are many log lines and it is needed to know where a tests starts and stops. 
 
 ```java
@@ -119,7 +123,7 @@ Example log output:
 5 [main] INFO MyTest  - Successful termination of 'testSomeThing'!
 ```
 
-*FirstSpirit Connection Rule*
+**FirstSpirit Connection Rule**
 
 The FirstSpirit Connection is a client for integration tests.
 The prerequisite is a running FirstSpirit server.
