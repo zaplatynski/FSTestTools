@@ -7,7 +7,6 @@ import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRule
  */
 public class CommandForTesting implements FsConnRuleCommand<TestCmdParameters, TestCmdResult>{
 
-
     @Override
     public String name() {
         return "TEST";

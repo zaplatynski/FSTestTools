@@ -125,11 +125,13 @@ Example log output:
 
 **FirstSpirit Connection Rule**
 
-The FirstSpirit Connection is a client for integration tests.
+The FirstSpirit Connection Rule is a FirstSpirit client for integration tests.
+The rule maintains the connection, e.g. opens and close it according to test life cycle.
 The prerequisite is a running FirstSpirit server.
+By default the host `localhost` with port `8000` and user `Admin` with password `Admin` is used.
 Then the rule can be used to execute a schedule, import zips (e.g. exported templates) or modify the content of (page) templates.
-The feature set of the rule is not final or complete.
-If you like to have some new funktionality you are wellcome to provide it by adding a so-called command.
+The feature set of the rule is not final or complete but can be extended easliy.
+If you like to have some new functionality you are welcome to provide it by adding a so-called command (see next paragraph below).
 
 ```java
 public class MyTest {
@@ -149,7 +151,55 @@ public class MyTest {
 
 All available commands can be found in the package [com.espirit.moddev.fstesttools.rules.firstspirit.commands](rules/src/main/java/com/espirit/moddev/fstesttools/rules/firstspirit/commands).
 
-*TODO:* Explain how to add new commands.
+**Create Your Own FirstSpirit Connection Rule Commands**
+
+There is small example whithin the test package [com/espirit/moddev/fstesttools/rules/firstspirit/commands](rules/src/test/java/com/espirit/moddev/fstesttools/rules/firstspirit/commands) which is used by the class [FirstSpiritConnectionRuleTest](rules/src/test/java/com/espirit/moddev/fstesttools/rules/firstspirit/FirstSpiritConnectionRuleTest.java).
+
+Basically you need to implement these tree classes where the command class must be in the package `com.espirit.moddev.fstesttools.rules.firstspirit.commands` (the rule will scan for it) or below:
+```java
+public class MyParameters implements FsConnRuleCmdParamBean {
+    
+    ...
+
+    @Override
+    public String getProjectName() {
+        return ...;
+    }
+
+    ...
+}
+
+public class MyResult implements FsConnRuleCmdResultBean {
+    ...
+}
+
+public class MyCommand implements FsConnRuleCommand<MyParameters, MyResult>{
+    
+    @javax.inject.Inject
+    private Connection firstSpiritConnection;
+    
+    // Or:
+    //@Inject
+    //private BaseContext baseContext;
+    
+    // Or:
+    //@Inject
+    //private SpecialistBroker broker;
+
+    @Override
+    public String name() {
+        return "Foobar";
+    }
+
+    @Override
+    public MyResult execute(final MyParameters parameters) {
+        ...
+        return new MyResult(...);
+    }
+}
+```
+
+With *dependency injection* the FirstSpirit Connection Rule will provide a `Connection`, a `BaseContext`, a `SpecialistBroker` or a `GenerationContext` which will be the foundation of your command.
 
 #### Using The Module-Xml-Test
 
