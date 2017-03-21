@@ -12,7 +12,7 @@ There are two possibilities to get the FS Test Tools installed:
 
 You can skip *Use Binary Release* if you have access to e-Spirit's artifactory.
 
-#### Use Binary Release
+#### Using Binary Releases
 
 Use the GitHub release here to install them:
 ```
@@ -60,7 +60,7 @@ You can replace _Your-Version_ with _LATEST_ if you have access to e-Spirit's ar
 
 ### Step 3
 
-#### Use Mocking Contexts
+#### Using Mocking Contexts
 
 Now you can use the e.g. the `MockingBaseContext` inside your unit tests:
 
@@ -87,7 +87,7 @@ public class MyTest {
 }
 ```
 
-#### Use The Rules
+#### Using The JUnit Rules
 
 *Logging rules*
 
@@ -147,7 +147,7 @@ All available commands can be found in the package [com.espirit.moddev.fstesttoo
 
 *TODO:* Explain how to add new commands.
 
-#### Use The Module-Xml-Test
+#### Using The Module-Xml-Test
 
 The parent class `AbstractModuleXmlTest` expects a `module.xml` in the root of the class path.
 Futhermore there must be a file called `moduleXmlTest.properties` in the test resource which must be filtered too (for instance):
@@ -219,7 +219,7 @@ Of cause you can add some own test as you like by using the Hamcrest XPath Match
 
 ## More Information
 
-Regarding unit test philosophy the `BaseMockingContext` is a [fake](https://www.martinfowler.com/articles/mocksArentStubs.html) which produces [mocks](https://www.martinfowler.com/articles/mocksArentStubs.html) (of agent or service implementations) with the help of the [Mockito](http://site.mockito.org/) library.
+Regarding unit test philosophy the `MockingBaseContext` is a [fake](https://www.martinfowler.com/articles/mocksArentStubs.html) which produces [mocks](https://www.martinfowler.com/articles/mocksArentStubs.html) (of agent or service implementations) with the help of the [Mockito](http://site.mockito.org/) library.
 So it acts as a test drop-in replacement for the real FirstSpirit `BaseContext`.
 But it is not only a simple mock factory because it returns always the same mock object instance.
 So the mocks are always [singletons](https://en.wikipedia.org/wiki/Singleton_pattern).
