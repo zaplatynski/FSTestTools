@@ -94,14 +94,14 @@ public abstract class AbstractModuleXmlTest {
     }
 
     /**
-     * Read module xml file.
+     * Gets the module xml file from file system.
      * Override to read the module.xml from target directory instead of class path root.
      *
      * @return the file
      * @throws URISyntaxException the uri syntax exception
      */
     @NotNull
-    protected File readModuleXml() throws Exception {
+    protected File getModuleXmlFromSource() throws Exception {
         return new File(getTestClassLoader().getResource("module.xml").toURI());
     }
 
@@ -115,7 +115,7 @@ public abstract class AbstractModuleXmlTest {
 
         logger = LoggerFactory.getLogger(getClass());
 
-        final File file = readModuleXml();
+        final File file = getModuleXmlFromSource();
         final String content = FileUtils.readFileToString(file);
         moduleXML = createXMLfromString(content);
 
