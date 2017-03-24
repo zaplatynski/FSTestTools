@@ -200,7 +200,7 @@ public class MyCommand implements FsConnRuleCommand<MyParameters, MyResult>{
 }
 ```
 
-With *dependency injection* the FirstSpirit Connection Rule will provide a `Connection`, a `BaseContext`, a `SpecialistBroker` or a `GenerationContext` which will be the foundation of your command.
+With *dependency injection* (see `@Inject` annotation above) the FirstSpirit Connection Rule will provide a `Connection`, a `BaseContext`, a `SpecialistBroker` or a `GenerationContext` which will be the foundation of your command.
 
 #### Using The Module-Xml-Test
 
