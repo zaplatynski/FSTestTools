@@ -159,11 +159,23 @@ Basically you need to implement these tree classes where the command class must 
 ```java
 public class MyParameters implements FsConnRuleCmdParamBean {
     
+    @javax.inject.Inject
+    private Connection firstSpiritConnection;
+    
+    // Or:
+    //@Inject
+    //private BaseContext baseContext;
+    
+    // Or:
+    //@Inject
+    //private SpecialistBroker broker;
+    
     ...
 
     @Override
     public String getProjectName() {
-        return ...;
+        //If no project is needed return here null
+        return null;
     }
 
     ...
@@ -175,17 +187,6 @@ public class MyResult implements FsConnRuleCmdResultBean {
 
 public class MyCommand implements FsConnRuleCommand<MyParameters, MyResult>{
     
-    @javax.inject.Inject
-    private Connection firstSpiritConnection;
-    
-    // Or:
-    //@Inject
-    //private BaseContext baseContext;
-    
-    // Or:
-    //@Inject
-    //private SpecialistBroker broker;
-
     @Override
     public String name() {
         return "Foobar";
