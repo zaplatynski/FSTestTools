@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.Properties;
 
@@ -81,9 +82,27 @@ public abstract class AbstractModuleXmlTest {
      */
     protected abstract ClassLoader getTestClassLoader();
 
+    /**
+     * Gets relative test properties path.
+     * Override to provide a different file name.
+     *
+     * @return the relative test properties path
+     */
     @NotNull
     protected String getRelativeTestPropertiesPath() {
         return TEST_PROPERTIES;
+    }
+
+    /**
+     * Read module xml file.
+     * Override to read the module.xml from target directory instead of class path root.
+     *
+     * @return the file
+     * @throws URISyntaxException the uri syntax exception
+     */
+    @NotNull
+    protected File readModuleXml() throws Exception {
+        return new File(getTestClassLoader().getResource("module.xml").toURI());
     }
 
     /**
@@ -96,13 +115,14 @@ public abstract class AbstractModuleXmlTest {
 
         logger = LoggerFactory.getLogger(getClass());
 
-        final File file = new File(getTestClassLoader().getResource("module.xml").toURI());
+        final File file = readModuleXml();
         final String content = FileUtils.readFileToString(file);
         moduleXML = createXMLfromString(content);
 
         pomProperties = new Properties();
         populateProperties();
     }
+
 
     protected void populateProperties() {
         try (InputStream inputStream = getTestClassLoader().getResourceAsStream(getRelativeTestPropertiesPath())) {
