@@ -35,22 +35,22 @@ public class ModifyStoreParametersTest extends AbstractParametersTest<ModifyStor
     }
 
     @Test
-    public void getName() throws Exception {
+    public void testGetName() throws Exception {
        assertThat("Expect non null value", testling.getName(), is("my_page"));
     }
 
     @Test
-    public void getConnection() throws Exception {
+    public void testGetConnection() throws Exception {
         assertThat("Expect non null value", testling.getConnection(), is(notNullValue()));
     }
 
     @Test
-    public void getChannel() throws Exception {
+    public void testGetChannel() throws Exception {
         assertThat("Expect non null value", testling.getChannel(), is("html"));
     }
 
     @Test
-    public void getContent() throws Exception {
+    public void testGetContent() throws Exception {
         assertThat("Expect non null value", testling.getContent(), is("source-code"));
     }
 

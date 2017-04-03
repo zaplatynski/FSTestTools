@@ -51,12 +51,12 @@ public class ZipImportParametersTest extends AbstractParametersTest<ZipImportPar
     }
 
     @Test
-    public void getZip() throws Exception {
+    public void testGetZip() throws Exception {
         assertThat("Expect non null value", testling.getZip(), is(sameInstance(zipFile)));
     }
 
     @Test
-    public void getConnection() throws Exception {
+    public void testGetConnection() throws Exception {
         assertThat("Expect non null value", testling.getConnection(), is(notNullValue()));
     }
 

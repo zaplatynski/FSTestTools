@@ -70,7 +70,7 @@ public abstract class AbstractParametersTest<P extends FsConnRuleCmdParamBean> {
 
     @Test
     public void testGetProjectName() throws Exception {
-        assertThat("Expect specific value",testling.getProjectName(), is(notNullValue()));
+        assertThat("Expect specific value", testling.getProjectName(), is(notNullValue()));
     }
 
 }
