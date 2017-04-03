@@ -45,6 +45,7 @@ import static org.junit.Assert.fail;
  * &lt;filtering&gt;false&lt;/filtering&gt;<br> &lt;excludes&gt;<br> &lt;exclude&gt;*.properties&lt;/exclude&gt;<br> &lt;/excludes&gt;<br>
  * &lt;/testResource&gt;<br> &lt;/testResources&gt;<br> </code> </li> </ol> </div>
  */
+@SuppressWarnings("squid:S00112")
 public abstract class AbstractModuleXmlTest {
 
     /**

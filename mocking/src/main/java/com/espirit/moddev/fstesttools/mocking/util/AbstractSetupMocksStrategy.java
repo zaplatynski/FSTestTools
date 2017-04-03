@@ -8,6 +8,7 @@ import org.mockito.stubbing.Answer;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.reset;
@@ -32,14 +33,8 @@ public abstract class AbstractSetupMocksStrategy implements SetupMocksStrategy {
      * @param locale  the locale
      */
     public AbstractSetupMocksStrategy(final AbstractMockManager context, final Locale locale) {
-        if (context == null) {
-            throw new IllegalArgumentException("context is null");
-        }
-        if (locale == null) {
-            throw new IllegalArgumentException("locale is null");
-        }
-        this.context = context;
-        this.locale = locale;
+        this.context = Objects.requireNonNull(context, "context can not be null!");
+        this.locale = Objects.requireNonNull(locale, "locale can not be null!");
         mocksLanguageAgent();
     }
 

@@ -46,6 +46,7 @@ import static org.mockito.Mockito.when;
 /**
  * The type Mocking generation context.
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class MockingGenerationContext extends AbstractMockingGenerationScriptContext implements GenerationContext {
 
     private final Context context;

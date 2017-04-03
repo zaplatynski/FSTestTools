@@ -251,7 +251,7 @@ public class MockingBaseContextTest<C extends MockingBaseContext> {
         assertThat(logMessage, is("myErrorExceptionMessage"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullLocale() throws Exception {
         new MockingBaseContext((Locale) null, BaseContext.Env.WEBEDIT);
     }
@@ -261,7 +261,7 @@ public class MockingBaseContextTest<C extends MockingBaseContext> {
         new MockingBaseContext(TEST_LOCALE);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullEnvironment() throws Exception {
         final BaseContext.Env[] envs = null;
         new MockingBaseContext(envs);

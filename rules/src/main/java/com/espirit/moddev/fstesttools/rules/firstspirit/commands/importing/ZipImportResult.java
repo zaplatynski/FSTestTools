@@ -13,7 +13,7 @@ public class ZipImportResult implements FsConnRuleCmdResultBean {
      */
     public static final ZipImportResult VOID = new ZipImportResult();
 
-    public ZipImportResult() {
+   private ZipImportResult() {
         // empty
-    }
+   }
 }

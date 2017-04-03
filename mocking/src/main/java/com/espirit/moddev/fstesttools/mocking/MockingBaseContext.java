@@ -54,9 +54,7 @@ public class MockingBaseContext extends AbstractMockManager {
      */
     public MockingBaseContext(final Locale locale, final boolean enableServiceBrokerFake, final Env... supportedEnvironments) {
         super(supportedEnvironments);
-        if (locale == null) {
-            throw new IllegalArgumentException("Locale is null!");
-        }
+        Objects.requireNonNull(locale, "locale can not be null!");
         this.logger = LoggerFactory.getLogger(getClass());
         this.enableServiceBrokerFake = enableServiceBrokerFake;
         serviceBroker = new MockingServiceBroker();

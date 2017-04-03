@@ -7,6 +7,8 @@ import de.espirit.firstspirit.agency.SpecialistsBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 
 /**
  * The type TestContext simulates a BaseContext for test environments.
@@ -24,10 +26,7 @@ public class TestContext implements BaseContext {
      * @param broker the broker
      */
     public TestContext(SpecialistsBroker broker) {
-        if (broker == null) {
-            throw new IllegalArgumentException("broker can not be null!");
-        }
-        this.broker = broker;
+        this.broker = Objects.requireNonNull(broker, "broker can not be null!");
     }
 
     @Override

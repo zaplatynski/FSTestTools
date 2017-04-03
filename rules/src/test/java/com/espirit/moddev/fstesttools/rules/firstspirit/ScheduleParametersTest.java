@@ -1,5 +1,7 @@
 package com.espirit.moddev.fstesttools.rules.firstspirit;
 
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleParameters;
+
 import de.espirit.firstspirit.access.schedule.DeployTask;
 
 import org.junit.Before;
@@ -13,13 +15,13 @@ import static org.junit.Assert.assertTrue;
 /**
  * SchedulerConfiguration Tester.
  */
-public class SchedulerConfigurationTest {
+public class ScheduleParametersTest {
 
-    private SchedulerConfiguration testling;
+    private ScheduleParameters testling;
 
     @Before
     public void before() throws Exception {
-        testling = new SchedulerConfiguration();
+        testling = new ScheduleParameters("MyProject", "Full Generation");
     }
 
     /**
@@ -75,6 +77,5 @@ public class SchedulerConfigurationTest {
 
         assertThat("expect new address", testling.getGenerateUrlPrefix(), is("http://www.e-spirit.com"));
     }
-
 
 } 

@@ -29,11 +29,11 @@ public abstract class AbstractMockManager implements BaseContext {
      * @param supportedEnvironments the supported environments
      */
     public AbstractMockManager(final Env... supportedEnvironments) {
-        if (supportedEnvironments == null || supportedEnvironments.length == 0) {
-            throw new IllegalArgumentException("Please provide at least one environment!");
-        }
         mocks = new HashMap<>();
-        this.supportedEnvironments = EnumSet.copyOf(Arrays.asList(supportedEnvironments));
+        this.supportedEnvironments = Objects.requireNonNull(EnumSet.copyOf(Arrays.asList(supportedEnvironments)),"Supported environments can not be null!");
+        if(this.supportedEnvironments.isEmpty()){
+            throw new IllegalArgumentException("Provide at least one supported environment!");
+        }
     }
 
     private static boolean isPreview(EnumSet<Env> supportedEnvironments) {

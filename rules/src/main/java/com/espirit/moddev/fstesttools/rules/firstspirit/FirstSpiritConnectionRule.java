@@ -1,13 +1,5 @@
 package com.espirit.moddev.fstesttools.rules.firstspirit;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing.ZipImportCommands;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing.ZipImportParameters;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreCommand;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreParameters;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreResult;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleCommands;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleParameters;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleResult;
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdParamBean;
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdResultBean;
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCommand;
@@ -19,10 +11,6 @@ import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.ConnectionManager;
 import de.espirit.firstspirit.access.GenerationContext;
 import de.espirit.firstspirit.access.project.Project;
-import de.espirit.firstspirit.access.schedule.RunState;
-import de.espirit.firstspirit.access.store.IDProvider;
-import de.espirit.firstspirit.access.store.pagestore.PageFolder;
-import de.espirit.firstspirit.access.store.sitestore.PageRefFolder;
 import de.espirit.firstspirit.agency.BrokerAgent;
 import de.espirit.firstspirit.agency.SpecialistType;
 import de.espirit.firstspirit.agency.SpecialistsBroker;
@@ -35,7 +23,6 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -116,9 +103,6 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         if (!StringUtils.isNumeric(port)) {
             throw new IllegalArgumentException("port must be numeric");
         }
-        if (mode == null) {
-            throw new IllegalArgumentException("mode can not be null");
-        }
         if (StringUtils.isBlank(login)) {
             throw new IllegalArgumentException("login can not be null or empty");
         }
@@ -127,7 +111,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         }
         this.host = host;
         this.port = Integer.parseInt(port);
-        this.mode = mode;
+        this.mode = Objects.requireNonNull(mode, "mode can not be null");
         this.login = login;
         this.password = password;
         commands = new ConcurrentHashMap<>();
@@ -371,80 +355,6 @@ public class FirstSpiritConnectionRule extends ExternalResource {
     }
 
     /**
-     * Execute schedule entry and await termination.
-     *
-     * @param projectName the project entryName
-     * @param entryName   the entryName
-     * @return the run state.
-     * @deprecated
-     */
-    @Deprecated
-    public RunState executeScheduleEntryAndAwaitTermination(final String projectName, final String entryName) {
-        if (connection == null) {
-            throw new IllegalStateException(NOT_CONNECTED_TO_FS);
-        }
-        final ScheduleResult result =
-            (ScheduleResult) invokeCommand(ScheduleCommands.RUN_SCHEDULE.name(), new ScheduleParameters(projectName, entryName));
-        return result.getScheduleRunState();
-    }
-
-    /**
-     * Change deployment path of schedule entry.
-     *
-     * @param projectName the project name
-     * @param entryName   the entry name
-     * @param deployDir   the deployment directory
-     * @deprecated
-     */
-    @Deprecated
-    public void changeDeployPathOfScheduleEntry(final String projectName, final String entryName, final File deployDir) {
-        final ScheduleParameters parameters = new ScheduleParameters(projectName, entryName);
-        parameters.setDeployDir(deployDir);
-        invokeCommand(ScheduleCommands.CHG_DEPLOY_DIR.name(), parameters);
-    }
-
-    /**
-     * Creates a default scheduler.
-     *
-     * @param projectName the name of the fs project.
-     * @param entryName   the name of the new scheduler.
-     * @deprecated
-     */
-    @Deprecated
-    public void createDefaultScheduler(final String projectName, final String entryName) {
-        final ScheduleParameters parameters = new ScheduleParameters(projectName, entryName);
-        createDefaultScheduler(parameters);
-    }
-
-    /**
-     * Create default scheduler.
-     *
-     * @param parameters the parameters
-     * @deprecated
-     */
-    @Deprecated
-    public void createDefaultScheduler(final ScheduleParameters parameters) {
-        invokeCommand(ScheduleCommands.GENERATE_SCHEDULE.name(), parameters);
-    }
-
-    /**
-     * Creates a default scheduler.
-     *
-     * @param projectName   the name of the fs project.
-     * @param entryName     the name of the new scheduler.
-     * @param configuration hte scheduler configuration
-     * @deprecated
-     */
-    @Deprecated
-    public void createDefaultScheduler(final String projectName, final String entryName, final SchedulerConfiguration configuration) {
-        final ScheduleParameters parameters = new ScheduleParameters(projectName, entryName);
-        parameters.setDeployTaskType(configuration.getDeployTaskType());
-        parameters.setGenerateDeleteDirectory(configuration.isGenerateDeleteDirectory());
-        parameters.setGenerateUrlPrefix(configuration.getGenerateUrlPrefix());
-        createDefaultScheduler(parameters);
-    }
-
-    /**
      * Gets content creator url for a project and user language.
      *
      * @param projectName the project name
@@ -459,180 +369,6 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Import format templates from zip.
-     *
-     * @param projectName the project name
-     * @param zip         the zip
-     * @deprecated
-     */
-    @Deprecated
-    public void importFormatTemplatesFromZip(final String projectName, final File zip) {
-        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
-        invokeCommand(ZipImportCommands.IMPORT_FORMAT_TEMPLATES.name(), parameters);
-    }
-
-    /**
-     * Import page templates from zip.
-     *
-     * @param projectName the project name
-     * @param zip         the zip
-     * @deprecated
-     */
-    @Deprecated
-    public void importPageTemplatesFromZip(final String projectName, final File zip) {
-        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
-        invokeCommand(ZipImportCommands.IMPORT_PAGE_TEMPLATES.name(), parameters);
-    }
-
-    /**
-     * Import link templates from zip.
-     *
-     * @param projectName the project name
-     * @param zip         the zip
-     * @deprecated
-     */
-    @Deprecated
-    public void importLinkTemplatesFromZip(final String projectName, final File zip) {
-        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
-        invokeCommand(ZipImportCommands.IMPORT_LINK_TEMPLATES.name(), parameters);
-    }
-
-    /**
-     * Import media from zip.
-     *
-     * @param projectName the project name
-     * @param zip         the zip
-     * @deprecated
-     */
-    @Deprecated
-    public void importMediaFromZip(final String projectName, final File zip) {
-        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
-        invokeCommand(ZipImportCommands.IMPORT_MEDIA.name(), parameters);
-    }
-
-    /**
-     * Import scripts from zip.
-     *
-     * @param projectName the project name
-     * @param zip         the zip
-     * @deprecated
-     */
-    @Deprecated
-    public void importScriptsFromZip(final String projectName, final File zip) {
-        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
-        invokeCommand(ZipImportCommands.IMPORT_SCRIPTS.name(), parameters);
-    }
-
-    /**
-     * Import workflows from zip.
-     *
-     * @param projectName the project name
-     * @param zip         the zip
-     * @deprecated
-     */
-    @Deprecated
-    public void importWorkflowsFromZip(final String projectName, final File zip) {
-        ZipImportParameters parameters = new ZipImportParameters(projectName, zip);
-        invokeCommand(ZipImportCommands.IMPORT_WORKFLOWS.name(), parameters);
-    }
-
-
-    /**
-     * Creates a new pageStoreFolder.
-     *
-     * @param projectName the project name.
-     * @param name        the folder name.
-     * @return the created folder.
-     * @deprecated
-     */
-    @Deprecated
-    public PageFolder createPageStoreFolder(final String projectName, final String name) {
-        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, name);
-        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_PAGESTORE_FOLDER.name(), parameters);
-        return result.getPageFolder();
-    }
-
-    /**
-     * Creates a new siteStoreFolder.
-     *
-     * @param projectName the fs project name.
-     * @param name        the folder name.
-     * @return the created folder.
-     * @deprecated
-     */
-    @Deprecated
-    public PageRefFolder createSiteStoreFolder(final String projectName, final String name) {
-        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, name);
-        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_SITESTORE_FOLDER.name(), parameters);
-        return result.getPageRefFolder();
-    }
-
-
-    /**
-     * Create a new format template.
-     *
-     * @param projectName the name of the fs project.
-     * @param uid         the uid of the template that will be created.
-     * @param channel     the channel to write the content to.
-     * @param content     the sourcecode of the template.
-     * @return the new template.
-     * @deprecated
-     */
-    @Deprecated
-    public IDProvider createFormatTemplate(final String projectName, final String uid, final String channel, final String content) {
-        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
-        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_FORMAT_TEMPLATE.name(), parameters);
-        return result.getFormatTemplate();
-    }
-
-    /**
-     * Creates a script template.
-     *
-     * @param projectName the name of the fs project.
-     * @param uid         the uid of the template that will be created.
-     * @param channel     the channel to write the content to.
-     * @param content     the sourcecode of the template.
-     * @return the new template.
-     * @deprecated
-     */
-    @Deprecated
-    public IDProvider createScriptTemplate(final String projectName, final String uid, final String channel, final String content) {
-        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
-        ModifyStoreResult result = invokeCommand(ModifyStoreCommand.CREATE_SCRIPT_TEMPLATE.name(), parameters);
-        return result.getScript();
-    }
-
-    /**
-     * Modifies a page template.
-     *
-     * @param projectName the name of the fs project.
-     * @param uid         the uid of the page template.
-     * @param channel     the channel to modify.
-     * @param content     the content to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void modifyPageTemplate(final String projectName, final String uid, final String channel, final String content) {
-        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
-        invokeCommand(ModifyStoreCommand.MODIFY_PAGE_TEMPLATE.name(), parameters);
-    }
-
-    /**
-     * Modifies the specified format template.
-     *
-     * @param projectName the name of the fs project.
-     * @param uid         the uid of the template to manipulate.
-     * @param channel     the channel to use.
-     * @param content     the sourcecode to set.
-     * @deprecated
-     */
-    @Deprecated
-    public void modifyFormatTemplate(final String projectName, final String uid, final String channel, final String content) {
-        ModifyStoreParameters parameters = new ModifyStoreParameters(projectName, uid, channel, content);
-        invokeCommand(ModifyStoreCommand.MODIFY_FORMAT_TEMPLATE.name(), parameters);
     }
 
 }

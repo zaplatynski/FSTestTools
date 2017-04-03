@@ -1,6 +1,5 @@
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.SchedulerConfiguration;
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdParamBean;
 
 import de.espirit.firstspirit.access.Connection;
@@ -38,22 +37,6 @@ public class ScheduleParameters implements FsConnRuleCmdParamBean {
         generateDeleteDirectory = true;
         deployTaskType = DeployTask.Type.Full;
         generateUrlPrefix = "http://$address$";
-    }
-
-    /**
-     * Instantiates a new Schedule parameters.
-     *
-     * @param projectName   the project name
-     * @param entryName     the entry name
-     * @param configuration the configuration
-     * @deprecated
-     */
-    @Deprecated
-    public ScheduleParameters(final String projectName, final String entryName, final SchedulerConfiguration configuration) {
-        this(projectName, entryName);
-        generateDeleteDirectory = configuration.isGenerateDeleteDirectory();
-        deployTaskType = configuration.getDeployTaskType();
-        generateUrlPrefix = configuration.getGenerateUrlPrefix();
     }
 
     /**
