@@ -96,7 +96,7 @@ public class ScheduleParametersTest extends AbstractParametersTest<ScheduleParam
     }
 
     @Test
-    public void getConnection() throws Exception {
+    public void testGetConnection() throws Exception {
         assertThat("Expect non null value", testling.getConnection(), is(notNullValue()));
     }
 

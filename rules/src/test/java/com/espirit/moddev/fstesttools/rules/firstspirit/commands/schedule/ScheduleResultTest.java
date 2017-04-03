@@ -38,14 +38,14 @@ public class ScheduleResultTest {
     public static RunState[] states = RunState.values();
 
     @Theory
-    public void testGetScheduleRunState(final RunState state) throws Exception {
+    public void getScheduleRunState(final RunState state) throws Exception {
         ScheduleResult testling = new ScheduleResult(state);
 
-        assertThat(testling.getScheduleRunState(), is(sameInstance(state)));
+        assertThat("Expect identity", testling.getScheduleRunState(), is(sameInstance(state)));
     }
 
     @Test
     public void testInstance() throws Exception {
-        assertThat(ScheduleResult.VOID, is(notNullValue()));
+        assertThat("Expect non null value", ScheduleResult.VOID, is(notNullValue()));
     }
 }

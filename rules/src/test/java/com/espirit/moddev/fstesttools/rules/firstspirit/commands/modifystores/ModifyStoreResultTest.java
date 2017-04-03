@@ -51,7 +51,7 @@ public class ModifyStoreResultTest {
     private Script script;
 
     @Test
-    public void getPageFolder() throws Exception {
+    public void testGetPageFolder() throws Exception {
         ModifyStoreResult testling = new ModifyStoreResult(pageFolder);
         assertThat("Expect identity",testling.getPageFolder(), is(sameInstance(pageFolder)));
         assertThat("Expect null value",testling.getPageRefFolder(), is(nullValue()));
@@ -60,7 +60,7 @@ public class ModifyStoreResultTest {
     }
 
     @Test
-    public void getPageRefFolder() throws Exception {
+    public void testGetPageRefFolder() throws Exception {
         ModifyStoreResult testling = new ModifyStoreResult(pageRefFolder);
         assertThat("Expect identity",testling.getPageRefFolder(), is(sameInstance(pageRefFolder)));
         assertThat("Expect null value",testling.getPageFolder(), is(nullValue()));
@@ -69,7 +69,7 @@ public class ModifyStoreResultTest {
     }
 
     @Test
-    public void getFormatTemplate() throws Exception {
+    public void testGetFormatTemplate() throws Exception {
         ModifyStoreResult testling = new ModifyStoreResult(formatTemplates);
         assertThat("Expect identity",testling.getFormatTemplate(), is(sameInstance(formatTemplates)));
         assertThat("Expect null value",testling.getPageRefFolder(), is(nullValue()));
@@ -78,7 +78,7 @@ public class ModifyStoreResultTest {
     }
 
     @Test
-    public void getScript() throws Exception {
+    public void testGetScript() throws Exception {
         ModifyStoreResult testling = new ModifyStoreResult(script);
         assertThat("Expect identity",testling.getScript(), is(sameInstance(script)));
         assertThat("Expect null value",testling.getPageRefFolder(), is(nullValue()));
