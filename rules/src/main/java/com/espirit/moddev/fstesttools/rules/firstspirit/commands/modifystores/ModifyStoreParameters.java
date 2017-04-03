@@ -47,7 +47,7 @@ public final class ModifyStoreParameters implements FsConnRuleCmdParamBean {
      */
     public ModifyStoreParameters(final String projectName, final String name) {
         this.projectName = Objects.requireNonNull(projectName, "projectName can not be null!");;
-        this.name = Objects.requireNonNull(projectName, "name can not be null!");;
+        this.name = Objects.requireNonNull(name, "name can not be null!");;
     }
 
     /**
