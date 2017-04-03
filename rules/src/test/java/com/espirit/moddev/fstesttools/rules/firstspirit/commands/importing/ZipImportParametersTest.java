@@ -20,15 +20,11 @@ package com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing;
 
 import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;

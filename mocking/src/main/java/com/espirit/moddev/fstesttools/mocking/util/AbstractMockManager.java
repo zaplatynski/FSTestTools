@@ -48,8 +48,9 @@ public abstract class AbstractMockManager implements BaseContext {
      */
     public AbstractMockManager(final Env... supportedEnvironments) {
         mocks = new HashMap<>();
-        this.supportedEnvironments = Objects.requireNonNull(EnumSet.copyOf(Arrays.asList(supportedEnvironments)),"Supported environments can not be null!");
-        if(this.supportedEnvironments.isEmpty()){
+        this.supportedEnvironments =
+            Objects.requireNonNull(EnumSet.copyOf(Arrays.asList(supportedEnvironments)), "Supported environments can not be null!");
+        if (this.supportedEnvironments.isEmpty()) {
             throw new IllegalArgumentException("Provide at least one supported environment!");
         }
     }

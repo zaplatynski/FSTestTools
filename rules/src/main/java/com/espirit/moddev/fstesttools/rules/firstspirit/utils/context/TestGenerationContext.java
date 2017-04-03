@@ -62,7 +62,7 @@ import java.util.Map;
  * @author e-Spirit AG
  */
 public class TestGenerationContext extends TestContext implements GenerationContext, Evaluator {
-    
+
     private Locale locale = Locale.getDefault();
 
     /**

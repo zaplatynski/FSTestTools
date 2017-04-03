@@ -20,7 +20,6 @@ package com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores;
 
 import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -36,7 +35,7 @@ public class ModifyStoreParametersTest extends AbstractParametersTest<ModifyStor
 
     @Test
     public void testGetName() throws Exception {
-       assertThat("Expect non null value", testling.getName(), is("my_page"));
+        assertThat("Expect non null value", testling.getName(), is("my_page"));
     }
 
     @Test

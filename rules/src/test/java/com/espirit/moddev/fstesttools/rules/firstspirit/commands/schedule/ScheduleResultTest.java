@@ -18,38 +18,34 @@
 
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdResultBean;
-
 import de.espirit.firstspirit.access.schedule.RunState;
 
-import java.util.Objects;
+import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
-/**
- * The type Schedule result.
- */
-public final class ScheduleResult implements FsConnRuleCmdResultBean {
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.Assert.assertThat;
 
-    /**
-     * The constant VOID.
-     */
-    public static final ScheduleResult VOID = new ScheduleResult(RunState.SUCCESS);
-    private final RunState scheduleRunState;
+@RunWith(Theories.class)
+public class ScheduleResultTest {
 
-    /**
-     * Instantiates a new Schedule result.
-     *
-     * @param scheduleRunState the schedule run state
-     */
-    public ScheduleResult(final RunState scheduleRunState) {
-        this.scheduleRunState = Objects.requireNonNull(scheduleRunState, "RunState can not be null");
+    @DataPoints
+    public static RunState[] states = RunState.values();
+
+    @Theory
+    public void testGetScheduleRunState(final RunState state) throws Exception {
+        ScheduleResult testling = new ScheduleResult(state);
+
+        assertThat(testling.getScheduleRunState(), is(sameInstance(state)));
     }
 
-    /**
-     * Gets schedule run state.
-     *
-     * @return the schedule run state
-     */
-    public RunState getScheduleRunState() {
-        return scheduleRunState;
+    @Test
+    public void testInstance() throws Exception {
+        assertThat(ScheduleResult.VOID, is(notNullValue()));
     }
 }

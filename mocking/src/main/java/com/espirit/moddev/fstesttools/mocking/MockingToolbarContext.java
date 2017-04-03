@@ -37,15 +37,15 @@ public class MockingToolbarContext extends MockingBaseContext implements Toolbar
     /**
      * Instantiates a new mocking toolbar context.
      *
-     * @param locale the locale
+     * @param locale                  the locale
      * @param enableServiceBrokerFake the enable service broker fake
-     * @param storeType the store type
-     * @param element the element
-     * @param symbolicProjectname the symbolic projectname
-     * @param supportedEnvironments the supported environments
+     * @param storeType               the store type
+     * @param element                 the element
+     * @param symbolicProjectname     the symbolic projectname
+     * @param supportedEnvironments   the supported environments
      */
     public MockingToolbarContext(Locale locale, boolean enableServiceBrokerFake, Type storeType, IDProvider element, String symbolicProjectname,
-            Env... supportedEnvironments) {
+                                 Env... supportedEnvironments) {
         super(locale, enableServiceBrokerFake, supportedEnvironments);
         this.storeType = storeType;
         this.element = element;
@@ -55,8 +55,8 @@ public class MockingToolbarContext extends MockingBaseContext implements Toolbar
     /**
      * Instantiates a new mocking toolbar context.
      *
-     * @param element the element
-     * @param symbolicProjectname the symbolic projectname
+     * @param element               the element
+     * @param symbolicProjectname   the symbolic projectname
      * @param supportedEnvironments the supported environments
      */
     public MockingToolbarContext(IDProvider element, String symbolicProjectname, Env... supportedEnvironments) {
@@ -66,23 +66,23 @@ public class MockingToolbarContext extends MockingBaseContext implements Toolbar
     /**
      * Instantiates a new mocking toolbar context.
      *
-     * @param locale the locale
+     * @param locale                  the locale
      * @param enableServiceBrokerFake the enable service broker fake
-     * @param element the element
-     * @param symbolicProjectname the symbolic projectname
-     * @param supportedEnvironments the supported environments
+     * @param element                 the element
+     * @param symbolicProjectname     the symbolic projectname
+     * @param supportedEnvironments   the supported environments
      */
     public MockingToolbarContext(Locale locale, boolean enableServiceBrokerFake, IDProvider element, String symbolicProjectname,
-            Env... supportedEnvironments) {
+                                 Env... supportedEnvironments) {
         this(locale, enableServiceBrokerFake, Type.SITESTORE, element, symbolicProjectname, supportedEnvironments);
     }
 
     /**
      * Instantiates a new mocking toolbar context.
      *
-     * @param locale the locale
-     * @param element the element
-     * @param symbolicProjectname the symbolic projectname
+     * @param locale                the locale
+     * @param element               the element
+     * @param symbolicProjectname   the symbolic projectname
      * @param supportedEnvironments the supported environments
      */
     public MockingToolbarContext(Locale locale, IDProvider element, String symbolicProjectname, Env... supportedEnvironments) {

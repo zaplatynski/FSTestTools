@@ -29,7 +29,7 @@ import de.espirit.firstspirit.access.store.templatestore.Script;
 /**
  * The type Modify store result.
  */
-public final class ModifyStoreResult implements FsConnRuleCmdResultBean{
+public final class ModifyStoreResult implements FsConnRuleCmdResultBean {
 
     /**
      * The constant VOID.

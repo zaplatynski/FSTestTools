@@ -19,11 +19,9 @@
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule;
 
 import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleParameters;
 
 import de.espirit.firstspirit.access.schedule.DeployTask;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -37,7 +35,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class ScheduleParametersTest extends AbstractParametersTest<ScheduleParameters>{
+public class ScheduleParametersTest extends AbstractParametersTest<ScheduleParameters> {
 
     @Rule
     public TemporaryFolder temFiles = new TemporaryFolder();
@@ -75,7 +73,7 @@ public class ScheduleParametersTest extends AbstractParametersTest<ScheduleParam
 
         testling.setDeployDir(deployDir);
 
-        assertThat("Expect identity",testling.getDeployDir(), is(sameInstance(deployDir)));
+        assertThat("Expect identity", testling.getDeployDir(), is(sameInstance(deployDir)));
     }
 
     @Test

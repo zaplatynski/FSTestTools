@@ -144,31 +144,31 @@ public class FirstSpiritConnectionRule extends ExternalResource {
 
         int counter = 0;
         for (Class<? extends FsConnRuleCommand> commandClass : commandsFromPackage) {
-            if(commandClass.isAnonymousClass()){
+            if (commandClass.isAnonymousClass()) {
                 continue;
             }
-            LOGGER.debug("Processing '{}'...",commandClass.getSimpleName());
-            if(commandClass.isEnum()){
+            LOGGER.debug("Processing '{}'...", commandClass.getSimpleName());
+            if (commandClass.isEnum()) {
                 final FsConnRuleCommand[] enumCommands = commandClass.getEnumConstants();
                 for (FsConnRuleCommand enumCommand : enumCommands) {
                     LOGGER.debug("Add enum command: {}", enumCommand.name());
                     counter++;
-                    commands.put(enumCommand.name(),enumCommand);
+                    commands.put(enumCommand.name(), enumCommand);
                 }
             }
-            if(!commandClass.isEnum()){
+            if (!commandClass.isEnum()) {
                 final FsConnRuleCommand command;
                 try {
                     command = commandClass.newInstance();
                     LOGGER.debug("Add class command: {}", command.name());
                     counter++;
                     commands.put(command.name(), command);
-                } catch (InstantiationException|IllegalAccessException e) {
-                    LOGGER.error(e.getMessage(),e);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
         }
-        LOGGER.info("Loaded {} commands!",counter);
+        LOGGER.info("Loaded {} commands!", counter);
     }
 
     /**
@@ -319,8 +319,8 @@ public class FirstSpiritConnectionRule extends ExternalResource {
 
 
     /**
-     * Invoke a command to carry out client actions with the FirstSpirit server.
-     * The parameter bean accepts @Inject annotations for FirstSpirit objects such as Connection, SepecialistBroker, BaseContext and GenerationContext.
+     * Invoke a command to carry out client actions with the FirstSpirit server. The parameter bean accepts @Inject annotations for FirstSpirit
+     * objects such as Connection, SepecialistBroker, BaseContext and GenerationContext.
      *
      * @param <P>        the type parameter for the parameter bean class
      * @param <R>        the type parameter for the result bean class

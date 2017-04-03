@@ -19,13 +19,11 @@
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands;
 
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreParameters;
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdParamBean;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 
 import javax.inject.Inject;
@@ -33,7 +31,6 @@ import javax.inject.Inject;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 public abstract class AbstractParametersTest<P extends FsConnRuleCmdParamBean> {
@@ -48,7 +45,7 @@ public abstract class AbstractParametersTest<P extends FsConnRuleCmdParamBean> {
 
     protected abstract P createTestling() throws Exception;
 
-    private  void injectMocksForCDI(final P parameters){
+    private void injectMocksForCDI(final P parameters) throws IllegalAccessException {
         final Field[] declaredFields = parameters.getClass().getDeclaredFields();
         for (Field declaredField : declaredFields) {
             if (declaredField.isAnnotationPresent(Inject.class)) {
@@ -59,8 +56,6 @@ public abstract class AbstractParametersTest<P extends FsConnRuleCmdParamBean> {
                 }
                 try {
                     declaredField.set(parameters, mock(type));
-                } catch (IllegalAccessException e) {
-                    fail(e.toString());
                 } finally {
                     declaredField.setAccessible(accessible);
                 }

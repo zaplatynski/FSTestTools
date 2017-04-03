@@ -127,7 +127,7 @@ public class MockingBaseContext extends AbstractMockManager {
         if (enableServiceBrokerFake && Objects.equals(genericClass, ServicesBroker.class)) {
             return (S) serviceBroker;
         }
-        if(preventThatWrongUiAgentIsRetuned(type)){
+        if (preventThatWrongUiAgentIsRetuned(type)) {
             return null;
         }
         return getMock(genericClass);
@@ -136,7 +136,7 @@ public class MockingBaseContext extends AbstractMockManager {
     @Override
     public <S> S requireSpecialist(final SpecialistType<S> type) {
         final S specialist = requestSpecialist(type);
-        if(specialist == null){
+        if (specialist == null) {
             throw new IllegalStateException("Specialist not available in environments: " + supportedEnvironments.toString());
         }
         return specialist;

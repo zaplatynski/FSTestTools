@@ -65,7 +65,6 @@ public class MockingReportContext<T> extends MockingBaseContext implements Repor
     }
 
 
-
     @Override
     public T getObject() {
         return object;

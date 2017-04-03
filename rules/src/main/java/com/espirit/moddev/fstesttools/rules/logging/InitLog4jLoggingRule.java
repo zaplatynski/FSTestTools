@@ -44,7 +44,7 @@ public class InitLog4jLoggingRule extends ExternalResource {
      */
     public InitLog4jLoggingRule() {
         this.notConfigured = !isLog4JConfigured();
-        if(logger == null) {
+        if (logger == null) {
             Logger.getRootLogger().setAdditivity(false);
             logger = Logger.getLogger(InitLog4jLoggingRule.class);
             logger.setAdditivity(false);

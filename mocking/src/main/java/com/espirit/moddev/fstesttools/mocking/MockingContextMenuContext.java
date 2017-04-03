@@ -42,9 +42,9 @@ public class MockingContextMenuContext extends MockingBaseContext implements Con
     /**
      * Instantiates a new mocking context menu context.
      *
-     * @param locale the locale
+     * @param locale                  the locale
      * @param enableServiceBrokerFake the enable service broker fake
-     * @param supportedEnvironments the supported environments
+     * @param supportedEnvironments   the supported environments
      */
     public MockingContextMenuContext(Locale locale, boolean enableServiceBrokerFake, Env... supportedEnvironments) {
         this(locale, enableServiceBrokerFake, Type.SITESTORE, supportedEnvironments);
@@ -53,10 +53,10 @@ public class MockingContextMenuContext extends MockingBaseContext implements Con
     /**
      * Instantiates a new mocking context menu context.
      *
-     * @param locale the locale
+     * @param locale                  the locale
      * @param enableServiceBrokerFake the enable service broker fake
-     * @param storeType the store type
-     * @param supportedEnvironments the supported environments
+     * @param storeType               the store type
+     * @param supportedEnvironments   the supported environments
      */
     public MockingContextMenuContext(Locale locale, boolean enableServiceBrokerFake, Type storeType, Env... supportedEnvironments) {
         super(locale, enableServiceBrokerFake, supportedEnvironments);
@@ -97,7 +97,7 @@ public class MockingContextMenuContext extends MockingBaseContext implements Con
     /**
      * Instantiates a new mocking context menu context.
      *
-     * @param locale the locale
+     * @param locale                the locale
      * @param supportedEnvironments the supported environments
      */
     public MockingContextMenuContext(Locale locale, Env... supportedEnvironments) {

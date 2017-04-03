@@ -179,7 +179,7 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void addDataToContext(final DataProvider dataProvider) {
-        throw  new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -221,7 +221,7 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void include(final String s, final Object o, final Map<String, Object> stringObjectMap) throws IOException {
-        throw  new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -316,12 +316,12 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void setErrorOut(final Writer writer) {
-        throw  new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void setErrorOut(final PrintWriter printWriter) {
-        throw  new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -448,7 +448,7 @@ public class MockingGenerationContext extends AbstractMockingGenerationScriptCon
 
     @Override
     public void mediaReferenced(final Media media, final Language language, final Resolution resolution) throws IOException {
-        throw  new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

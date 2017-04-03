@@ -27,7 +27,7 @@ import javax.inject.Inject;
 /**
  * The type Modify store parameters.
  */
-public final class ModifyStoreParameters implements FsConnRuleCmdParamBean{
+public final class ModifyStoreParameters implements FsConnRuleCmdParamBean {
 
     private final String projectName;
     private final String name;

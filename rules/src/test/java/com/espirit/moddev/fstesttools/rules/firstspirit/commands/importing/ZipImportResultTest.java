@@ -16,22 +16,18 @@
  * ********************************************************************
  */
 
-package com.espirit.moddev.fstesttools.rules.firstspirit.commands;
+package com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCommand;
+import org.junit.Test;
 
-/**
- * Created by e-Spirit AG.
- */
-public class CommandForTesting implements FsConnRuleCommand<TestCmdParameters, TestCmdResult> {
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
-    @Override
-    public String name() {
-        return "TEST";
-    }
+public class ZipImportResultTest {
 
-    @Override
-    public TestCmdResult execute(final TestCmdParameters parameters) {
-        return new TestCmdResult();
+    @Test
+    public void testInstance() throws Exception {
+        assertThat("Expect non null value", ZipImportResult.VOID, is(notNullValue()));
     }
 }

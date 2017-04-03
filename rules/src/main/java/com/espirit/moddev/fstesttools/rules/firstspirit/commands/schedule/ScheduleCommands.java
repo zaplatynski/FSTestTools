@@ -51,7 +51,7 @@ import static org.junit.Assert.fail;
  */
 public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, ScheduleResult> {
 
-    RUN_SCHEDULE{
+    RUN_SCHEDULE {
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
             final Project project = getProject(parameters);
@@ -67,7 +67,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
                 scheduleRunState = getRunState(control, sb);
                 logResult(parameters.getEntryName(), scheduleRunState, sb);
             } catch (final ScheduleEntryRunningException e) {
-                LOGGER.error("Schedule '" + parameters.getEntryName() + "' caused an error: "+e.getMessage(), e);
+                LOGGER.error("Schedule '" + parameters.getEntryName() + "' caused an error: " + e.getMessage(), e);
                 fail(e.toString());
             } catch (@SuppressWarnings("squid:S2221") final Exception e) {
                 LOGGER.error("Perhaps the given schedule entry does not exist: '" + parameters.getEntryName() + "': " + e.getMessage(), e);
@@ -125,7 +125,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
                 final ScheduleEntry scheduleEntry = ad.getScheduleStorage().getScheduleEntry(project, parameters.getEntryName());
                 if (scheduleEntry != null) {
                     final List<ScheduleTask> tasks = scheduleEntry.getTasks();
-                    if(modifyAllTasks(parameters, tasks)){
+                    if (modifyAllTasks(parameters, tasks)) {
                         found = true;
                     }
                 }
@@ -154,7 +154,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             return found;
         }
     },
-    GENERATE_SCHEDULE{
+    GENERATE_SCHEDULE {
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
             final Project project = getProject(parameters);
@@ -181,7 +181,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             }
             return ScheduleResult.VOID;
         }
-        
+
         private GenerateTask createGenerateTask(final ScheduleEntry scheduleEntry, final Project project, final ScheduleParameters configuration) {
             GenerateTask generateTask = null;
             try {
