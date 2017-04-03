@@ -16,4 +16,4 @@
  * ********************************************************************
  */
 
-package com.espirit.moddev.fstesttools.rules.firstspirit.utils;
+package com.espirit.moddev.fstesttools.rules.firstspirit.commands;
