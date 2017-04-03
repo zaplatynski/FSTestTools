@@ -114,7 +114,7 @@ public abstract class AbstractMockManager implements BaseContext {
                     strategy = new PreviewMocksStrategy(this, locale);
                     break;
                 default:
-                    strategy = new DefaultMocksStrategy(this, locale);
+                    // use default strategy
             }
         }
         strategy.setupMocks();

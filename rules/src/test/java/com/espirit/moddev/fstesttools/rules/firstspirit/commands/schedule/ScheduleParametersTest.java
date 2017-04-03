@@ -16,43 +16,42 @@
  * ********************************************************************
  */
 
-package com.espirit.moddev.fstesttools.rules.firstspirit;
+package com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule;
 
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
 import com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule.ScheduleParameters;
 
 import de.espirit.firstspirit.access.schedule.DeployTask;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import java.io.File;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-/**
- * SchedulerConfiguration Tester.
- */
-public class ScheduleParametersTest {
+public class ScheduleParametersTest extends AbstractParametersTest<ScheduleParameters>{
 
-    private ScheduleParameters testling;
+    @Rule
+    public TemporaryFolder temFiles = new TemporaryFolder();
 
-    @Before
-    public void before() throws Exception {
-        testling = new ScheduleParameters("MyProject", "Full Generation");
+    @Override
+    protected ScheduleParameters createTestling() throws Exception {
+        return new ScheduleParameters("MyProject", "Full Generation");
     }
 
-    /**
-     * Method: isGenerateDeleteDirectory().
-     */
     @Test
     public void testIsGenerateDeleteDirectory() throws Exception {
         assertTrue("Default true", testling.isGenerateDeleteDirectory());
     }
 
-    /**
-     * Method: setGenerateDeleteDirectory(final boolean generateDeleteDirectory).
-     */
     @Test
     public void testSetGenerateDeleteDirectory() throws Exception {
         testling.setGenerateDeleteDirectory(false);
@@ -60,17 +59,25 @@ public class ScheduleParametersTest {
         assertFalse("set to false", testling.isGenerateDeleteDirectory());
     }
 
-    /**
-     * Method: getDeployTaskType().
-     */
     @Test
     public void testGetDeployTaskType() throws Exception {
         assertThat("expect default", testling.getDeployTaskType(), is(DeployTask.Type.Full));
     }
 
-    /**
-     * Method: setDeployTaskType(final DeployTask.Type deployTaskType).
-     */
+    @Test
+    public void testGetEntry() throws Exception {
+        assertThat("expect default", testling.getEntryName(), is("Full Generation"));
+    }
+
+    @Test
+    public void testDeployDir() throws Exception {
+        final File deployDir = temFiles.newFolder();
+
+        testling.setDeployDir(deployDir);
+
+        assertThat("Expect identity",testling.getDeployDir(), is(sameInstance(deployDir)));
+    }
+
     @Test
     public void testSetDeployTaskType() throws Exception {
         testling.setDeployTaskType(DeployTask.Type.Incremental);
@@ -78,22 +85,21 @@ public class ScheduleParametersTest {
         assertThat("set incremental", testling.getDeployTaskType(), is(DeployTask.Type.Incremental));
     }
 
-    /**
-     * Method: getGenerateUrlPrefix().
-     */
     @Test
     public void testGetGenerateUrlPrefix() throws Exception {
         assertThat("expect default", testling.getGenerateUrlPrefix(), is("http://$address$"));
     }
 
-    /**
-     * Method: setGenerateUrlPrefix(final String generateUrlPrefix).
-     */
     @Test
     public void testSetGenerateUrlPrefix() throws Exception {
         testling.setGenerateUrlPrefix("http://www.e-spirit.com");
 
         assertThat("expect new address", testling.getGenerateUrlPrefix(), is("http://www.e-spirit.com"));
+    }
+
+    @Test
+    public void getConnection() throws Exception {
+        assertThat("Expect non null value", testling.getConnection(), is(notNullValue()));
     }
 
 } 
