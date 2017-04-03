@@ -21,15 +21,22 @@ package com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing;
 import de.espirit.firstspirit.access.store.ImportHandler;
 import de.espirit.firstspirit.access.store.StoreElement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
- * The import handler.
+ * The ModuleImportHandler.
  */
 class ModuleImportHandler implements ImportHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModuleImportHandler.class);
 
     /**
      * Constructor.
      */
     ModuleImportHandler() {
+        //empty
     }
 
     /**
@@ -79,6 +86,6 @@ class ModuleImportHandler implements ImportHandler {
      */
     @Override
     public void setImportElementCount(final int count) {
-        // Do nothing because nothing is enough.
+        LOGGER.info("Importing {} elements", count);
     }
 }

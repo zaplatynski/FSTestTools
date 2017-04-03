@@ -230,7 +230,7 @@ public class MockingBaseContextTest<C extends MockingBaseContext> {
         final LanguageAgent languageAgent1 = testling.requireSpecialist(LanguageAgent.TYPE);
         final LanguageAgent languageAgent2 = testling.requireSpecialist(LanguageAgent.TYPE);
 
-        assertThat(languageAgent1, is(sameInstance(languageAgent2)));
+        assertThat("Expect identity",languageAgent1, is(sameInstance(languageAgent2)));
     }
 
 
@@ -238,35 +238,35 @@ public class MockingBaseContextTest<C extends MockingBaseContext> {
     public void testLogDebug() throws Exception {
         testling.logDebug("myDebugMessage");
 
-        assertThat(logMessage, is("myDebugMessage"));
+        assertThat("Expect specific value", logMessage, is("myDebugMessage"));
     }
 
     @Test
     public void testLogInfo() throws Exception {
         testling.logInfo("myInfoMessage");
 
-        assertThat(logMessage, is("myInfoMessage"));
+        assertThat("Expect specific value",logMessage, is("myInfoMessage"));
     }
 
     @Test
     public void testLogWarning() throws Exception {
         testling.logWarning("myWarningMessage");
 
-        assertThat(logMessage, is("myWarningMessage"));
+        assertThat("Expect specific value",logMessage, is("myWarningMessage"));
     }
 
     @Test
     public void testLogError() throws Exception {
         testling.logError("myErrorMessage");
 
-        assertThat(logMessage, is("myErrorMessage"));
+        assertThat("Expect specific value",logMessage, is("myErrorMessage"));
     }
 
     @Test
     public void testLogErrorWithException() throws Exception {
         testling.logError("myErrorExceptionMessage", new Exception("JUnit"));
 
-        assertThat(logMessage, is("myErrorExceptionMessage"));
+        assertThat("Expect specific value",logMessage, is("myErrorExceptionMessage"));
     }
 
     @Test(expected = NullPointerException.class)
