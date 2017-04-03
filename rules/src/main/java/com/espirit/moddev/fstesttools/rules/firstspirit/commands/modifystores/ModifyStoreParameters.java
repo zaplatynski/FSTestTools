@@ -22,6 +22,8 @@ import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRule
 
 import de.espirit.firstspirit.access.Connection;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 /**
@@ -44,8 +46,8 @@ public final class ModifyStoreParameters implements FsConnRuleCmdParamBean {
      * @param name        the name
      */
     public ModifyStoreParameters(final String projectName, final String name) {
-        this.projectName = projectName;
-        this.name = name;
+        this.projectName = Objects.requireNonNull(projectName, "projectName can not be null!");;
+        this.name = Objects.requireNonNull(projectName, "name can not be null!");;
     }
 
     /**

@@ -24,6 +24,7 @@ import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.schedule.DeployTask;
 
 import java.io.File;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -50,8 +51,8 @@ public final class ScheduleParameters implements FsConnRuleCmdParamBean {
      * @param entryName   the entry name
      */
     public ScheduleParameters(final String projectName, final String entryName) {
-        this.projectName = projectName;
-        this.entryName = entryName;
+        this.projectName = Objects.requireNonNull(projectName, "projectName can not be null!");
+        this.entryName = Objects.requireNonNull(entryName, "entryName can not be null!");
         generateDeleteDirectory = true;
         deployTaskType = DeployTask.Type.Full;
         generateUrlPrefix = "http://$address$";

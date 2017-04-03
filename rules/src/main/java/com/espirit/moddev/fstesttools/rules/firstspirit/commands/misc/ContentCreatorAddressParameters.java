@@ -16,37 +16,46 @@
  * ********************************************************************
  */
 
-package com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing;
+package com.espirit.moddev.fstesttools.rules.firstspirit.commands.misc;
 
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdParamBean;
 
 import de.espirit.firstspirit.access.Connection;
 
-import java.io.File;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
 
 /**
- * The type Zip import parameters.
+ * The type Content creator adress parameters.
  */
-public final class ZipImportParameters implements FsConnRuleCmdParamBean {
+public class ContentCreatorAddressParameters implements FsConnRuleCmdParamBean {
 
     private final String projectName;
-    private final File zip;
+    private Locale locale;
 
     @Inject
     private Connection connection;
 
     /**
-     * Instantiates a new Zip import parameters.
+     * Instantiates a new Content creator adress parameters.
      *
      * @param projectName the project name
-     * @param zip         the zip
      */
-    public ZipImportParameters(final String projectName, final File zip) {
+    public ContentCreatorAddressParameters(String projectName) {
         this.projectName = Objects.requireNonNull(projectName, "projectName can not be null!");
-        this.zip = zip;
+    }
+
+    /**
+     * Instantiates a new Content creator adress parameters.
+     *
+     * @param projectName the project name
+     * @param locale      the locale
+     */
+    public ContentCreatorAddressParameters(String projectName, Locale locale) {
+        this(projectName);
+        this.locale = locale;
     }
 
     @Override
@@ -55,12 +64,21 @@ public final class ZipImportParameters implements FsConnRuleCmdParamBean {
     }
 
     /**
-     * Gets zip.
+     * Gets locale.
      *
-     * @return the zip
+     * @return the locale
      */
-    public File getZip() {
-        return zip;
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Sets locale.
+     *
+     * @param locale the locale
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     /**

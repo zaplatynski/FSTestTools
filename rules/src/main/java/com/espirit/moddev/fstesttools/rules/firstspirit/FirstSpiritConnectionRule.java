@@ -371,22 +371,4 @@ public class FirstSpiritConnectionRule extends ExternalResource {
         }
         declaredField.setAccessible(accessible);
     }
-
-    /**
-     * Gets content creator url for a project and user language.
-     *
-     * @param projectName the project name
-     * @param language    the language
-     * @return the content creator url
-     */
-    public String getContentCreatorUrl(final String projectName, final String language) {
-        final Project project = connection.getProjectByName(projectName);
-        if (project != null) {
-            final long projectId = project.getId();
-            return connection.getServerConfiguration().getUrl() + "fs5webedit_" + projectId + "/?locale=" + language + "&project=" + projectId;
-        } else {
-            return null;
-        }
-    }
-
 }
