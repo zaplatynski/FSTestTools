@@ -22,5 +22,5 @@ public interface FsConnRuleCommand<P extends FsConnRuleCmdParamBean, R extends F
      * @param parameters the parameters
      * @return the r
      */
-    R execute(final P parameters);
+    R execute(P parameters);
 }

@@ -253,11 +253,16 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public void logError(final int i, final int i2, final String s) {
-
+        logError(s);
     }
 
     @Override
     public void logError(final int i, final int i2, final String s, final Throwable throwable) {
+        logError(s, throwable);
+    }
+
+    @Override
+    public void pushContext(final Context context) {
 
     }
 
@@ -274,11 +279,6 @@ public class TestGenerationContext extends TestContext implements GenerationCont
     @Override
     public Context pushContext(final String s, final Object o) {
         return null;
-    }
-
-    @Override
-    public void pushContext(final Context context) {
-
     }
 
     @Override
@@ -337,13 +337,13 @@ public class TestGenerationContext extends TestContext implements GenerationCont
     }
 
     @Override
-    public void setMaxStackSize(final int i) {
-
+    public TemplateDocument parse(final String s) {
+        return null;
     }
 
     @Override
-    public TemplateDocument parse(final String s) {
-        return null;
+    public void setMaxStackSize(final int i) {
+
     }
 
     @Override

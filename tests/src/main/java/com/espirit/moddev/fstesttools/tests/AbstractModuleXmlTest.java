@@ -64,6 +64,7 @@ public abstract class AbstractModuleXmlTest {
     @Rule
     public ErrorCollector errors = new ErrorCollector();
 
+    @SuppressWarnings("squid:S1312")
     private Logger logger;
     private Node moduleXML;
     private Properties pomProperties;

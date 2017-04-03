@@ -6,7 +6,7 @@ import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRule
 /**
  * The type Zip import result.
  */
-public class ZipImportResult implements FsConnRuleCmdResultBean {
+public final class ZipImportResult implements FsConnRuleCmdResultBean {
 
     /**
      * The constant VOID.
