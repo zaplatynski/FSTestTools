@@ -290,12 +290,12 @@ public class TestGenerationContext extends TestContext implements GenerationCont
     }
 
     @Override
-    public Context pushContext(final String s) {
+    public Context pushContext(final String s, final Object o) {
         return null;
     }
 
     @Override
-    public Context pushContext(final String s, final Object o) {
+    public Context pushContext(final String s) {
         return null;
     }
 

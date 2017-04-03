@@ -15,5 +15,4 @@
  * limitations under the License.
  * ********************************************************************
  */
-
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands;
