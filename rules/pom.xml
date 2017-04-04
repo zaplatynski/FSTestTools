@@ -34,13 +34,6 @@
             <artifactId>reflections</artifactId>
             <version>0.9.10</version>
         </dependency>
-        <dependency>
-            <groupId>com.atlassian.jira</groupId>
-            <artifactId>jira-func-tests</artifactId>
-            <version>7.1.0-QR20151229171111</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
 
