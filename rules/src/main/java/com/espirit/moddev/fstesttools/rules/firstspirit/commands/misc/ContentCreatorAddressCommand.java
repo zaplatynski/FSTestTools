@@ -26,6 +26,9 @@ import de.espirit.firstspirit.access.project.Project;
 import java.util.Locale;
 import java.util.Optional;
 
+/**
+ * The type Content creator address command.
+ */
 public class ContentCreatorAddressCommand implements FsConnRuleCommand<ContentCreatorAddressParameters, ContentCreatorAddressResult> {
 
     @Override

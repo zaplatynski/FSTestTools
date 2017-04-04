@@ -28,7 +28,6 @@ import de.espirit.firstspirit.access.BaseContext;
 import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.ConnectionManager;
 import de.espirit.firstspirit.access.GenerationContext;
-import de.espirit.firstspirit.access.project.Project;
 import de.espirit.firstspirit.agency.BrokerAgent;
 import de.espirit.firstspirit.agency.SpecialistType;
 import de.espirit.firstspirit.agency.SpecialistsBroker;

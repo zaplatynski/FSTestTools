@@ -23,9 +23,8 @@ import org.junit.Test;
 
 import java.net.URI;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ContentCreatorAddressResultTest {
 
@@ -41,13 +40,14 @@ public class ContentCreatorAddressResultTest {
     }
 
     @Test
-    public void getContentCreatorAddress() throws Exception {
-        assertThat(testling.getContentCreatorAddress(), is(url));
+    public void testGetContentCreatorAddress() throws Exception {
+        assertThat("Expect a specific value", testling.getContentCreatorAddress(), is(url));
     }
 
     @Test
-    public void getContentCreatorUri() throws Exception {
-        assertThat(testling.getContentCreatorUri(), is(URI.create("http://localhost:8000/fs5webedit_123/?locale=de&project=" + 123)));
+    public void testGetContentCreatorUri() throws Exception {
+        assertThat("Expect a specific value", testling.getContentCreatorUri(),
+                   is(URI.create("http://localhost:8000/fs5webedit_123/?locale=de&project=" + 123)));
     }
 
 }
