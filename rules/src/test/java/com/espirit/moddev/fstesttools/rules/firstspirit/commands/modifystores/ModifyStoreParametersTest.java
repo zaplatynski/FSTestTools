@@ -18,19 +18,27 @@
 
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
-
+import org.junit.Rule;
 import org.junit.Test;
+import org.needle4j.annotation.ObjectUnderTest;
+import org.needle4j.junit.NeedleBuilders;
+import org.needle4j.junit.NeedleRule;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class ModifyStoreParametersTest extends AbstractParametersTest<ModifyStoreParameters> {
+public class ModifyStoreParametersTest {
 
-    @Override
-    protected ModifyStoreParameters createTestling() {
-        return new ModifyStoreParameters("My Project", "my_page", "html", "source-code");
+    @Rule
+    public NeedleRule needleRule = NeedleBuilders.needleMockitoRule().build();
+
+    @ObjectUnderTest
+    private ModifyStoreParameters testling = new ModifyStoreParameters("My Project", "my_page", "html", "source-code");
+
+    @Test
+    public void testGetProjectName() throws Exception {
+        assertThat("Expect specific value", testling.getProjectName(), is(notNullValue()));
     }
 
     @Test

@@ -18,10 +18,11 @@
 
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.misc;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
-
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.needle4j.annotation.ObjectUnderTest;
+import org.needle4j.junit.NeedleBuilders;
+import org.needle4j.junit.NeedleRule;
 
 import java.util.Locale;
 
@@ -31,11 +32,17 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-public class ContentCreatorAddressParametersTest extends AbstractParametersTest<ContentCreatorAddressParameters> {
+public class ContentCreatorAddressParametersTest {
 
-    @Override
-    protected ContentCreatorAddressParameters createTestling() throws Exception {
-        return new ContentCreatorAddressParameters("My Project");
+    @Rule
+    public NeedleRule needleRule = NeedleBuilders.needleMockitoRule().build();
+
+    @ObjectUnderTest
+    private ContentCreatorAddressParameters testling = new ContentCreatorAddressParameters("My Project");
+
+    @Test
+    public void testGetProjectName() throws Exception {
+        assertThat("Expect specific value", testling.getProjectName(), is(notNullValue()));
     }
 
     @Test

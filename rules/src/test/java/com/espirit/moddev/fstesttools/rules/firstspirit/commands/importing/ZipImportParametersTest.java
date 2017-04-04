@@ -18,13 +18,15 @@
 
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.needle4j.annotation.ObjectUnderTest;
+import org.needle4j.junit.NeedleBuilders;
+import org.needle4j.junit.NeedleRule;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -34,16 +36,25 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by zaplatynski on 03.04.2017.
  */
-public class ZipImportParametersTest extends AbstractParametersTest<ZipImportParameters> {
+public class ZipImportParametersTest {
+
+    @Rule
+    public NeedleRule needleRule = NeedleBuilders.needleMockitoRule().build();
 
     @Rule
     public TemporaryFolder tempFiles = new TemporaryFolder();
-    private File zipFile;
 
-    @Override
-    protected ZipImportParameters createTestling() throws Exception {
-        zipFile = tempFiles.newFile();
-        return new ZipImportParameters("MyProject", zipFile);
+    private File zipFile = File.createTempFile("test","zip");
+
+    @ObjectUnderTest
+    private ZipImportParameters testling = new ZipImportParameters("MyProject", zipFile);
+
+    public ZipImportParametersTest() throws IOException {
+    }
+
+    @Test
+    public void testGetProjectName() throws Exception {
+        assertThat("Expect specific value", testling.getProjectName(), is(notNullValue()));
     }
 
     @Test

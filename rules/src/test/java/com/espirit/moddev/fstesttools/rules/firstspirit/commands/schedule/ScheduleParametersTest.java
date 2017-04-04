@@ -18,13 +18,14 @@
 
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule;
 
-import com.espirit.moddev.fstesttools.rules.firstspirit.commands.AbstractParametersTest;
-
 import de.espirit.firstspirit.access.schedule.DeployTask;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.needle4j.annotation.ObjectUnderTest;
+import org.needle4j.junit.NeedleBuilders;
+import org.needle4j.junit.NeedleRule;
 
 import java.io.File;
 
@@ -35,14 +36,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class ScheduleParametersTest extends AbstractParametersTest<ScheduleParameters> {
+public class ScheduleParametersTest {
 
     @Rule
     public TemporaryFolder temFiles = new TemporaryFolder();
 
-    @Override
-    protected ScheduleParameters createTestling() throws Exception {
-        return new ScheduleParameters("MyProject", "Full Generation");
+    @Rule
+    public NeedleRule needleRule = NeedleBuilders.needleMockitoRule().build();
+
+    @ObjectUnderTest
+    private ScheduleParameters testling = new ScheduleParameters("MyProject", "Full Generation");
+
+    @Test
+    public void testGetProjectName() throws Exception {
+        assertThat("Expect specific value", testling.getProjectName(), is(notNullValue()));
     }
 
     @Test
