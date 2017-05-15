@@ -20,14 +20,40 @@ package com.espirit.moddev.fstesttools.rules.firstspirit.commands;
 
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCmdParamBean;
 
+import de.espirit.firstspirit.access.BaseContext;
+import de.espirit.firstspirit.access.Connection;
+import de.espirit.firstspirit.agency.SpecialistsBroker;
+
+import javax.inject.Inject;
+
 /**
  * Created by e-Spirit AG.
  */
 public class TestCmdParameters implements FsConnRuleCmdParamBean {
+
+    @Inject
+    private Connection connection;
+
+    @Inject
+    private SpecialistsBroker broker;
+
+    @Inject
+    private BaseContext context;
 
     @Override
     public String getProjectName() {
         return "Test";
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public SpecialistsBroker getBroker() {
+        return broker;
+    }
+
+    public BaseContext getContext() {
+        return context;
+    }
 }

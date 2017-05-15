@@ -27,7 +27,7 @@
 
     <artifactId>fstesttools-parent</artifactId>
     <groupId>com.espirit.moddev.fstesttools</groupId>
-    <version>${ci.version}</version>
+    <version>${revision}</version>
     <name>${project.display.name} parent</name>
     <packaging>pom</packaging>
 
@@ -386,11 +386,11 @@
             <id>ModuleVersion</id>
             <activation>
                 <property>
-                    <name>!ci.version</name>
+                    <name>!revision</name>
                 </property>
             </activation>
             <properties>
-                <ci.version>1.0_DEV.123</ci.version>
+                <revision>1.0_DEV.123</revision>
             </properties>
         </profile>
     </profiles>

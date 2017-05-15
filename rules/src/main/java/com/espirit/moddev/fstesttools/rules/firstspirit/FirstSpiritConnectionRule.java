@@ -96,7 +96,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
     public FirstSpiritConnectionRule(final ConnectionMode mode) {
         this(System.getProperty(SYS_PROP_HOST, "localhost"),
              System.getProperty(SYS_PROP_PORT, mode.getDefaultPortAsStr()),
-             mode,
+             Objects.requireNonNull(mode,"mode can not be null"),
              System.getProperty(SYS_PROP_LOGIN, ADMIN),
              System.getProperty(SYS_PROP_PASSWORD, ADMIN));
     }
@@ -218,7 +218,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
     @Override
     public void before() throws Throwable {
         LOGGER.info("Connect to FirstSpirit on '{}' with port '{}' ({}/{})...", new Object[]{host, port, login, password});
-        connection = ConnectionManager.getConnection(host, port, mode.getCode(), login, password);
+        connection = obtainConnection();
         assertThat("FirstSpirit ConnectionManager returned null-connection!", connection, is(notNullValue()));
         try {
             connection.connect();
@@ -234,6 +234,15 @@ public class FirstSpiritConnectionRule extends ExternalResource {
             fail(e.toString());
         }
         assertThat("FirstSpirit ConnectionManager could not connect to server!", connection.isConnected(), is(Boolean.TRUE));
+    }
+
+    /**
+     * Obtain FirstSpirit connection. Used in Tests.
+     *
+     * @return the connection
+     */
+    protected Connection obtainConnection() {
+        return ConnectionManager.getConnection(host, port, mode.getCode(), login, password);
     }
 
     @Override
@@ -265,7 +274,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @return the base context for the current project
      */
     public BaseContext getBaseContextForCurrentProject(final String projectName) {
-        final BrokerAgent brokerAgent = getBroker().requestSpecialist(BrokerAgent.TYPE);
+        final BrokerAgent brokerAgent = requireSpecialist(BrokerAgent.TYPE);
         final SpecialistsBroker specialistsBrokerByProject = brokerAgent.getBrokerByProjectName(projectName);
         return new TestContext(specialistsBrokerByProject);
     }
@@ -277,7 +286,7 @@ public class FirstSpiritConnectionRule extends ExternalResource {
      * @return the generation context for current project
      */
     public GenerationContext getGenerationContextForCurrentProject(final String projectName) {
-        final BrokerAgent brokerAgent = getBroker().requestSpecialist(BrokerAgent.TYPE);
+        final BrokerAgent brokerAgent = requireSpecialist(BrokerAgent.TYPE);
         final SpecialistsBroker specialistsBrokerByProject = brokerAgent.getBrokerByProjectName(projectName);
         return new TestGenerationContext(specialistsBrokerByProject);
     }

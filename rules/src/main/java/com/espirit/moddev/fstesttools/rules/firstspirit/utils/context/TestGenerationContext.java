@@ -22,6 +22,7 @@ import de.espirit.common.function.UnaryProcedure;
 import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.GenerationContext;
 import de.espirit.firstspirit.access.Language;
+import de.espirit.firstspirit.access.ServicesBroker;
 import de.espirit.firstspirit.access.UrlCreatorProvider;
 import de.espirit.firstspirit.access.UserService;
 import de.espirit.firstspirit.access.project.Project;
@@ -64,6 +65,7 @@ import java.util.Map;
 public class TestGenerationContext extends TestContext implements GenerationContext, Evaluator {
 
     private Locale locale = Locale.getDefault();
+    private Writer writer;
 
     /**
      * Instantiates a new Test context.
@@ -101,7 +103,7 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public UserService getUserService() {
-        return null;
+        return broker.requireSpecialist(ServicesBroker.TYPE).getService(UserService.class);
     }
 
     @Override
@@ -126,7 +128,7 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public GenerationContext getGenerationContext() {
-        return null;
+        return this;
     }
 
     @Override
@@ -171,7 +173,7 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public String toString(final Object o) throws Exception {
-        return null;
+        return o.toString();
     }
 
     @Override
@@ -196,12 +198,12 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public void setPage(final Page page) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public String getEncoding() {
-        return null;
+        return "utf-8";
     }
 
     @Override
@@ -226,7 +228,7 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public void include(final String s, final Object o, final Map<String, Object> stringObjectMap) throws IOException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -266,7 +268,7 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public void setLocaleKey(final String s) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -281,37 +283,37 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public void pushContext(final Context context) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Context pushContext(final String s, final String s2) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Context pushContext(final String s, final Object o) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Context pushContext(final String s) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Context popContext() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Writer getOut() {
-        return null;
+        return writer;
     }
 
     @Override
     public void setOut(final Writer writer) {
-
+        this.writer = writer;
     }
 
     @Override
@@ -361,7 +363,7 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public void setMaxStackSize(final int i) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -401,7 +403,7 @@ public class TestGenerationContext extends TestContext implements GenerationCont
 
     @Override
     public void close() throws IOException {
-
+        //do nothing here
     }
 
     @Override
@@ -457,11 +459,6 @@ public class TestGenerationContext extends TestContext implements GenerationCont
     @Override
     public Dataset getDataset() {
         return null;
-    }
-
-    @Override
-    public boolean is(final Env env) {
-        return false;
     }
 
     @Override

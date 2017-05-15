@@ -36,7 +36,7 @@ import java.util.Objects;
 public class TestContext implements BaseContext {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestContext.class);
-    private final SpecialistsBroker broker;
+    protected final SpecialistsBroker broker;
 
     /**
      * Instantiates a new Test context.

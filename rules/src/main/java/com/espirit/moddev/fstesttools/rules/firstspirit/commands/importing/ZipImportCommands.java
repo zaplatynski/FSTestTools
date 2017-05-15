@@ -54,8 +54,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
         public ZipImportResult execute(final ZipImportParameters parameters) {
             final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+                final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getFormatTemplates());
                 } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
@@ -76,8 +75,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
         public ZipImportResult execute(final ZipImportParameters parameters) {
             final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+                final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getPageTemplates());
                 } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
@@ -97,8 +95,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
         public ZipImportResult execute(final ZipImportParameters parameters) {
             final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+                final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getLinkTemplates());
                 } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
@@ -139,8 +136,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
         public ZipImportResult execute(final ZipImportParameters parameters) {
             final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+                final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getScripts());
                 } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
@@ -160,8 +156,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
         public ZipImportResult execute(final ZipImportParameters parameters) {
             final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+                final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getWorkflows());
                 } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
@@ -173,6 +168,11 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
             return ZipImportResult.VOID;
         }
     };
+
+    protected static TemplateStoreRoot getTemplateStoreRoot(Project project) {
+        final UserService userService = project.getUserService();
+        return (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZipImportCommands.class);
 

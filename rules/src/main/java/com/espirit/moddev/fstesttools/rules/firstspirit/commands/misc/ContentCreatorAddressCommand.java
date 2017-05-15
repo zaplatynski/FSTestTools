@@ -31,9 +31,11 @@ import java.util.Optional;
  */
 public class ContentCreatorAddressCommand implements FsConnRuleCommand<ContentCreatorAddressParameters, ContentCreatorAddressResult> {
 
+    public static final String CMD_NAME = "ContentCreatorAddress";
+
     @Override
     public String name() {
-        return "ContentCreatorAddress";
+        return CMD_NAME;
     }
 
     @Override

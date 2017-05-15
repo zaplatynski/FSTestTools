@@ -41,15 +41,13 @@ public class ZipImportParametersTest {
     @Rule
     public NeedleRule needleRule = NeedleBuilders.needleMockitoRule().build();
 
-    @Rule
-    public TemporaryFolder tempFiles = new TemporaryFolder();
-
     private File zipFile = File.createTempFile("test","zip");
 
     @ObjectUnderTest
     private ZipImportParameters testling = new ZipImportParameters("MyProject", zipFile);
 
     public ZipImportParametersTest() throws IOException {
+        //needed for static initializer exception handling
     }
 
     @Test
