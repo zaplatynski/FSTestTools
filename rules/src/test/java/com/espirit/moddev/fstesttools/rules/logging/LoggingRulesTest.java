@@ -26,6 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ErrorCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +43,9 @@ public class LoggingRulesTest {
     @Rule
     public LogTestMethodNameRule rule = new LogTestMethodNameRule();
 
+    @Rule
+    public ErrorCollector errors = new ErrorCollector();
+
     private static SingleMessageAppender appenderForTest = new SingleMessageAppender();
 
     @BeforeClass
@@ -51,18 +55,16 @@ public class LoggingRulesTest {
 
     @Test
     public void testLogging() throws Exception {
-        assertThat("Expect starting message", appenderForTest.getMessage(), is("Start of 'testLogging'..."));
+        errors.checkThat("Expect starting message", appenderForTest.getMessage(), is("Start of 'testLogging'..."));
         appenderForTest.setMessage("");
 
         LOGGER.info("Do some logging inside the test method...");
-        assertThat("Expect SLF4J via Log4J message", appenderForTest.getMessage(), is("Do some logging inside the test method..."));
+        errors.checkThat("Expect SLF4J via Log4J message", appenderForTest.getMessage(), is("Do some logging inside the test method..."));
         appenderForTest.setMessage("");
 
         Logging.logInfo("Test via FS-Logger", getClass());
 
-        Thread.sleep(1000);
-
-        assertThat("Expect FS-Logger message", appenderForTest.getMessage(), is("Test via FS-Logger"));
+        errors.checkThat("Expect FS-Logger message", appenderForTest.getMessage(), is("Test via FS-Logger"));
         appenderForTest.setMessage("");
     }
 
