@@ -59,6 +59,9 @@ public class LoggingRulesTest {
         appenderForTest.setMessage("");
 
         Logging.logInfo("Test via FS-Logger", getClass());
+
+        Thread.sleep(1000);
+
         assertThat("Expect FS-Logger message", appenderForTest.getMessage(), is("Test via FS-Logger"));
         appenderForTest.setMessage("");
     }
