@@ -136,7 +136,7 @@ public abstract class AbstractModuleXmlTest {
         logger = LoggerFactory.getLogger(getClass());
 
         final File file = getModuleXmlFromSource();
-        final String content = FileUtils.readFileToString(file);
+        final String content = FileUtils.readFileToString(file, "UTF-8");
         moduleXML = createXMLfromString(content);
 
         pomProperties = new Properties();
