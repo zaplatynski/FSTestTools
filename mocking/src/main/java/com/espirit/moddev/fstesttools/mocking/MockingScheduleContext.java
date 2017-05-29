@@ -25,11 +25,11 @@ import de.espirit.firstspirit.access.schedule.ScheduleTask;
 
 import java.io.Closeable;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class MockingScheduleContext extends MockingScriptContext implements Sche
     private String comment;
     private Date startTime;
     private String path;
-    private List<ScheduleTask> tasks = new LinkedList<>();
+    private List<ScheduleTask> tasks = new ArrayList<>();
     private int taskIndex;
     private int fatalErrorCount;
     private int errorCount;
