@@ -27,7 +27,7 @@ import de.espirit.firstspirit.agency.SpecialistsBroker;
 import javax.inject.Inject;
 
 /**
- * Created by e-Spirit AG.
+ * The type Test cmd parameters.
  */
 public class TestCmdParameters implements FsConnRuleCmdParamBean {
 
@@ -45,14 +45,29 @@ public class TestCmdParameters implements FsConnRuleCmdParamBean {
         return "Test";
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         return connection;
     }
 
+    /**
+     * Gets broker.
+     *
+     * @return the broker
+     */
     public SpecialistsBroker getBroker() {
         return broker;
     }
 
+    /**
+     * Gets context.
+     *
+     * @return the context
+     */
     public BaseContext getContext() {
         return context;
     }

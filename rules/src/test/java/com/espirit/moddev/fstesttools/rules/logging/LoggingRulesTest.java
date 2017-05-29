@@ -46,7 +46,7 @@ public class LoggingRulesTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        RootLogger.getRootLogger().addAppender(appenderForTest);
+        RootLogger.getLogger(LoggingRulesTest.class).addAppender(appenderForTest);
     }
 
     @Test

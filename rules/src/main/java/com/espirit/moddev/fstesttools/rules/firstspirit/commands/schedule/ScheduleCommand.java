@@ -21,7 +21,8 @@ package com.espirit.moddev.fstesttools.rules.firstspirit.commands.schedule;
 import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCommand;
 
 import de.espirit.firstspirit.access.AdminService;
-import de.espirit.firstspirit.access.UserService;
+import de.espirit.firstspirit.access.Connection;
+import de.espirit.firstspirit.access.Language;
 import de.espirit.firstspirit.access.project.Project;
 import de.espirit.firstspirit.access.project.TemplateSet;
 import de.espirit.firstspirit.access.schedule.DeployTask;
@@ -34,7 +35,6 @@ import de.espirit.firstspirit.access.schedule.ScheduleEntryRunningException;
 import de.espirit.firstspirit.access.schedule.ScheduleStorage;
 import de.espirit.firstspirit.access.schedule.ScheduleTask;
 import de.espirit.firstspirit.access.schedule.TaskResult;
-import de.espirit.firstspirit.admin.FileTargetImpl;
 import de.espirit.firstspirit.server.scheduler.FileTargetDTO;
 import de.espirit.firstspirit.server.scheduler.deploy.FileDeployTargetFactory;
 
@@ -49,17 +49,16 @@ import static org.junit.Assert.fail;
 /**
  * The enum Schedule commands.
  */
-public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, ScheduleResult> {
+public enum ScheduleCommand implements FsConnRuleCommand<ScheduleParameters, ScheduleResult> {
 
     RUN_SCHEDULE {
         @Override
         public ScheduleResult execute(final ScheduleParameters parameters) {
             final Project project = getProject(parameters);
-            final UserService userService = project.getUserService();
-            final AdminService ad = userService.getConnection().getService(AdminService.class);
+            final AdminService ad = getAdminService(parameters);
             RunState scheduleRunState = RunState.SUCCESS;
             try {
-                final ScheduleEntry scheduleEntry = ad.getScheduleStorage().getScheduleEntry(project, parameters.getEntryName());
+                final ScheduleEntry scheduleEntry = getScheduleEntry(parameters, project, ad);
                 LOGGER.info("Start execution of schedule entry '{}'...", parameters.getEntryName());
                 final ScheduleEntryControl control = scheduleEntry.execute();
                 control.awaitTermination();
@@ -120,9 +119,8 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             final Project project = getProject(parameters);
             boolean found = false;
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final AdminService ad = userService.getConnection().getService(AdminService.class);
-                final ScheduleEntry scheduleEntry = ad.getScheduleStorage().getScheduleEntry(project, parameters.getEntryName());
+                final AdminService ad = getAdminService(parameters);
+                final ScheduleEntry scheduleEntry = getScheduleEntry(parameters, project, ad);
                 if (scheduleEntry != null) {
                     final List<ScheduleTask> tasks = scheduleEntry.getTasks();
                     if (modifyAllTasks(parameters, tasks)) {
@@ -159,8 +157,7 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
         public ScheduleResult execute(final ScheduleParameters parameters) {
             final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final AdminService ad = userService.getConnection().getService(AdminService.class);
+                final AdminService ad = getAdminService(parameters);
 
                 try {
                     // create scheduler
@@ -169,14 +166,18 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
                     scheduleEntry.setProject(project);
 
                     // add tasks
-                    scheduleEntry.getTasks().add(createGenerateTask(scheduleEntry, project, parameters));
-                    scheduleEntry.getTasks().add(createDeployTask(scheduleEntry, parameters));
+                    final GenerateTask task = createGenerateTask(scheduleEntry, project, parameters);
+                    scheduleEntry.getTasks().add(task);
+
+                    final DeployTask deployTask = createDeployTask(scheduleEntry, parameters);
+                    scheduleEntry.getTasks().add(deployTask);
 
                     // save scheduler
                     scheduleEntry.save();
                     scheduleEntry.unlock();
                 } catch (final RuntimeException e) {
                     LOGGER.error("Failed to create default scheduler!", e);
+                    throw e;
                 }
             }
             return ScheduleResult.VOID;
@@ -187,10 +188,16 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
             try {
                 generateTask = scheduleEntry.createTask(GenerateTask.class);
                 generateTask.setDeleteDirectory(configuration.isGenerateDeleteDirectory());
-                generateTask.setGenerateFlag(project.getMasterLanguage(), getTemplateSet(project, "html"), true);
+                final TemplateSet html = getTemplateSet(project, "html");
+                if(html == null){
+                    throw new IllegalStateException("HTML-Channel not found!");
+                }
+                final Language masterLanguage = project.getMasterLanguage();
+                generateTask.setGenerateFlag(masterLanguage, html, true);
                 generateTask.setUrlPrefix(configuration.getGenerateUrlPrefix());
             } catch (final RuntimeException e) {
                 LOGGER.error("Failed to create generate task!", e);
+                fail(e.toString());
             }
             return generateTask;
         }
@@ -201,12 +208,13 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
                 deployTask = scheduleEntry.createTask(DeployTask.class);
                 deployTask.setType(configuration.getDeployTaskType());
 
-                final FileTarget target = deployTask.createTarget(FileTargetImpl.class);
+                final FileTarget target = deployTask.createTarget(FileTarget.class);
                 target.setPath("/tmp");
                 target.setAppendDateToDirectoryName(false);
                 deployTask.setTarget(target);
-            } catch (final RuntimeException e) {
+            } catch (final Exception e) {
                 LOGGER.error("Failed to create deploy task!", e);
+                fail(e.toString());
             }
             return deployTask;
         }
@@ -221,7 +229,16 @@ public enum ScheduleCommands implements FsConnRuleCommand<ScheduleParameters, Sc
         }
     };
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleCommands.class);
+    private static ScheduleEntry getScheduleEntry(ScheduleParameters parameters, Project project, AdminService ad) {
+        return ad.getScheduleStorage().getScheduleEntry(project, parameters.getEntryName());
+    }
+
+    private static AdminService getAdminService(ScheduleParameters parameters) {
+        final Connection connection = parameters.getConnection();
+        return connection.getService(AdminService.class);
+    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleCommand.class);
 
     private static Project getProject(final ScheduleParameters parameters) {
         return parameters.getConnection().getProjectByName(parameters.getProjectName());

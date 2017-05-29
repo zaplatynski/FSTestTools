@@ -56,11 +56,10 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
     CREATE_PAGESTORE_FOLDER {
         @Override
         public ModifyStoreResult execute(final ModifyStoreParameters parameters) {
-            final Project project = parameters.getConnection().getProjectByName(parameters.getProjectName());
+            final Project project = getProject(parameters);
             PageFolder pageFolder = null;
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final PageStoreRoot pageStoreRoot = (PageStoreRoot) userService.getStore(Store.Type.PAGESTORE, false);
+                final PageStoreRoot pageStoreRoot = getStoreRoot(project, Store.Type.PAGESTORE);
                 try {
                     pageStoreRoot.setLock(true, false);
                     pageFolder = pageStoreRoot.createPageFolder(parameters.getName());
@@ -88,11 +87,10 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
     CREATE_SITESTORE_FOLDER {
         @Override
         public ModifyStoreResult execute(final ModifyStoreParameters parameters) {
-            final Project project = parameters.getConnection().getProjectByName(parameters.getProjectName());
+            final Project project = getProject(parameters);
             PageRefFolder pageRefFolder = null;
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final SiteStoreRoot siteStoreRoot = (SiteStoreRoot) userService.getStore(Store.Type.SITESTORE, false);
+                final SiteStoreRoot siteStoreRoot = getStoreRoot(project,Store.Type.SITESTORE);
                 try {
                     siteStoreRoot.setLock(true, false);
                     pageRefFolder = siteStoreRoot.createPageRefFolder(parameters.getName());
@@ -120,9 +118,8 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
     CREATE_FORMAT_TEMPLATE {
         @Override
         public ModifyStoreResult execute(final ModifyStoreParameters parameters) {
-            final Project project = parameters.getConnection().getProjectByName(parameters.getProjectName());
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+            final Project project = getProject(parameters);
+            final TemplateStoreRoot templateStore = getStoreRoot(project, Store.Type.TEMPLATESTORE);
             final FormatTemplates formatTemplates = templateStore.getFormatTemplates();
             FormatTemplate formatTemplate = null;
             try {
@@ -155,9 +152,8 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
     CREATE_SCRIPT_TEMPLATE {
         @Override
         public ModifyStoreResult execute(final ModifyStoreParameters parameters) {
-            final Project project = parameters.getConnection().getProjectByName(parameters.getProjectName());
-            final UserService userService = project.getUserService();
-            final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+            final Project project = getProject(parameters);
+            final TemplateStoreRoot templateStore = getStoreRoot(project, Store.Type.TEMPLATESTORE);
             final Scripts scripts = templateStore.getScripts();
             Script script = null;
             try {
@@ -190,10 +186,9 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
     MODIFY_PAGE_TEMPLATE {
         @Override
         public ModifyStoreResult execute(final ModifyStoreParameters parameters) {
-            final Project project = parameters.getConnection().getProjectByName(parameters.getProjectName());
+            final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+                final TemplateStoreRoot templateStore = getStoreRoot(project, Store.Type.TEMPLATESTORE);
                 final Template template = (Template) templateStore.getStoreElement(parameters.getName(), IDProvider.UidType.TEMPLATESTORE);
                 modifyOnlyPageTemplate(parameters, project, template);
             }
@@ -237,17 +232,17 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
     MODIFY_FORMAT_TEMPLATE {
         @Override
         public ModifyStoreResult execute(final ModifyStoreParameters parameters) {
-            final Project project = parameters.getConnection().getProjectByName(parameters.getProjectName());
+            final Project project = getProject(parameters);
             if (project != null) {
-                final UserService userService = project.getUserService();
-                final TemplateStoreRoot templateStore = (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
+                final TemplateStoreRoot templateStore = getStoreRoot(project, Store.Type.TEMPLATESTORE);
                 final FormatTemplate
                     formatTemplate =
                     (FormatTemplate) templateStore.getStoreElement(parameters.getName(), IDProvider.UidType.TEMPLATESTORE_FORMATTEMPLATE);
                 if (formatTemplate != null) {
                     try {
                         formatTemplate.setLock(true, false);
-                        formatTemplate.setChannelSource(getTemplateSet(project, parameters.getChannel()), parameters.getContent());
+                        final TemplateSet templateSet = getTemplateSet(project, parameters.getChannel());
+                        formatTemplate.setChannelSource(templateSet, parameters.getContent());
                         formatTemplate.save();
                     } catch (final LockException | ElementDeletedException | RuntimeException e) {
                         final String message = FAILED_TO_MODIFY_TEMPLATE + e.getMessage();
@@ -267,6 +262,15 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
             return ModifyStoreResult.VOID;
         }
     };
+
+    private static <T extends Store> T getStoreRoot(Project project, Store.Type storeType) {
+        final UserService userService = project.getUserService();
+        return (T) userService.getStore(storeType, false);
+    }
+
+    private static Project getProject(ModifyStoreParameters parameters) {
+        return parameters.getConnection().getProjectByName(parameters.getProjectName());
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ModifyStoreCommand.class);
 

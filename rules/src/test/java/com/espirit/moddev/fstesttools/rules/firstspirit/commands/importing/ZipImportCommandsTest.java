@@ -18,6 +18,9 @@
 
 package com.espirit.moddev.fstesttools.rules.firstspirit.commands.importing;
 
+import com.espirit.moddev.fstesttools.rules.firstspirit.commands.modifystores.ModifyStoreCommand;
+import com.espirit.moddev.fstesttools.rules.firstspirit.utils.command.FsConnRuleCommand;
+
 import de.espirit.common.util.Listable;
 import de.espirit.firstspirit.access.Connection;
 import de.espirit.firstspirit.access.UserService;
@@ -29,18 +32,17 @@ import de.espirit.firstspirit.access.store.templatestore.FormatTemplates;
 import de.espirit.firstspirit.access.store.templatestore.LinkTemplates;
 import de.espirit.firstspirit.access.store.templatestore.PageTemplates;
 import de.espirit.firstspirit.access.store.templatestore.Scripts;
-import de.espirit.firstspirit.access.store.templatestore.SectionTemplates;
 import de.espirit.firstspirit.access.store.templatestore.TemplateStoreRoot;
 import de.espirit.firstspirit.access.store.templatestore.Workflows;
 
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.needle4j.annotation.ObjectUnderTest;
@@ -57,13 +59,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(Theories.class)
@@ -188,5 +189,10 @@ public class ZipImportCommandsTest {
         verify(workflows, atMost(1)).importStoreElement(any(ZipFile.class), any(ModuleImportHandler.class));
         verify(mediaStore, atMost(1)).importStoreElement(any(ZipFile.class), any(ModuleImportHandler.class));
         verify(scriptes, atMost(1)).importStoreElement(any(ZipFile.class), any(ModuleImportHandler.class));
+    }
+
+    @Test
+    public void testImplementation() throws Exception {
+        assertThat("Expect implementation of interface", ZipImportCommands.class.getInterfaces(), hasItemInArray(FsConnRuleCommand.class));
     }
 }

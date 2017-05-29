@@ -54,7 +54,7 @@ public class FirstSpiritConnectionRuleTest {
     public MockitoRule injectMocks = MockitoJUnit.rule();
 
     @Rule
-    public FirstSpiritConnectionRule testling = new FirstSpiritConnectionRule(){
+    public FirstSpiritConnectionRule testling = new FirstSpiritConnectionRule() {
         @Override
         protected Connection obtainConnection() {
             final Connection connection = mock(Connection.class);
@@ -105,5 +105,30 @@ public class FirstSpiritConnectionRuleTest {
         final BrokerAgent brokerAgent = testling.requestSpecialist(BrokerAgent.TYPE);
 
         assertThat("Expect non null value", brokerAgent, is(notNullValue()));
+    }
+
+    @Test
+    public void testGetHost() throws Exception {
+        assertThat("Expect default value", testling.getHost(), is("localhost"));
+    }
+
+    @Test
+    public void testGetPort() throws Exception {
+        assertThat("Expect default value", testling.getPort(), is(1088));
+    }
+
+    @Test
+    public void testGetMode() throws Exception {
+        assertThat("Expect default value", testling.getMode(), is(ConnectionMode.SOCKET));
+    }
+
+    @Test
+    public void testGetLogin() throws Exception {
+        assertThat("Expect default value", testling.getLogin(), is("Admin"));
+    }
+
+    @Test
+    public void testGetPassword() throws Exception {
+        assertThat("Expect default value", testling.getPassword(), is("Admin"));
     }
 }
