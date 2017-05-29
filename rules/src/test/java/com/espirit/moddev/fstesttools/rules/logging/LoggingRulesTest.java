@@ -20,6 +20,7 @@ package com.espirit.moddev.fstesttools.rules.logging;
 
 import de.espirit.common.base.Logging;
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.spi.RootLogger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -66,6 +67,8 @@ public class LoggingRulesTest {
         Logging.logInfo("Test via FS-Logger", getClass());
         Logging.logInfo("Test via FS-Logger", getClass());
 
+        Thread.sleep(1000);
+
         errors.checkThat("Expect FS-Logger message", appenderForTest.getMessage(), is("Test via FS-Logger"));
         appenderForTest.setMessage("");
     }
@@ -73,5 +76,6 @@ public class LoggingRulesTest {
     @AfterClass
     public static void tearDown() throws Exception {
         assertThat("Expect ending message", appenderForTest.getMessage(), is("Successful termination of 'testLogging'!"));
+        RootLogger.getRootLogger().removeAppender(appenderForTest);
     }
 }
