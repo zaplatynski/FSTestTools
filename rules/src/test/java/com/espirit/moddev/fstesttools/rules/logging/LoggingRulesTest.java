@@ -63,6 +63,8 @@ public class LoggingRulesTest {
         appenderForTest.setMessage("");
 
         Logging.logInfo("Test via FS-Logger", getClass());
+        Logging.logInfo("Test via FS-Logger", getClass());
+        Logging.logInfo("Test via FS-Logger", getClass());
 
         errors.checkThat("Expect FS-Logger message", appenderForTest.getMessage(), is("Test via FS-Logger"));
         appenderForTest.setMessage("");
