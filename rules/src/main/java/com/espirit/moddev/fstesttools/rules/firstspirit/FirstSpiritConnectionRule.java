@@ -150,7 +150,9 @@ public class FirstSpiritConnectionRule extends ExternalResource {
             if (commandClass.isEnum()) {
                 final FsConnRuleCommand[] enumCommands = commandClass.getEnumConstants();
                 for (FsConnRuleCommand enumCommand : enumCommands) {
-                    LOGGER.debug("Add enum command: {}", enumCommand.name());
+                    if(LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Add enum command: {}", enumCommand.name());
+                    }
                     counter++;
                     commands.put(enumCommand.name(), enumCommand);
                 }
@@ -159,7 +161,9 @@ public class FirstSpiritConnectionRule extends ExternalResource {
                 final FsConnRuleCommand command;
                 try {
                     command = commandClass.newInstance();
-                    LOGGER.debug("Add class command: {}", command.name());
+                    if(LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Add class command: {}", command.name());
+                    }
                     counter++;
                     commands.put(command.name(), command);
                 } catch (InstantiationException | IllegalAccessException e) {

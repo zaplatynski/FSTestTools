@@ -57,7 +57,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
                 final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getFormatTemplates());
-                } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
+                } catch (final LockException | IOException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to import zip into format template store: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -78,7 +78,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
                 final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getPageTemplates());
-                } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
+                } catch (final LockException | IOException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to import zip into page template store: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -98,7 +98,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
                 final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getLinkTemplates());
-                } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
+                } catch (final LockException | IOException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to import zip into link template store: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -119,7 +119,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
                 final MediaStoreRoot mediaStore = (MediaStoreRoot) userService.getStore(Store.Type.MEDIASTORE, false);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), mediaStore.getStore());
-                } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
+                } catch (final LockException | IOException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to import zip into media store: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -139,7 +139,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
                 final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getScripts());
-                } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
+                } catch (final LockException | IOException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to import zip into script store: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -159,7 +159,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
                 final TemplateStoreRoot templateStore = getTemplateStoreRoot(project);
                 try {
                     importFromZipIntoTargetStore(parameters.getZip(), templateStore.getWorkflows());
-                } catch (final LockException | IOException | ElementDeletedException | URISyntaxException | RuntimeException e) {
+                } catch (final LockException | IOException | ElementDeletedException | RuntimeException e) {
                     final String message = "Failed to import zip into workflow store: " + e.getMessage();
                     LOGGER.error(message, e);
                     fail(message);
@@ -181,7 +181,7 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
     }
 
     private static void importFromZipIntoTargetStore(final File zipFile, final StoreElement targetStore)
-        throws URISyntaxException, IOException, LockException, ElementDeletedException {
+        throws IOException, LockException, ElementDeletedException {
         if (zipFile != null && zipFile.exists() && zipFile.isFile()) {
             LOGGER.info("Importing elements from '{}' into '{}'", zipFile.getAbsolutePath(), targetStore.getName());
 

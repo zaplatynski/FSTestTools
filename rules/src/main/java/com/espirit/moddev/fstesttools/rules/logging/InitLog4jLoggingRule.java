@@ -63,11 +63,11 @@ public class InitLog4jLoggingRule extends ExternalResource {
      * @return true if Log4J is configured, false otherwise.
      */
     private static boolean isLog4JConfigured() {
-        final Enumeration appenders = Logger.getRootLogger().getAllAppenders();
+        final Enumeration<?> appenders = Logger.getRootLogger().getAllAppenders();
         if (appenders.hasMoreElements()) {
             return true;
         } else {
-            final Enumeration loggers = LogManager.getCurrentLoggers();
+            final Enumeration<?> loggers = LogManager.getCurrentLoggers();
             while (loggers.hasMoreElements()) {
                 final Logger c = (Logger) loggers.nextElement();
                 if (c.getAllAppenders().hasMoreElements()) {
