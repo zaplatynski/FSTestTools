@@ -23,9 +23,9 @@ import de.espirit.firstspirit.access.store.IDProvider;
 import de.espirit.firstspirit.access.store.Store.Type;
 import de.espirit.firstspirit.client.plugin.contextmenu.ContextMenuContext;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +61,7 @@ public class MockingContextMenuContext extends MockingBaseContext implements Con
     public MockingContextMenuContext(Locale locale, boolean enableServiceBrokerFake, Type storeType, Env... supportedEnvironments) {
         super(locale, enableServiceBrokerFake, supportedEnvironments);
         this.storeType = storeType;
-        elements = new LinkedList<>();
+        elements = new ArrayList<>();
         list = new Listable<IDProvider>() {
 
             @Override
