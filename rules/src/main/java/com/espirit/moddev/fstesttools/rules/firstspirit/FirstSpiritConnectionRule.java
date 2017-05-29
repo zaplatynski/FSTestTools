@@ -147,31 +147,45 @@ public class FirstSpiritConnectionRule extends ExternalResource {
                 continue;
             }
             LOGGER.debug("Processing '{}'...", commandClass.getSimpleName());
-            if (commandClass.isEnum()) {
-                final FsConnRuleCommand[] enumCommands = commandClass.getEnumConstants();
-                for (FsConnRuleCommand enumCommand : enumCommands) {
-                    if(LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Add enum command: {}", enumCommand.name());
-                    }
-                    counter++;
-                    commands.put(enumCommand.name(), enumCommand);
-                }
-            }
-            if (!commandClass.isEnum()) {
-                final FsConnRuleCommand command;
-                try {
-                    command = commandClass.newInstance();
-                    if(LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Add class command: {}", command.name());
-                    }
-                    counter++;
-                    commands.put(command.name(), command);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    LOGGER.error(e.getMessage(), e);
-                }
-            }
+            counter = handleEnumCommands(commands, counter, commandClass);
+            counter = handleSimpleCommands(commands, counter, commandClass);
         }
         LOGGER.info("Loaded {} commands!", counter);
+    }
+
+    private static int handleSimpleCommands(final Map<String, FsConnRuleCommand<FsConnRuleCmdParamBean, FsConnRuleCmdResultBean>> commands,
+                                            final int counter, final Class<? extends FsConnRuleCommand> commandClass) {
+        int internalCounter = counter;
+        if (!commandClass.isEnum()) {
+            final FsConnRuleCommand command;
+            try {
+                command = commandClass.newInstance();
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Add class command: {}", command.name());
+                }
+                internalCounter++;
+                commands.put(command.name(), command);
+            } catch (InstantiationException | IllegalAccessException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+        return internalCounter;
+    }
+
+    private static int handleEnumCommands(final Map<String, FsConnRuleCommand<FsConnRuleCmdParamBean, FsConnRuleCmdResultBean>> commands,
+                                          final int counter, final Class<? extends FsConnRuleCommand> commandClass) {
+        int internalCounter = counter;
+        if (commandClass.isEnum()) {
+            final FsConnRuleCommand[] enumCommands = commandClass.getEnumConstants();
+            for (FsConnRuleCommand enumCommand : enumCommands) {
+                if(LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Add enum command: {}", enumCommand.name());
+                }
+                internalCounter++;
+                commands.put(enumCommand.name(), enumCommand);
+            }
+        }
+        return internalCounter;
     }
 
     /**
