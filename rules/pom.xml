@@ -38,6 +38,12 @@
             <groupId>org.needle4j</groupId>
             <artifactId>needle4j</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
             <version>2.3</version>
         </dependency>
     </dependencies>
