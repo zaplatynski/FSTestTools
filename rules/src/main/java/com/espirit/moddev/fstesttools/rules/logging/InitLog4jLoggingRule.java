@@ -44,11 +44,6 @@ public class InitLog4jLoggingRule extends ExternalResource {
      */
     public InitLog4jLoggingRule() {
         this.notConfigured = !isLog4JConfigured();
-        if (logger == null) {
-            Logger.getRootLogger().setAdditivity(false);
-            logger = Logger.getLogger(InitLog4jLoggingRule.class);
-            logger.setAdditivity(false);
-        }
     }
 
     /**
@@ -88,12 +83,17 @@ public class InitLog4jLoggingRule extends ExternalResource {
         if (notConfigured) {
             //Now configure Log4J with console appender
             BasicConfigurator.configure();
-            logger.info("Configure Log4J for basic output...");
-            logger.info("Set root LOGGER loglevel to '" + rootLevel.toString() + "'!");
+            System.out.println("Configure Log4J for basic output...");
+            System.out.println("Set root LOGGER loglevel to '" + rootLevel.toString() + "'!");
             Logger.getRootLogger().setLevel(rootLevel);
-            //Init FirstSpirit Logging with special logger
-            Logging.init(new FS2Log4JLogger());
         }
+        if (logger == null) {
+            Logger.getRootLogger().setAdditivity(false);
+            logger = Logger.getLogger(InitLog4jLoggingRule.class);
+            logger.setAdditivity(false);
+        }
+        //Init FirstSpirit Logging with special logger
+        Logging.init(new FS2Log4JLogger());
     }
 
     @Override
