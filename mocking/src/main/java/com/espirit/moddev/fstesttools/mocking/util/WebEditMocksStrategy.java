@@ -47,8 +47,10 @@ public class WebEditMocksStrategy extends AbstractSetupMocksStrategy {
     public void setupMocks() {
         final WebeditUiAgent uiAgent = context.requestSpecialist(WebeditUiAgent.TYPE);
         final Language language = mockLanguage();
+        final Locale locale = language.getLocale();
         when(uiAgent.getDisplayLanguage()).thenReturn(language);
         when(uiAgent.getPreviewLanguage()).thenReturn(language);
+        when(uiAgent.getLocale()).thenReturn(locale);
         try {
             when(uiAgent.getLocale()).thenReturn(getLocale());
         } catch (NoSuchMethodError e) {
