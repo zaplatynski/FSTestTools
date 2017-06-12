@@ -27,6 +27,9 @@ import de.espirit.firstspirit.ui.operations.RequestOperation;
 
 import javax.swing.Icon;
 
+/**
+ * The type MyToolbarItem is a FirstSpirit toolbar example.
+ */
 public class MyToolbarItem implements ExecutableToolbarItem {
 
     @Override

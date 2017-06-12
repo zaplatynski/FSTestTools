@@ -15,19 +15,4 @@
  * limitations under the License.
  * ********************************************************************
  */
-
 package com.espirit.moddev.fstesttools.examples;
-
-/**
- * The interface MyService is an exmaple service definition.
- */
-public interface MyService {
-
-    /**
-     * Get the FirstSpirit version.
-     *
-     * @return the first spirit version
-     */
-    String getFirstSpiritVersion();
-
-}

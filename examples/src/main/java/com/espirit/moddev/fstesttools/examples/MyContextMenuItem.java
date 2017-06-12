@@ -27,6 +27,9 @@ import de.espirit.firstspirit.ui.operations.RequestOperation;
 
 import javax.swing.Icon;
 
+/**
+ * The type MyContextMenuItem is an FirstSpirit context menu item example.
+ */
 public class MyContextMenuItem implements ExecutableContextMenuItem {
 
     @Override

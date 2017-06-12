@@ -26,25 +26,35 @@ import de.espirit.firstspirit.module.Service;
 import de.espirit.firstspirit.module.ServiceProxy;
 import de.espirit.firstspirit.module.descriptor.ServiceDescriptor;
 
+/**
+ * The type MyServiceImpl implements the MyService contract to provide an example.
+ */
 public class MyServiceImpl implements Service<MyService>, MyService {
 
-    private boolean ruuning;
+    private boolean running;
     private ServiceDescriptor serviceDescriptor;
     private ServerEnvironment serverEnvironment;
 
+    /**
+     * Instantiates a new My service.
+     */
+    public MyServiceImpl() {
+        running = false;
+    }
+
     @Override
     public void start() {
-        ruuning = true;
+        running = true;
     }
 
     @Override
     public void stop() {
-        ruuning = false;
+        running = false;
     }
 
     @Override
     public boolean isRunning() {
-        return ruuning;
+        return running;
     }
 
     @Override
