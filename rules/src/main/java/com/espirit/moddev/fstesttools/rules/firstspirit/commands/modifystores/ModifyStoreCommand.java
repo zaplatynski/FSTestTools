@@ -263,6 +263,8 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
         }
     };
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyStoreCommand.class);
+
     private static <T extends Store> T getStoreRoot(Project project, Store.Type storeType) {
         final UserService userService = project.getUserService();
         return (T) userService.getStore(storeType, false);
@@ -271,8 +273,6 @@ public enum ModifyStoreCommand implements FsConnRuleCommand<ModifyStoreParameter
     private static Project getProject(ModifyStoreParameters parameters) {
         return parameters.getConnection().getProjectByName(parameters.getProjectName());
     }
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyStoreCommand.class);
 
     private static TemplateSet getTemplateSet(final Project project, final String name) {
         for (final TemplateSet templateSet : project.getTemplateSets()) {

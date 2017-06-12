@@ -70,35 +70,35 @@ public class TestContextTest {
     }
 
     @Test
-    public void logDebug() throws Exception {
+    public void testLogDebug() throws Exception {
         testling.logDebug("debug");
 
         assertThat("Expect specific value", appenderForAsserts.getMessage(), is("debug"));
     }
 
     @Test
-    public void logInfo() throws Exception {
+    public void testLogInfo() throws Exception {
         testling.logInfo("info");
 
         assertThat("Expect specific value", appenderForAsserts.getMessage(), is("info"));
     }
 
     @Test
-    public void logWarning() throws Exception {
+    public void testLogWarning() throws Exception {
         testling.logWarning("warn");
 
         assertThat("Expect specific value", appenderForAsserts.getMessage(), is("warn"));
     }
 
     @Test
-    public void logError() throws Exception {
+    public void testLogError() throws Exception {
         testling.logError("error");
 
         assertThat("Expect specific value", appenderForAsserts.getMessage(), is("error"));
     }
 
     @Test
-    public void logErrorException() throws Exception {
+    public void testLogErrorException() throws Exception {
         testling.logError("error", new Exception("Test"));
 
         assertThat("Expect specific value", appenderForAsserts.getMessage(), is("error"));
@@ -114,7 +114,7 @@ public class TestContextTest {
     }
 
     @Test
-    public void requestSpecialist() throws Exception {
+    public void testRequestSpecialist() throws Exception {
         when(broker.requestSpecialist(LanguageAgent.TYPE)).thenReturn(languageAgent);
 
         final LanguageAgent agent = testling.requestSpecialist(LanguageAgent.TYPE);
@@ -124,7 +124,7 @@ public class TestContextTest {
     }
 
     @Test
-    public void requireSpecialist() throws Exception {
+    public void testRequireSpecialist() throws Exception {
         when(broker.requireSpecialist(LanguageAgent.TYPE)).thenReturn(languageAgent);
 
         final LanguageAgent agent = testling.requireSpecialist(LanguageAgent.TYPE);

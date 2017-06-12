@@ -229,6 +229,8 @@ public enum ScheduleCommand implements FsConnRuleCommand<ScheduleParameters, Sch
         }
     };
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleCommand.class);
+
     private static ScheduleEntry getScheduleEntry(ScheduleParameters parameters, Project project, AdminService ad) {
         return ad.getScheduleStorage().getScheduleEntry(project, parameters.getEntryName());
     }
@@ -237,8 +239,6 @@ public enum ScheduleCommand implements FsConnRuleCommand<ScheduleParameters, Sch
         final Connection connection = parameters.getConnection();
         return connection.getService(AdminService.class);
     }
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleCommand.class);
 
     private static Project getProject(final ScheduleParameters parameters) {
         return parameters.getConnection().getProjectByName(parameters.getProjectName());
