@@ -83,7 +83,7 @@ public class MyContextMenuItemTest {
     }
 
     @Test
-    public void execute() throws Exception {
+    public void testExecute() throws Exception {
         assumeTrue("Run execute only if enabled and ignore otherwise!", testling.isEnabled(context));
 
         final OperationAgent operationAgent = context.requestSpecialist(OperationAgent.TYPE);
@@ -95,26 +95,26 @@ public class MyContextMenuItemTest {
     }
 
     @Test
-    public void getLabel() throws Exception {
+    public void testGetLabel() throws Exception {
         final String label = testling.getLabel(context);
 
         assertThat("", label, is("Foobar"));
     }
 
     @Test
-    public void getIcon() throws Exception {
+    public void testGetIcon() throws Exception {
         assertThat("Expect null value",testling.getIcon(context), is(nullValue()));
     }
 
     @Test
-    public void isEnabled() throws Exception {
+    public void testIsEnabled() throws Exception {
         final boolean enabled = testling.isEnabled(context);
 
         assertThat("Expect enabled is " + expectEnabled, enabled, is(expectEnabled));
     }
 
     @Test
-    public void isVisible() throws Exception {
+    public void testIsVisible() throws Exception {
         final boolean visible = testling.isVisible(context);
 
         assertThat("Always visible", visible, is(Boolean.TRUE));
