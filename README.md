@@ -28,7 +28,7 @@ Building from source is quiet easy. Just clone the project and build the _FirstS
 To do this, just execute the following command:
 
 ```shell
-mvn clean install -Dci.version=<your-version>
+mvn clean install -Drevision=<your-version>
 ```
 The build will create the following artifacts:
 
