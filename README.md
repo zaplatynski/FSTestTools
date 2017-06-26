@@ -9,7 +9,7 @@ It can help you testing your executeables, services, runnable gui elements and t
 To get the FS Test Tools, you can choose between two options:
 
 #### Option 1: Use The Binary Release
-Get the GitHub release ([here](http://www.google.com)) and install it. Use this command to make sure maven installs the jars correctly*:
+Get the [GitHub release](https://github.com/e-Spirit/FSTestTools/releases) and install it. Use this command to make sure maven installs the jars correctly*:
  
 ```
 mvn install:install-file -Dfile=<path-to-file> -DpomFile=<path-to-pomfile-of-file>
@@ -300,6 +300,33 @@ If there are any further questions regarding the *FS Test Tools* please go to th
 ### Troubleshooting
 
 [//]: <> (f.a.q. answers, common problems etc.)
+
+#### Use FirstSpirit Access API As Maven Dependency
+
+If you are getting an error that the dependency `fs-access` could not be resolved then please follow the instructions below.
+To enable the source code to be compiled successfully, the `fs-access.jar file of the FirstSpirit Server used must be installed in the local Maven repository first. The **fs-access.jar** file is located in the directory:
+
+```
+<FirstSpirit Server directory>/data/fslib
+```
+
+It is installed by entering the following command into the command line:
+
+```
+mvn install:install-file -Dfile=<path-to-access.jar> -DgroupId=de.espirit.firstspirit -DartifactId=fs-access -Dversion=<fs version e.g. '5.0.0'> -Dpackaging=jar
+```
+
+Within this command, the parameters for the path to the **fs-access.jar** file and the FirstSpirit version used must be substituted accordingly:
+
+```
+mvn install:install-file -Dfile=C:\fs-access.jar -DgroupId=de.espirit.firstspirit -DartifactId=fs-access -Dversion=5.1.2 -Dpackaging=jar
+```
+
+**Note:** *Running the installation command within the directory in which the **pom.xml** file has been saved leads to an error. The installation must therefore be performed outside this directory.*
+
+During installation, the local Maven repository has been automatically created in the user directory under **<user's home>.m2/repository**. After the **fs-access.jar** file has been successfully installed, it should be located in this directory (see figure below):
+
+![Local Maven repository with installed fs-access.jar file](local_maven.gif)
 
 
 ### Examples
