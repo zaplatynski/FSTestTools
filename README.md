@@ -36,7 +36,7 @@ The build will create the following artifacts:
 * rules-_Your-Version_.jar
 * tests-_Your-Version_.jar
 
-With `-Dci.version=<your-version>` you can change the version you are building. By default, the version is _1.0_DEV.123_. Feel free to change it.
+With `-Drevision=<your-version>` you can change the version you are building. By default, the version is _1.0_DEV.123_. Feel free to change it.
 		
 ### Including it
 After installation, you can add the dependencies inside your own project's pom.xml (e.g. for the _mocking_ artifact). You can replace _Your-Version_ with _LATEST_ if you have access to e-Spirit's artifactory.
