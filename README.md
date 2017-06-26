@@ -9,7 +9,7 @@ It can help you testing your executeables, services, runnable gui elements and t
 To get the FS Test Tools, you can choose between two options:
 
 #### Option 1: Use The Binary Release
-Get the [GitHub release](https://github.com/e-Spirit/FSTestTools/releases) and install it. Use this command to make sure maven installs the jars correctly*:
+Get the [GitHub release](https://github.com/e-Spirit/FSTestTools/releases) and install it. Use this command to make sure maven installs the jars correctly (see [official Maven mini guide](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) for more information):
  
 ```
 mvn install:install-file -Dfile=<path-to-file> -DpomFile=<path-to-pomfile-of-file>
@@ -22,10 +22,6 @@ mvn install:install-file -Dfile=mocking-1.2.3.jar -DpomFile=mocking-1.2.3.pom
 mvn install:install-file -Dfile=rules-1.2.3.jar -DpomFile=rules-1.2.3.pom
 mvn install:install-file -Dfile=tests-1.2.3.jar -DpomFile=test-1.2.3.pom
 ```
-
-\* See [official Maven mini guide](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) for more information.
-
-
 
 #### Option 2: Building It From Source
 Building from source is quiet easy. Just clone the project and build the _FirstSpirit Test Tools parent_.
@@ -41,7 +37,6 @@ The build will create the following artifacts:
 * tests-_Your-Version_.jar
 
 With `-Dci.version=<your-version>` you can change the version you are building. By default, the version is _1.0_DEV.123_. Feel free to change it.
-
 		
 ### Including it
 After installation, you can add the dependencies inside your own project's pom.xml (e.g. for the _mocking_ artifact). You can replace _Your-Version_ with _LATEST_ if you have access to e-Spirit's artifactory.
@@ -364,6 +359,10 @@ There are two examples, a toobar item called [MyToolbarItem](examples/src/main/j
 Both implementation show the current selection or item under focus.
 The correponding untit tests are [MyToolbarItemTest](examples/src/test/java/com/espirit/moddev/fstesttools/examples/MyToolbarItemTest.java) and [MyContextMenuItemTest](examples/src/test/java/com/espirit/moddev/fstesttools/examples/MyContextMenuItemTest.java).
 
+#### FirstSpirit Connection Rule Custom Commands
+
+There is a small example whithin the test package [com/espirit/moddev/fstesttools/rules/firstspirit/commands](rules/src/test/java/com/espirit/moddev/fstesttools/rules/firstspirit/commands) how to write your own custom command.
+The example mentioned above is used by the unit test [FirstSpiritConnectionRuleTest](rules/src/test/java/com/espirit/moddev/fstesttools/rules/firstspirit/FirstSpiritConnectionRuleTest.java).
 
 ## Third Party Dependencies
 
