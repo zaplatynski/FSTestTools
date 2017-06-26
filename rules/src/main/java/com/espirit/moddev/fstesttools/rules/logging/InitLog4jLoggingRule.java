@@ -34,7 +34,7 @@ import java.util.Enumeration;
  */
 public class InitLog4jLoggingRule extends ExternalResource {
 
-    private static Logger logger;
+    private Logger logger;
     private boolean notConfigured;
 
     private Level rootLevel = Level.ALL;

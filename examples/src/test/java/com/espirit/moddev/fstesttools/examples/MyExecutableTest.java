@@ -85,7 +85,9 @@ public class MyExecutableTest {
     @Mock
     private Writer writer;
 
+    // unit under test
     private MyExecutable testling;
+
     private BaseContext context;
     private String message;
     private HashMap<String, Object> args;

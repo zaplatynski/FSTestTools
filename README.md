@@ -1,12 +1,11 @@
 # FS Test Tools
 
 This is a project to support FirstSpirit module developers with writing unit tests for FirstSpirit components. 
-It can help you testing your executeables, services, runnable gui elements and the  deployment descriptors 
-by providing an easy way to get handy mock objects. 
+It can help you testing your executeables, services, runnable gui elements and the  deployment descriptors by providing an easy way to get handy mock objects. 
 
 ## Getting started
 
-### Get it
+### Getting it
 To get the FS Test Tools, you can choose between two options:
 
 #### Option 1: Use The Binary Release
@@ -28,7 +27,7 @@ mvn install:install-file -Dfile=tests-1.2.3.jar -DpomFile=test-1.2.3.pom
 
 
 
-#### Option 2: Build It From Source
+#### Option 2: Building It From Source
 Building from source is quiet easy. Just clone the project and build the _FirstSpirit Test Tools parent_.
 To do this, just execute the following command:
 
@@ -41,14 +40,11 @@ The build will create the following artifacts:
 * rules-_Your-Version_.jar
 * tests-_Your-Version_.jar
 
-With `-Dci.version=<your-version>` you can change the version you are building. By default, the 
-version is _1.0_DEV.123_. Feel free to change it.
+With `-Dci.version=<your-version>` you can change the version you are building. By default, the version is _1.0_DEV.123_. Feel free to change it.
 
 		
-### Include it
-After installation, you can add the dependencies inside your own project's pom.xml 
-(e.g. for the _mocking_ artifact). You can replace _Your-Version_ with _LATEST_ if you have access 
-to e-Spirit's artifactory.
+### Including it
+After installation, you can add the dependencies inside your own project's pom.xml (e.g. for the _mocking_ artifact). You can replace _Your-Version_ with _LATEST_ if you have access to e-Spirit's artifactory.
 
 ```xml
 	...
@@ -165,12 +161,10 @@ public class MyTest {
 ```
 
 All available commands can be found in the package [com.espirit.moddev.fstesttools.rules.firstspirit.commands](rules/src/main/java/com/espirit/moddev/fstesttools/rules/firstspirit/commands).
-	
 
 #### Create Your Own FirstSpirit Connection Rule Commands
 
-As mentioned above, it is not that hard to write your own commands. Basically you only need to implement three interfaces (`FsConnRuleCmdParamBean`, `FsConnRuleCmdResultBean` and `FsConnRuleCommand`) 
-where the command class must be in the package `com.espirit.moddev.fstesttools.rules.firstspirit.commands` or below (the rule will scan for commands):
+As mentioned above, it is not that hard to write your own commands. Basically you only need to implement three interfaces (`FsConnRuleCmdParamBean`, `FsConnRuleCmdResultBean` and `FsConnRuleCommand`) where the command class must be in the package `com.espirit.moddev.fstesttools.rules.firstspirit.commands` or below (the rule will scan for commands):
 
 ```java
 public class MyParameters implements FsConnRuleCmdParamBean {
@@ -217,9 +211,6 @@ public class MyCommand implements FsConnRuleCommand<MyParameters, MyResult>{
 ```
 
 With *dependency injection* (see [JSR 330](https://www.jcp.org/en/jsr/detail?id=330) or `@javax.inject.Inject` annotation above) the FirstSpirit Connection Rule will provide a `Connection`, a `BaseContext`, a `SpecialistBroker` or a `GenerationContext` which will be the foundation of your command.
-
-
-
 
 ### Using The Module-Xml-Test
 
@@ -302,8 +293,7 @@ Of cause you can add some own test cases as you like by using the Hamcrest XPath
 	
 	
 ## Getting Help
-If you need help, please read this section. It provides a subsection for troubleshooting and a subsection with examples which may be handy
-in some cases. If you want to contribute, please read the contribution section below. 
+If you need help, please read this section. It provides a subsection for troubleshooting and a subsection with examples which may be handy in some cases. If you want to contribute, please read the contribution section below. 
 If there are any further questions regarding the *FS Test Tools* please go to the [FirstSpirit Community Developers Section](https://community.e-spirit.com/community/developer) and post them there.
 
 
@@ -311,16 +301,46 @@ If there are any further questions regarding the *FS Test Tools* please go to th
 
 [//]: <> (f.a.q. answers, common problems etc.)
 
+
 ### Examples
 
-There is small example whithin the test package [com/espirit/moddev/fstesttools/rules/firstspirit/commands](rules/src/test/java/com/espirit/moddev/fstesttools/rules/firstspirit/commands) which is used by the class [FirstSpiritConnectionRuleTest](rules/src/test/java/com/espirit/moddev/fstesttools/rules/firstspirit/FirstSpiritConnectionRuleTest.java).
+There is a dedicated [sub module](examples) with code examples in this Maven project.
+The unit tests can be executed with Maven. The next paragraphes discuss the examples more in detail.
 
-[//]: <> (Further Examples will follow)
+#### FirstSpirit Deployment Descrptor (module.xml)
+
+Each FirstSpirit module must have a deployment descriptor called `module.xml` which tells FirstSpirit what to expect inside the FirstSpirit module file (*.fsm).
+To avoid careless mistakes by developers and ensure a certain formalism, it can be brought under test by a simple unit test.
+In detail this is discussed under [Using The Module-Xml-Test](#using-the-module-xml-test).
+The example unit test is called  [ModuleXmlTest](examples/src/test/java/com/espirit/moddev/fstesttools/examples/ModuleXmlTest.java).
+The unit test checks for standard tags like name, version etc. as well as full qualified class names.
+
+#### FirstSpirit Executable
+
+This example shows how to write a unit test with a [MockingBaseContext](mocking/src/main/java/com/espirit/moddev/fstesttools/mocking/MockingBaseContext.java) for an FirstSpirit executable Java class called [MyExecutables](examples/src/main/java/com/espirit/moddev/fstesttools/examples/MyExecutable.java).
+The use case is quite simple, it shows a yes/no dialog to user for both clients, ContentCreator (web) and SiteArchitect (UI).
+The corresponding unit test for this FirstSpirit Executables is [MyExecutablesTest](examples/src/test/java/com/espirit/moddev/fstesttools/examples/MyExecutableTest.java).
+It simulates both FirstSpirit clients ContentCreator and SiteArchitect with two languages.
+
+#### FirstSpirit Service
+
+The next example deals about FirstSpirit serverside services and implements a function to retrieve the FirstSpirit version string.
+Again, the [MockingBaseContext](mocking/src/main/java/com/espirit/moddev/fstesttools/mocking/MockingBaseContext.java) plays a central role. 
+The service implementation class [MyServiceIml](examples/src/main/java/com/espirit/moddev/fstesttools/examples/MyServiceIml.java) implements the Java interfaces [MyService](examples/src/main/java/com/espirit/moddev/fstesttools/examples/MyService.java) and [Service\<MyService\>](http://www.e-spirit.com/odfs52/dev/de/espirit/firstspirit/module/Service.html) ([FirstSpirit Community](https://community.e-spirit.com) for login information)
+The unit test is called [MyServiceImlTest](examples/src/test/java/com/espirit/moddev/fstesttools/examples/MyServiceImplTest.java).
+
+#### FirstSpirit UI Action Items
+
+Besides the more general FirstSpirit Executables there are toolbar buttons or context menu items to extend the FirstSpirit clients with own functionality.
+Here as well, the [MockingBaseContext](mocking/src/main/java/com/espirit/moddev/fstesttools/mocking/MockingBaseContext.java) plays a central role. 
+There are two examples, a toobar item called [MyToolbarItem](examples/src/main/java/com/espirit/moddev/fstesttools/examples/MyToolbarItem.java) and a context menu item called [MyContextMenuItem](examples/src/main/java/com/espirit/moddev/fstesttools/examples/MyContextMenuItem.java).
+Both implementation show the current selection or item under focus.
+The correponding untit tests are [MyToolbarItemTest](examples/src/test/java/com/espirit/moddev/fstesttools/examples/MyToolbarItemTest.java) and [MyContextMenuItemTest](examples/src/test/java/com/espirit/moddev/fstesttools/examples/MyContextMenuItemTest.java).
 
 
-## Built With
+## Third Party Dependencies
 
-The FirstSpirit Test Tools are compiled with the following libraies.
+The FirstSpirit Test Tools are built with [Maven](https://maven.apache.org/) and compiled against the following libraies:
 
 ### Runtime Dependencies
 * [FirstSpirit Access API](http://www.e-spirit.com/firstspirit)
@@ -339,9 +359,9 @@ The FirstSpirit Test Tools are compiled with the following libraies.
 ## More Information
 [//]: <> (reread this section)
 Regarding unit test philosophy the `MockingBaseContext` is a [fake](https://www.martinfowler.com/articles/mocksArentStubs.html) which produces [mocks](https://www.martinfowler.com/articles/mocksArentStubs.html) (of agent or service implementations) with the help of the [Mockito](http://site.mockito.org/) library.
-So it acts as a test drop-in replacement for the real FirstSpirit `BaseContext`.
-But it is not only a simple mock factory because it returns always the same mock object instance.
-So the mocks are always [singletons](https://en.wikipedia.org/wiki/Singleton_pattern).
+So it acts as a test drop-in replacement for the real FirstSpirit `BaseContext` and its decendants.
+But it is not only a simple mock factory because it returns always the same mock object instance by using FirstSpirit API calls.
+So the mocks are always [singletons](https://en.wikipedia.org/wiki/Singleton_pattern) for the current test.
 
 ## Dislaimer 
 

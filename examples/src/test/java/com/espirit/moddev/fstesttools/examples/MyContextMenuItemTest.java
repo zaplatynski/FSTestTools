@@ -72,7 +72,9 @@ public class MyContextMenuItemTest {
     @Parameterized.Parameter(2)
     public Boolean expectEnabled;
 
+    // unit under test
     private MyContextMenuItem testling;
+
     private MockingContextMenuContext context;
 
     @Before

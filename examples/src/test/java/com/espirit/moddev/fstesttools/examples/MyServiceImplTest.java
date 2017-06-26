@@ -63,6 +63,8 @@ public class MyServiceImplTest {
     private ServerInformationAgent.VersionInfo versionInfo;
 
     private SpecialistsBroker specialistsBroker = new MockingBaseContext(Locale.ENGLISH, true, BaseContext.Env.HEADLESS);
+
+    // unit under test
     private MyServiceImpl testling;
 
     @Before
