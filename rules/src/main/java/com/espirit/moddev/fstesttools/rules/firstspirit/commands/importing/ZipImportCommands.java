@@ -168,12 +168,12 @@ public enum ZipImportCommands implements FsConnRuleCommand<ZipImportParameters, 
         }
     };
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZipImportCommands.class);
+
     protected static TemplateStoreRoot getTemplateStoreRoot(Project project) {
         final UserService userService = project.getUserService();
         return (TemplateStoreRoot) userService.getStore(Store.Type.TEMPLATESTORE, false);
     }
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ZipImportCommands.class);
 
     private static Project getProject(final ZipImportParameters parameters) {
         return parameters.getConnection().getProjectByName(parameters.getProjectName());

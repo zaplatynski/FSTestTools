@@ -76,12 +76,12 @@ public class ContentCreatorAddressCommandTest {
     }
 
     @Test
-    public void name() throws Exception {
+    public void testName() throws Exception {
         assertThat("Expect specific value",testling.name(), is(ContentCreatorAddressCommand.CMD_NAME));
     }
 
     @Test
-    public void execute() throws Exception {
+    public void testExecute() throws Exception {
         final ContentCreatorAddressResult result = testling.execute(parameters);
 
         assertThat("Expect a valid URL", result.getContentCreatorAddress(), is("http://localhost:8000/fs5webedit_123/?locale=de&project=123"));
