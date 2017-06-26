@@ -319,10 +319,22 @@ There is small example whithin the test package [com/espirit/moddev/fstesttools/
 
 
 ## Built With
-* [JUnit](http://junit.org/)
-* [Mockito](http://site.mockito.org/)
 
-	
+The FirstSpirit Test Tools are compiled with the following libraies.
+
+### Runtime Dependencies
+* [FirstSpirit Access API](http://www.e-spirit.com/firstspirit)
+* [JSR 330 (javax.inject)](https://www.jcp.org/en/jsr/detail?id=330)
+* [JUnit 4](http://junit.org/)
+* [Hamcrest](http://hamcrest.org/JavaHamcrest/)
+* [Mockito](http://site.mockito.org/)
+* [Reflections](https://github.com/ronmamo/reflections)
+* [Apache Commons IO](https://commons.apache.org/proper/commons-io/)
+* [Apache Log4J 1.2](https://logging.apache.org/log4j/1.2/)
+* [SLF4J API](https://www.slf4j.org/)
+
+### Test Dependencies
+* [Needle4J](http://www.needle4j.org/)	
 
 ## More Information
 [//]: <> (reread this section)
@@ -333,16 +345,13 @@ So the mocks are always [singletons](https://en.wikipedia.org/wiki/Singleton_pat
 
 ## Dislaimer 
 
-[//]: <> (abstract text)
+FirstSpirit and this project are developed by the [e-Spirit AG](http://www.e-spirit.com).
+The head office of the e-Spirit AG is in Dortmund, Germany.
 
+Use this project and provided binaries at your own risk.
 
 ### License
 Apache License Version 2.0 
 January 2004
 [http://www.apache.org/licenses/](http://www.apache.org/licenses/)
 
-### Company
-FirstSpirit and this project are developed by the [e-Spirit AG](http://www.e-spirit.com).
-The head office of the e-Spirit AG is in Dortmund, Germany.
-
-Use this project and provided binaries at your own risk.
