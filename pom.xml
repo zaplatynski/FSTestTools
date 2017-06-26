@@ -394,6 +394,45 @@
                 <revision>1.0_DEV.123</revision>
             </properties>
         </profile>
+        <profile>
+            <id>GitHubRelease</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>de.jutzig</groupId>
+                        <artifactId>github-release-plugin</artifactId>
+                        <version>1.2.0</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <description>FS Test Tools build for FirstSpirit version ${firstspirit.version}.</description>
+                            <releaseName>Release ${project.version}</releaseName>
+                            <repositoryId>https://github.com/e-Spirit/FSTestTools.git</repositoryId>
+                            <tag>${project.version}</tag>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>mocking/target</directory>
+                                    <includes>
+                                        <include>*.jar</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>rules/target</directory>
+                                    <includes>
+                                        <include>*.jar</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>tests/target</directory>
+                                    <includes>
+                                        <include>*.jar</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 </project>
