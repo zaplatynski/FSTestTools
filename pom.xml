@@ -410,9 +410,21 @@
                             <tag>${project.version}</tag>
                             <fileSets>
                                 <fileSet>
+                                    <directory>target/pom-install-deploy-fix</directory>
+                                    <includes>
+                                        <include>*.pom</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
                                     <directory>mocking/target</directory>
                                     <includes>
                                         <include>*.jar</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>mocking/target/pom-install-deploy-fix</directory>
+                                    <includes>
+                                        <include>*.pom</include>
                                     </includes>
                                 </fileSet>
                                 <fileSet>
@@ -422,9 +434,21 @@
                                     </includes>
                                 </fileSet>
                                 <fileSet>
-                                    <directory>tests/target</directory>
+                                    <directory>rules/target/pom-install-deploy-fix</directory>
+                                    <includes>
+                                        <include>*.pom</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>rules/target</directory>
                                     <includes>
                                         <include>*.jar</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>rules/target/pom-install-deploy-fix</directory>
+                                    <includes>
+                                        <include>*.pom</include>
                                     </includes>
                                 </fileSet>
                             </fileSets>

@@ -18,9 +18,13 @@ mvn install:install-file -Dfile=<path-to-file> -DpomFile=<path-to-pomfile-of-fil
 For version _1.2.3_ the complete installation would look like this:
 
 ```
+mvn install:install-file -Dpackaging=pom -Dfile=fstesttools-parent-1.2.3.pom -DpomFile=fstesttools-parent-1.2.3.pom
 mvn install:install-file -Dfile=mocking-1.2.3.jar -DpomFile=mocking-1.2.3.pom
+mvn install:install-file -Dclassifier=javadoc -Dfile=mocking-1.2.3-javadoc.jar -DpomFile=mocking-1.2.3.pom
 mvn install:install-file -Dfile=rules-1.2.3.jar -DpomFile=rules-1.2.3.pom
+mvn install:install-file -Dclassifier=javadoc -Dfile=rules-1.2.3-javadoc.jar -DpomFile=rules-1.2.3.pom
 mvn install:install-file -Dfile=tests-1.2.3.jar -DpomFile=test-1.2.3.pom
+mvn install:install-file -Dclassifier=javadoc -Dfile=tests-1.2.3-javadoc.jar -DpomFile=tests-1.2.3.pom
 ```
 
 #### Option 2: Building It From Source
