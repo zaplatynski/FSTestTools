@@ -440,13 +440,13 @@
                                     </includes>
                                 </fileSet>
                                 <fileSet>
-                                    <directory>rules/target</directory>
+                                    <directory>tests/target</directory>
                                     <includes>
                                         <include>*.jar</include>
                                     </includes>
                                 </fileSet>
                                 <fileSet>
-                                    <directory>rules/target/pom-install-deploy-fix</directory>
+                                    <directory>tests/target/pom-install-deploy-fix</directory>
                                     <includes>
                                         <include>*.pom</include>
                                     </includes>
