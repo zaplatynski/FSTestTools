@@ -9,7 +9,7 @@ It can help you testing your executeables, services, runnable gui elements and t
 To get the FS Test Tools, you can choose between two options:
 
 #### Option 1: Use The Binary Release
-Get the [GitHub release](https://github.com/e-Spirit/FSTestTools/releases) and install it. Use this command to make sure maven installs the jars correctly (see [official Maven mini guide](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) for more information):
+Get the [GitHub release](https://github.com/e-Spirit/FSTestTools/releases/latest) and install it. Use this command to make sure maven installs the jars correctly (see [official Maven mini guide](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) for more information):
  
 ```
 mvn install:install-file -Dfile=<path-to-file> -DpomFile=<path-to-pomfile-of-file>
